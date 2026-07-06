@@ -35,9 +35,13 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-xl font-semibold text-ink-900">Cookies and analytics</h2>
           <p className="mt-2">
-            The site does not set cookies for its core functionality. If privacy-respecting,
-            aggregate analytics or advertising are introduced in the future, this policy will be
-            updated before they are enabled, and any such services will be clearly disclosed here.
+            The site does not set cookies for its core functionality. We use Vercel Web Analytics
+            and Vercel Speed Insights to understand overall traffic and page performance. These
+            services are cookieless: they collect anonymous, aggregate data such as page views,
+            country-level location, browser type and page load times. They do not use cookies, do
+            not track you across other websites, and cannot identify individual visitors. The
+            contents of files you process with the tools are never part of any analytics data —
+            files stay on your device.
           </p>
         </section>
         <section>
