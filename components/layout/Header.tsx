@@ -8,6 +8,7 @@ const nav = [
   { name: "PDF Tools", href: "/pdf-tools" },
   { name: "Text Tools", href: "/text-tools" },
   { name: "Developer Tools", href: "/developer-tools" },
+  { name: "Blog", href: "/blog" },
 ];
 
 export default function Header() {
