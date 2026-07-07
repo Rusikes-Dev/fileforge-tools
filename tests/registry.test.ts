@@ -22,8 +22,11 @@ describe("tool registry integrity", () => {
       expect(t.description.length, t.slug).toBeGreaterThan(60);
       expect(t.description.length, t.slug).toBeLessThanOrEqual(165);
       expect(t.steps.length, t.slug).toBeGreaterThanOrEqual(3);
-      expect(t.faqs.length, t.slug).toBeGreaterThanOrEqual(3);
-      expect(t.about.length, t.slug).toBeGreaterThan(100);
+      expect(t.faqs.length, t.slug).toBeGreaterThanOrEqual(5);
+      expect(t.about.length, t.slug).toBeGreaterThanOrEqual(2);
+      expect(t.about.join(" ").length, t.slug).toBeGreaterThan(200);
+      expect(t.useCases.length, t.slug).toBeGreaterThanOrEqual(3);
+      expect(t.tips.length, t.slug).toBeGreaterThanOrEqual(2);
       expect(t.aliases.length, t.slug).toBeGreaterThan(0);
     });
   });
