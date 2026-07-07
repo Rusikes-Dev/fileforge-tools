@@ -63,12 +63,42 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
               </ol>
             </section>
 
-            <section aria-labelledby="about-heading">
+            <section aria-labelledby="about-heading" className="space-y-3">
               <h2 id="about-heading" className="text-xl font-semibold">
                 About this tool
               </h2>
-              <p className="mt-3 text-sm leading-relaxed text-ink-700">{tool.about}</p>
+              {tool.about.map((p) => (
+                <p key={p.slice(0, 40)} className="text-sm leading-relaxed text-ink-700">
+                  {p}
+                </p>
+              ))}
             </section>
+
+            {tool.useCases.length > 0 && (
+              <section aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading" className="text-xl font-semibold">
+                  Common ways people use this
+                </h2>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-700">
+                  {tool.useCases.map((u) => (
+                    <li key={u}>{u}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {tool.tips.length > 0 && (
+              <section aria-labelledby="tips-heading">
+                <h2 id="tips-heading" className="text-xl font-semibold">
+                  Tips
+                </h2>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-700">
+                  {tool.tips.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             <FAQ faqs={tool.faqs} />
           </div>
