@@ -7,6 +7,7 @@ import { categories } from "@/lib/tools/categories";
 import { buildSearchIndex, getPopularTools, getToolsByCategory, tools } from "@/lib/tools/registry";
 import { pageMetadata, websiteJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { getSortedPosts } from "@/lib/blog/posts";
 
 export const metadata: Metadata = pageMetadata(
   "/",
@@ -111,6 +112,27 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="blog-heading" className="container-site py-12">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 id="blog-heading" className="text-2xl font-semibold">From the blog</h2>
+          <Link href="/blog" className="text-sm font-medium text-accent-700 hover:underline">
+            View all posts →
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {getSortedPosts().slice(0, 3).map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="card flex flex-col gap-1.5 transition-colors hover:border-accent-600"
+            >
+              <span className="font-medium text-ink-900">{post.title}</span>
+              <span className="line-clamp-3 text-sm text-ink-500">{post.excerpt}</span>
+            </Link>
+          ))}
         </div>
       </section>
 
