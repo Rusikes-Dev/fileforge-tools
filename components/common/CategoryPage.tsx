@@ -22,15 +22,15 @@ export default function CategoryPage({ category }: { category: CategoryDef }) {
           <ToolCard key={t.slug} tool={t} />
         ))}
       </div>
-      <section aria-labelledby={`about-${category.id}`} className="mt-12 max-w-3xl">
+      <section aria-labelledby={`about-${category.id}`} className="mt-12 max-w-3xl space-y-3">
         <h2 id={`about-${category.id}`} className="text-xl font-semibold">
-          Private, browser-based processing
+          About {category.name.toLowerCase()}
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-ink-700">
-          Every tool in this category runs entirely in your browser. Files and text are processed by
-          JavaScript on your own device and are never uploaded to a server, so the tools are safe to
-          use with confidential material and keep working at full speed regardless of your connection.
-        </p>
+        {category.about.map((p) => (
+          <p key={p.slice(0, 40)} className="text-sm leading-relaxed text-ink-700">
+            {p}
+          </p>
+        ))}
       </section>
     </div>
   );
