@@ -56,6 +56,19 @@ npm start       # Serve the production build locally
 
 > **Neon / Render are not needed.** The original architecture allowed for a Postgres database and API backend, but since every Phase 1 tool is browser-side, there is no server component at all. If server-side tools are added later (e.g. video conversion), a Render service can be added without touching this codebase's structure — tool definitions already carry a `processing` field for that purpose.
 
+## Content depth & the blog
+
+Every tool page includes: an intro, step-by-step instructions, a two-paragraph "About" section, a
+"Common ways people use this" list, practical tips, supported formats, 5 FAQs, and related tools —
+all unique per tool rather than templated filler. Category hub pages also carry two paragraphs of
+unique context instead of generic boilerplate.
+
+A `/blog` section (`lib/blog/posts.ts`, `app/blog/page.tsx`, `app/blog/[slug]/page.tsx`) adds
+long-form guides targeting specific long-tail searches (e.g. "how to merge PDF files without
+uploading them"), each with proper `Article` JSON-LD and links back to the relevant tools. Add a
+new post by adding an entry to `lib/blog/posts.ts` — the index, sitemap and routing update
+automatically.
+
 ## Architecture
 
 ```
