@@ -89,6 +89,26 @@ export function faqJsonLd(tool: ToolDef): object {
   };
 }
 
+export function articleJsonLd(params: {
+  title: string;
+  description: string;
+  path: string;
+  publishedAt: string;
+}): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: params.title,
+    description: params.description,
+    datePublished: params.publishedAt,
+    dateModified: params.publishedAt,
+    url: absoluteUrl(params.path),
+    author: { "@type": "Organization", name: site.name },
+    publisher: { "@type": "Organization", name: site.name },
+    mainEntityOfPage: absoluteUrl(params.path),
+  };
+}
+
 export function websiteJsonLd(): object {
   return {
     "@context": "https://schema.org",
