@@ -22,8 +22,12 @@ export interface ToolDef {
   description: string;
   /** One or two sentences shown under the H1 */
   intro: string;
-  /** Longer explanation shown below the tool */
-  about: string;
+  /** Longer explanation shown below the tool, one or more paragraphs */
+  about: string[];
+  /** Specific scenarios where someone would reach for this tool */
+  useCases: string[];
+  /** Practical, tool-specific tips */
+  tips: string[];
   steps: string[];
   inputFormats: string[];
   outputFormats: string[];
@@ -43,4 +47,6 @@ export interface CategoryDef {
   title: string;
   description: string;
   intro: string;
+  /** Additional paragraphs shown on the category hub page */
+  about: string[];
 }
