@@ -1,4 +1,4 @@
-import type { CategoryDef } from "./types";
+import type { CategoryDef, ToolCategoryId } from "./types";
 
 export const categories: CategoryDef[] = [
   {
@@ -54,3 +54,7 @@ export const categories: CategoryDef[] = [
     ],
   },
 ];
+
+export function getCategory(id: ToolCategoryId): CategoryDef | undefined {
+  return categories.find((c) => c.id === id);
+}
