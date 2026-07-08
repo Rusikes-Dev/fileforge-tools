@@ -41,7 +41,7 @@ export function convertCase(text: string, mode: CaseMode): string {
     case "lower":
       return text.toLowerCase();
     case "title":
-      return text.toLowerCase().replace(/(^|[\s\-("'])(\p{L})/gu, (_, pre, ch) => pre + ch.toUpperCase());
+      return text.toLowerCase().replace(/(^|[\s\-("])(\p{L})/gu, (_, pre, ch) => pre + ch.toUpperCase());
     case "sentence": {
       const lower = text.toLowerCase();
       return lower.replace(/(^\s*\p{L})|([.!?…]\s+\p{L})/gu, (m) => m.toUpperCase());
