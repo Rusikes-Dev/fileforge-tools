@@ -4,10 +4,51 @@
 
 :root {
   color-scheme: light;
+
+  /* Page/card/input background (see tailwind.config.ts `surface` token) */
+  --color-surface: 255 255 255;
+
+  --color-ink-900: 23 26 28;
+  --color-ink-700: 58 65 69;
+  --color-ink-500: 95 106 112;
+  --color-ink-300: 198 205 209;
+  --color-ink-100: 232 235 237;
+  --color-ink-50: 246 247 248;
+
+  --color-accent-50: 238 251 247;
+  --color-accent-100: 213 244 234;
+  --color-accent-600: 14 122 99;
+  --color-accent-700: 11 97 79;
+  --color-accent-800: 10 77 64;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --color-surface: 18 20 23;
+
+  /* Text scale inverts in lightness so ink-900 (primary text) becomes
+     near-white and ink-50 (subtle panel background) stays close to the
+     page background, preserving the same relative contrast relationships
+     as light mode. */
+  --color-ink-900: 241 242 243;
+  --color-ink-700: 199 204 206;
+  --color-ink-500: 154 161 165;
+  --color-ink-300: 58 65 69;
+  --color-ink-100: 38 43 46;
+  --color-ink-50: 26 29 32;
+
+  /* Brand teal shifted slightly brighter so it keeps enough contrast
+     against the dark page background. */
+  --color-accent-50: 13 33 29;
+  --color-accent-100: 18 56 48;
+  --color-accent-600: 34 161 134;
+  --color-accent-700: 28 138 114;
+  --color-accent-800: 21 109 90;
 }
 
 body {
-  @apply bg-white text-ink-900 antialiased;
+  @apply bg-surface text-ink-900 antialiased;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -20,13 +61,13 @@ body {
     @apply inline-flex items-center justify-center gap-2 rounded bg-accent-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-700 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded border border-ink-300 bg-white px-4 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-700 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded border border-ink-300 bg-surface px-4 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-700 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .input-base {
-    @apply w-full rounded border border-ink-300 bg-white px-3 py-2 text-sm text-ink-900 placeholder:text-ink-500 focus:border-accent-600 focus:outline-none focus:ring-1 focus:ring-accent-600;
+    @apply w-full rounded border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 placeholder:text-ink-500 focus:border-accent-600 focus:outline-none focus:ring-1 focus:ring-accent-600;
   }
   .card {
-    @apply rounded border border-ink-100 bg-white p-5;
+    @apply rounded border border-ink-100 bg-surface p-5;
   }
 }
 
