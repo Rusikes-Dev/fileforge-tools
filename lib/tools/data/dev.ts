@@ -41,7 +41,7 @@ export const devTools: ToolDef[] = [
       },
       {
         q: "Does formatting change my data?",
-        a: "No — only whitespace changes. Keys, values and their order are preserved exactly.",
+        a: "No — only whitespace changes. Keys, values and their order are preserved exactly, including large integer IDs (like database or Twitter/Discord snowflake IDs), which are kept exact rather than rounded the way a plain JSON.parse would.",
       },
       {
         q: "Is it safe to paste API responses with tokens in them?",
