@@ -21,7 +21,7 @@ export default function MobileNav({ items }: { items: Array<{ name: string; href
         <nav
           id={menuId}
           aria-label="Main"
-          className="absolute inset-x-0 top-14 border-b border-ink-100 bg-white shadow-sm"
+          className="absolute inset-x-0 top-14 border-b border-ink-100 bg-surface shadow-sm"
         >
           <ul className="container-site py-2">
             {[{ name: "Home", href: "/" }, ...items].map((item) => (
