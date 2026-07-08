@@ -120,6 +120,130 @@ export const posts: BlogPost[] = [
     ],
     relatedTools: ["password-generator", "uuid-generator", "base64-encoder-decoder"],
   },
+  {
+    slug: "csv-to-json-beginners-guide",
+    title: "CSV to JSON: A Beginner's Guide",
+    description:
+      "A plain-English explanation of what CSV and JSON actually are, why you'd convert between them, and how to do it correctly without breaking your data.",
+    excerpt:
+      "If you've been handed a spreadsheet and asked to turn it into JSON (or the reverse), here's what's actually happening and how to do it without corrupting your data.",
+    publishedAt: "2026-07-08",
+    intro: [
+      "If you work anywhere near spreadsheets and code, you'll eventually run into this exact situation: someone hands you a CSV export from Excel or Google Sheets, and you need it as JSON for an API, a script, or a database import. Or the reverse — you have JSON and someone wants a spreadsheet.",
+      "It sounds like it should be trivial, and mostly it is — until your data has a comma inside a value, or a name with an apostrophe, or a blank cell, and suddenly your \"quick conversion\" is producing broken output. Here's what's actually going on under the hood, so you can do this reliably.",
+    ],
+    sections: [
+      {
+        heading: "What CSV and JSON actually are",
+        paragraphs: [
+          "CSV (comma-separated values) is a plain text format for tables: one line per row, values separated by commas, and usually a header row naming each column. It's what you get when you export a spreadsheet as plain text.",
+          "JSON (JavaScript Object Notation) represents structured data as nested objects and arrays — the format nearly every API, config file, and modern app expects. A table of people in CSV becomes, in JSON, an array where each row is one object with the column names as keys.",
+        ],
+      },
+      {
+        heading: "The part that trips people up: quoting",
+        paragraphs: [
+          "CSV's one comma-separated line per row rule breaks the moment a value itself contains a comma — like a name written \"Smith, Jane\" or an address with a comma in it. The CSV standard handles this by wrapping such values in double quotes: `\"Smith, Jane\"`. A naive converter that just splits every line on commas will incorrectly treat that quoted comma as a new column, silently shifting every value after it one column to the right.",
+          "A second, sneakier issue: what if a value itself contains a double quote? The standard says you escape it by doubling it — `\"She said \"\"hello\"\"\"` represents the text `She said \"hello\"`. Converters that don't implement proper CSV parsing (rather than a simple string split) will mishandle this too.",
+        ],
+      },
+      {
+        heading: "The other trap: numbers that aren't really numbers",
+        paragraphs: [
+          "CSV has no concept of data types — everything is just text. This causes a specific, easy-to-miss bug: a ZIP code like `01234` or a product code like `007` has a meaningful leading zero. If your converter automatically detects and converts number-looking values into actual JSON numbers, that leading zero silently disappears — `01234` becomes `1234`, and now your ZIP code is wrong.",
+          "The safe default is to keep everything as text unless you specifically know a column is safe to convert — good tools give you this as a toggle rather than an automatic, all-or-nothing decision.",
+        ],
+      },
+      {
+        heading: "Doing it correctly",
+        paragraphs: [
+          "1. Use a converter that implements proper CSV parsing (quote handling, escaped quotes, embedded commas and line breaks) rather than a naive comma-split — the CSV to JSON tool on this site handles all of this automatically.\n2. If your data has any column with meaningful leading zeros (ZIP codes, ID numbers), leave number detection off, or check the output carefully if you turn it on.\n3. Check your delimiter — spreadsheets in some regional locales export with semicolons instead of commas. If your output looks like one giant column, this is usually why.\n4. Spot-check a row or two of the output against the original, especially any row that had a comma or quote inside a value — that's where naive tools break first.",
+        ],
+      },
+    ],
+    relatedTools: ["csv-to-json", "json-to-csv", "json-formatter", "json-validator"],
+  },
+  {
+    slug: "reduce-pdf-file-size-for-email",
+    title: "How to Reduce a PDF's File Size for Email",
+    description:
+      "Practical ways to shrink a PDF that's too large to email, including which method to use for scanned documents versus PDFs with a lot of images.",
+    excerpt:
+      "Got a PDF that's bouncing back from your email provider's size limit? Here's what actually makes a PDF large, and the fastest ways to shrink it.",
+    publishedAt: "2026-07-08",
+    intro: [
+      "It's a familiar moment: you attach a PDF to an email, hit send, and get an error saying the attachment is too large. Most email providers cap attachments somewhere between 20-25 MB, and it doesn't take much — a handful of scanned pages, or a report with a few embedded photos — to blow past that.",
+      "The fix depends on *why* the PDF is large in the first place, since a scanned contract and a report full of high-resolution photos need different approaches.",
+    ],
+    sections: [
+      {
+        heading: "Why PDFs get this large in the first place",
+        paragraphs: [
+          "A PDF's size is almost always driven by the images inside it — scanned pages are essentially just full-resolution photographs of paper, and a report with several high-quality photos embeds all of that image data directly into the file. Text itself takes up very little space; a 50-page text-only PDF might be under a megabyte, while five scanned pages at high resolution can easily exceed 20 MB on their own.",
+        ],
+      },
+      {
+        heading: "If it's a scanned document",
+        paragraphs: [
+          "Scanned pages are usually scanned at a much higher resolution than needed for on-screen reading or even printing. If you have access to the original scanning software, rescanning at a lower DPI (150-200 is usually plenty for readable text) makes an enormous difference. If you only have the final PDF, look for a tool that can recompress the embedded images directly, since that reduces the size without needing to redo the scan.",
+        ],
+      },
+      {
+        heading: "If it's a document with embedded photos",
+        paragraphs: [
+          "Here the fix is more direct: reduce the size of the images before they go into the PDF. If you're the one assembling the document (for example, combining photos into a PDF for a report), compress each image first — cutting a photo from a phone camera down to reasonable web-viewing quality routinely shrinks it by 70-90% with no visible difference at normal viewing size, and the resulting PDF shrinks proportionally.",
+        ],
+      },
+      {
+        heading: "A practical workflow",
+        paragraphs: [
+          "1. If you're building the PDF yourself from photos, compress each image first (a tool like Image Compressor set to 75-85% quality works well), then combine them into a PDF — this gives you far more control than compressing after the fact.\n2. If you already have a large PDF and need to shrink it directly, look for a PDF compression tool, or split it into smaller parts if the whole document doesn't need to go in one email (the Split PDF tool is useful here — send only the pages that are actually needed).\n3. Check your email provider's actual limit before assuming compression alone will get you there — for very large scanned documents, sending a link to a shared file may be more practical than repeated compression.\n4. Always keep your original, uncompressed file. Compression is one-directional — you can't get the lost detail back once you've shrunk it.",
+        ],
+      },
+    ],
+    relatedTools: ["split-pdf", "merge-pdf", "image-compressor", "jpg-to-pdf"],
+  },
+  {
+    slug: "jpg-vs-png-vs-webp",
+    title: "JPG vs PNG vs WebP: Which Should You Actually Use?",
+    description:
+      "A practical comparison of JPG, PNG and WebP — when each one is the right choice, with no unnecessary jargon.",
+    excerpt:
+      "Three image formats, three different jobs. Here's a straightforward guide to picking the right one instead of defaulting to whatever your camera or screenshot tool saved.",
+    publishedAt: "2026-07-08",
+    intro: [
+      "Most people use whatever image format their phone, camera, or screenshot tool happens to save by default, without ever thinking about it — and most of the time that's fine. But if you've ever wondered why some images load faster than others, why a logo looks blurry after conversion, or why a colleague asked you to \"send it as a PNG instead,\" the answer comes down to a genuine, practical difference between these three formats.",
+    ],
+    sections: [
+      {
+        heading: "JPG: the default for photos",
+        paragraphs: [
+          "JPG uses lossy compression, meaning it throws away some detail the eye is least likely to notice in exchange for a much smaller file. For photographs — with their gradual color transitions and natural detail — this trade-off is usually invisible at normal viewing sizes, which is exactly why it's the default format for cameras and phones.",
+          "JPG's real limitation: no transparency support, and it handles sharp edges (like text or line art) poorly — compression artifacts show up as blurring or blocky patterns around hard edges, which is why a JPG screenshot of a document often looks slightly fuzzy around the text.",
+        ],
+      },
+      {
+        heading: "PNG: the default for screenshots, logos, and anything needing transparency",
+        paragraphs: [
+          "PNG uses lossless compression — every pixel is preserved exactly. This makes it the right choice for anything with sharp edges or flat colors: screenshots, logos, icons, and any graphic with a transparent background. The trade-off is size: a PNG of a photograph is typically much larger than the equivalent JPG, since lossless compression can't take advantage of the same detail-discarding tricks.",
+        ],
+      },
+      {
+        heading: "WebP: the modern all-rounder",
+        paragraphs: [
+          "WebP is a newer format that supports both lossy and lossless compression, plus transparency — essentially combining what JPG and PNG each do well into one format. A WebP photo at similar visual quality is typically 20-35% smaller than the equivalent JPG, and a WebP graphic with transparency is often 60-90% smaller than the equivalent PNG.",
+          "The only real limitation is compatibility with very old software that hasn't been updated to support it — but every current browser, and most modern image-editing tools, handle WebP natively. For anything destined for the web, it's now the better default over both JPG and PNG.",
+        ],
+      },
+      {
+        heading: "A simple decision guide",
+        paragraphs: [
+          "• Photo, going on a website: WebP (fallback to JPG only for legacy compatibility needs)\n• Photo, need maximum compatibility with older software: JPG\n• Screenshot, logo, or icon with transparency, going on a website: WebP\n• Screenshot, logo, or icon, need maximum compatibility or a lossless master copy: PNG\n• Archiving an image you might edit further: PNG (lossless, so no quality is lost before you've even started editing)",
+        ],
+      },
+    ],
+    relatedTools: ["jpg-to-webp", "png-to-webp", "image-compressor", "jpg-to-png"],
+  },
 ];
 
 export function getPost(slug: string): BlogPost | undefined {
