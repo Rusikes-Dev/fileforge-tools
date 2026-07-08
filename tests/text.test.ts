@@ -37,6 +37,10 @@ describe("convertCase", () => {
     expect(convertCase("hello world", "upper")).toBe("HELLO WORLD");
     expect(convertCase("HeLLo", "lower")).toBe("hello");
     expect(convertCase("war and peace", "title")).toBe("War And Peace");
+    // Regression: apostrophes must not be treated as word boundaries,
+    // otherwise "it's" incorrectly became "It'S".
+    expect(convertCase("it's a test", "title")).toBe("It's A Test");
+    expect(convertCase("don't stop believing", "title")).toBe("Don't Stop Believing");
     expect(convertCase("first. second sentence. THIRD.", "sentence")).toBe(
       "First. Second sentence. Third."
     );
