@@ -61,7 +61,7 @@ export default function Base64ToImageTool() {
           <p className="text-sm font-medium text-accent-800">
             Detected {parsed.ext.toUpperCase()} — {formatBytes(parsed.size)}
           </p>
-          <div className="mt-3 flex items-center justify-center rounded border border-ink-100 bg-white p-4">
+          <div className="mt-3 flex items-center justify-center rounded border border-ink-100 bg-surface p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={parsed.dataUri} alt="Decoded preview" className="max-h-64 max-w-full" />
           </div>
