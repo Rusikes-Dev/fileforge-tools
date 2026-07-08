@@ -23,6 +23,7 @@ const PdfMergeTool = dynamic(() => import("./pdf/PdfMergeTool"), { ssr: false, l
 const PdfSplitTool = dynamic(() => import("./pdf/PdfSplitTool"), { ssr: false, loading });
 const PdfRotateTool = dynamic(() => import("./pdf/PdfRotateTool"), { ssr: false, loading });
 const PdfPageCounterTool = dynamic(() => import("./pdf/PdfPageCounterTool"), { ssr: false, loading });
+const PdfCompressTool = dynamic(() => import("./pdf/PdfCompressTool"), { ssr: false, loading });
 const TextCounterTool = dynamic(() => import("./text/TextCounterTool"), { ssr: false, loading });
 const CaseConverterTool = dynamic(() => import("./text/CaseConverterTool"), { ssr: false, loading });
 const LineCleanupTool = dynamic(() => import("./text/LineCleanupTool"), { ssr: false, loading });
@@ -86,6 +87,7 @@ const registry: Record<string, ComponentType> = {
   "extract-pdf-pages": () => <PdfSplitTool mode="extract" />,
   "rotate-pdf": PdfRotateTool,
   "pdf-page-counter": PdfPageCounterTool,
+  "compress-pdf": PdfCompressTool,
   // Text
   "word-counter": () => <TextCounterTool mode="words" />,
   "character-counter": () => <TextCounterTool mode="characters" />,
