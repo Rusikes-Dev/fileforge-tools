@@ -2,7 +2,7 @@
  * Client-side PDF operations built on pdf-lib.
  * pdf-lib is imported dynamically by callers so it only loads on PDF tool pages.
  */
-import type { PDFDocument as PDFDocumentType } from "pdf-lib";
+import type { PDFDocument as PDFDocumentType, PDFRef as PDFRefType, PDFStream as PDFStreamType } from "pdf-lib";
 import type { PageRange } from "./ranges";
 import { rangesToPageIndices } from "./ranges";
 
@@ -140,4 +140,133 @@ export async function imagesToPdf(files: File[], opts: ImagesToPdfOptions): Prom
     });
   }
   return doc.save();
+}
+
+export interface CompressPdfResult {
+  bytes: Uint8Array;
+  /** Total image XObjects found across the document */
+  imagesFound: number;
+  /** How many of those were actually re-compressed */
+  imagesCompressed: number;
+  originalSize: number;
+  compressedSize: number;
+}
+
+/**
+ * Recompresses standard RGB JPEG images embedded in a PDF to reduce file size.
+ *
+ * Scope, by design: this only touches image XObjects that use the DCTDecode
+ * (JPEG) filter with an 8-bit DeviceRGB color space — by far the most common
+ * case for scanned color documents and photo-heavy PDFs. Grayscale scans,
+ * CMYK images, and already-lossless (Flate-encoded) images are left
+ * untouched rather than risking an incorrect re-encode, since getting a
+ * color-space conversion wrong would corrupt how the PDF renders. If no
+ * compressible images are found, imagesCompressed will be 0 and the
+ * resulting file may not shrink — callers should surface that honestly
+ * rather than implying every PDF can be compressed.
+ */
+export async function compressPdf(file: File, quality: number): Promise<CompressPdfResult> {
+  const { PDFName, PDFDict, PDFRef, PDFRawStream, PDFStream } = await pdfLib();
+  const doc = await loadPdf(file);
+  const context = doc.context;
+
+  let imagesFound = 0;
+  let imagesCompressed = 0;
+  const processedRefs = new Set<string>();
+
+  const nameFilter = PDFName.of("Filter");
+  const nameSubtype = PDFName.of("Subtype");
+  const nameColorSpace = PDFName.of("ColorSpace");
+  const nameBitsPerComponent = PDFName.of("BitsPerComponent");
+  const nameImage = PDFName.of("Image");
+  const nameDctDecode = PDFName.of("DCTDecode");
+  const nameDeviceRgb = PDFName.of("DeviceRGB");
+  const nameXObject = PDFName.of("XObject");
+  const nameWidth = PDFName.of("Width");
+  const nameHeight = PDFName.of("Height");
+
+  for (const page of doc.getPages()) {
+    const resources = page.node.Resources();
+    if (!resources) continue;
+    const xObjects = resources.lookupMaybe(nameXObject, PDFDict);
+    if (!xObjects) continue;
+
+    for (const [, value] of xObjects.entries()) {
+      let ref: PDFRefType | undefined;
+      let stream: PDFStreamType | undefined;
+
+      if (value instanceof PDFRef) {
+        ref = value;
+        const resolved = context.lookup(value);
+        if (resolved instanceof PDFStream) stream = resolved;
+      } else if (value instanceof PDFStream) {
+        stream = value;
+      }
+      if (!stream) continue;
+
+      const subtype = stream.dict.lookup(nameSubtype);
+      if (subtype !== nameImage) continue;
+
+      imagesFound++;
+
+      const refKey = ref?.toString();
+      if (refKey && processedRefs.has(refKey)) continue; // shared XObject, already handled
+
+      // Only the common, safe case: single DCTDecode filter, 8-bit DeviceRGB.
+      const filter = stream.dict.lookup(nameFilter);
+      const isDct = filter === nameDctDecode;
+      if (!isDct) continue;
+
+      const colorSpace = stream.dict.lookup(nameColorSpace);
+      if (colorSpace !== nameDeviceRgb) continue;
+
+      const bpc = stream.dict.lookup(nameBitsPerComponent);
+      const bpcNum = bpc && "asNumber" in bpc ? (bpc as { asNumber(): number }).asNumber() : 8;
+      if (bpcNum !== 8) continue;
+
+      const rawBytes = stream.getContents();
+      try {
+        const blob = new Blob([rawBytes as BlobPart], { type: "image/jpeg" });
+        const bitmap = await createImageBitmap(blob);
+        const canvas = document.createElement("canvas");
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          bitmap.close();
+          continue;
+        }
+        ctx.drawImage(bitmap, 0, 0);
+        bitmap.close();
+
+        const newBlob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob(resolve, "image/jpeg", quality)
+        );
+        if (!newBlob) continue;
+        const newBytes = new Uint8Array(await newBlob.arrayBuffer());
+
+        if (newBytes.length < rawBytes.length && ref) {
+          const newDict = stream.dict.clone(context);
+          newDict.set(nameWidth, context.obj(canvas.width));
+          newDict.set(nameHeight, context.obj(canvas.height));
+          const newStream = PDFRawStream.of(newDict, newBytes);
+          context.assign(ref, newStream);
+          imagesCompressed++;
+        }
+        if (refKey) processedRefs.add(refKey);
+      } catch {
+        // Never let one unreadable/unusual image abort the whole operation.
+        continue;
+      }
+    }
+  }
+
+  const bytes = await doc.save();
+  return {
+    bytes,
+    imagesFound,
+    imagesCompressed,
+    originalSize: file.size,
+    compressedSize: bytes.length,
+  };
 }
