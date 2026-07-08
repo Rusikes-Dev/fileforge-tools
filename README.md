@@ -1,13 +1,13 @@
 # FileForge Tools — Free File Converter & Document Tools
 
-A production-ready Next.js website with **38 working, browser-based tools**: image converters and compressors, PDF utilities, text cleanup tools and developer helpers. Every tool processes files **locally in the visitor's browser** — nothing is ever uploaded, so the site needs no backend, no database and no file storage, and runs entirely on free hosting tiers.
+A production-ready Next.js website with **39 working, browser-based tools**: image converters and compressors, PDF utilities, text cleanup tools and developer helpers. Every tool processes files **locally in the visitor's browser** — nothing is ever uploaded, so the site needs no backend, no database and no file storage, and runs entirely on free hosting tiers.
 
-## Tools included (38)
+## Tools included (39)
 
 | Category | Tools |
 |---|---|
 | **Image (13)** | JPG↔PNG, WebP↔JPG, PNG→WebP, Image Compressor, Compress JPG, Compress PNG, Image Resizer, Image Cropper, Image Rotator, Image→Base64, Base64→Image |
-| **PDF (7)** | JPG→PDF, PNG→PDF, Merge PDF, Split PDF, Extract PDF Pages, Rotate PDF, PDF Page Counter |
+| **PDF (8)** | JPG→PDF, PNG→PDF, Merge PDF, Split PDF, Extract PDF Pages, Rotate PDF, PDF Page Counter, Compress PDF |
 | **Text (8)** | Word Counter, Character Counter, Case Converter, Remove Duplicate Lines, Sort Lines, Remove Extra Spaces, Find & Replace, Text Statistics |
 | **Developer (10)** | JSON Formatter / Minifier / Validator, CSV↔JSON, URL Encoder/Decoder, Base64 Encoder/Decoder, UUID Generator, Password Generator, QR Code Generator |
 
@@ -73,12 +73,12 @@ automatically.
 
 ```
 lib/tools/types.ts        # ToolDef / CategoryDef interfaces
-lib/tools/data/*.ts       # 38 tool definitions: slug, SEO content, FAQs, aliases, related
+lib/tools/data/*.ts       # 39 tool definitions: slug, SEO content, FAQs, aliases, related
 lib/tools/registry.ts     # lookups: by slug, by category, popular, related, search index
 lib/converters/*.ts       # pure conversion logic (tested), UI-independent
 components/tools/*        # client components per tool, lazy-loaded per slug
 components/tools/ToolRenderer.tsx  # slug → component map (heavy libs never ship to other pages)
-app/[slug]/page.tsx       # one route serves all 38 tools via generateStaticParams
+app/[slug]/page.tsx       # one route serves all 39 tools via generateStaticParams
 app/{image,pdf,text,developer}-tools/  # category hub pages
 app/sitemap.ts, app/robots.ts          # generated from the registry
 ```
