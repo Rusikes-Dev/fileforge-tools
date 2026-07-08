@@ -33,7 +33,7 @@ export const pdfTools: ToolDef[] = [
     inputFormats: ["JPG", "JPEG"],
     outputFormats: ["PDF"],
     aliases: ["photo to pdf", "picture to pdf", "scan to pdf", "images to pdf"],
-    related: ["png-to-pdf", "merge-pdf", "image-compressor", "compress-jpg", "image-resizer"],
+    related: ["png-to-pdf", "merge-pdf", "compress-pdf", "image-compressor", "compress-jpg"],
     faqs: [
       {
         q: "Can I control the page order?",
@@ -150,7 +150,7 @@ export const pdfTools: ToolDef[] = [
     inputFormats: ["PDF"],
     outputFormats: ["PDF"],
     aliases: ["combine pdf", "join pdf files", "pdf joiner", "put pdfs together"],
-    related: ["split-pdf", "rotate-pdf", "extract-pdf-pages", "jpg-to-pdf", "pdf-page-counter"],
+    related: ["compress-pdf", "split-pdf", "rotate-pdf", "extract-pdf-pages", "jpg-to-pdf"],
     faqs: [
       {
         q: "Does merging reduce PDF quality?",
@@ -209,7 +209,7 @@ export const pdfTools: ToolDef[] = [
     inputFormats: ["PDF"],
     outputFormats: ["PDF"],
     aliases: ["separate pdf pages", "divide pdf", "pdf splitter", "cut pdf"],
-    related: ["extract-pdf-pages", "merge-pdf", "rotate-pdf", "pdf-page-counter"],
+    related: ["extract-pdf-pages", "merge-pdf", "compress-pdf", "pdf-page-counter"],
     faqs: [
       {
         q: "What range formats are accepted?",
@@ -409,5 +409,64 @@ export const pdfTools: ToolDef[] = [
     ],
     processing: "browser",
     indexable: true,
+  },
+  {
+    slug: "compress-pdf",
+    name: "PDF Compressor",
+    shortName: "Compress PDF",
+    category: "pdf-tools",
+    title: "Compress PDF — Reduce PDF File Size Online",
+    description:
+      "Shrink a PDF by recompressing the images inside it, right in your browser. See exactly how many images were compressed and the size saved.",
+    intro:
+      "Reduce a PDF's file size by recompressing the color photos and scans embedded inside it. Everything happens in your browser — the PDF is never uploaded.",
+    about: [
+      "A PDF's size is almost always driven by the images inside it rather than its text. This tool scans every page for embedded color photos and scans, re-encodes each one at a quality level you choose, and rebuilds the PDF with the smaller versions — only keeping a change if it's actually smaller than the original. It tells you exactly how many images were found and how many were compressed, rather than implying every PDF will shrink.",
+      "This works on the most common case: full-color JPEG images embedded in the PDF, which is how most scanned color documents and photo-heavy reports are stored. Black-and-white scans, images already using lossless compression, and a few less common color formats are deliberately left untouched — attempting to recompress those safely isn't possible with a browser-based approach, and leaving them alone is better than risking a corrupted page.",
+    ],
+    useCases: [
+      "Shrinking a scanned color document or report so it fits under an email attachment limit",
+      "Reducing the size of a photo-heavy PDF (like a portfolio or property listing) before sharing it",
+      "Getting a large PDF small enough to upload to a portal with a strict file size cap",
+    ],
+    tips: [
+      "Check the summary after compressing — it tells you how many images were actually compressible. If it says 0, your PDF likely contains grayscale scans or already-optimized images, and splitting or re-scanning at a lower resolution may work better instead.",
+      "Try 75-80% quality first. If the size saving isn't enough and the pages still look correct, you can run the compressed result through again at a lower setting.",
+    ],
+    steps: [
+      "Add the PDF you want to shrink.",
+      "Choose a compression quality — 75-80% is a good starting point.",
+      "Click Compress PDF and review how many images were compressed.",
+      "Compare the before and after size, then download.",
+    ],
+    inputFormats: ["PDF"],
+    outputFormats: ["PDF"],
+    aliases: ["shrink pdf", "reduce pdf size", "make pdf smaller", "pdf too large"],
+    related: ["merge-pdf", "split-pdf", "pdf-page-counter", "jpg-to-pdf"],
+    faqs: [
+      {
+        q: "Why didn't my PDF get any smaller?",
+        a: "This tool recompresses full-color JPEG images embedded in the PDF, which is the most common case. If your PDF is a black-and-white scan, already uses efficient compression, or is mostly text, there may be nothing safe to compress — the summary will show 0 images compressed rather than force a change.",
+      },
+      {
+        q: "Will this affect the quality of my document?",
+        a: "Only the embedded photos are re-encoded, at a quality level you choose, the same trade-off as compressing a JPEG image directly. Text and vector content are never touched.",
+      },
+      {
+        q: "Is it safe to compress a scanned contract or ID?",
+        a: "Yes — the file never leaves your browser at any point, the same as every other tool on this site. Nothing is uploaded during compression.",
+      },
+      {
+        q: "Why do some images get skipped even though the PDF clearly has photos?",
+        a: "This tool only recompresses standard full-color (RGB) JPEG images, which covers the large majority of scanned and photo-heavy PDFs. Grayscale scans and certain less common color formats are intentionally left unchanged, since compressing them safely isn't possible with this approach — leaving them untouched is safer than risking how the page renders.",
+      },
+      {
+        q: "Can password-protected PDFs be compressed?",
+        a: "No. An encrypted PDF can't be read without its password, so it can't be processed here. Remove the password in the application that created the file first.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: false,
   },
 ];
