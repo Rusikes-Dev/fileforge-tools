@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import CopyButton from "../CopyButton";
-import { locateJsonError, summarizeJson } from "@/lib/converters/json";
+import { locateJsonError, safeJsonParse, safeJsonStringify, summarizeJson } from "@/lib/converters/json";
 import { formatBytes } from "@/lib/utils";
 
 export default function JsonTool({ mode }: { mode: "format" | "minify" | "validate" }) {
@@ -14,7 +14,7 @@ export default function JsonTool({ mode }: { mode: "format" | "minify" | "valida
   function run() {
     setOutput(null);
     try {
-      const parsed: unknown = JSON.parse(input);
+      const parsed: unknown = safeJsonParse(input);
       if (mode === "validate") {
         const s = summarizeJson(parsed);
         const detail =
@@ -25,10 +25,10 @@ export default function JsonTool({ mode }: { mode: "format" | "minify" | "valida
               : `a ${s.rootType} value`;
         setStatus({ ok: true, message: `Valid JSON — ${detail}, nesting depth ${s.depth}.` });
       } else if (mode === "format") {
-        setOutput(JSON.stringify(parsed, null, indent));
+        setOutput(safeJsonStringify(parsed, indent));
         setStatus({ ok: true, message: "Formatted." });
       } else {
-        const minified = JSON.stringify(parsed);
+        const minified = safeJsonStringify(parsed);
         setOutput(minified);
         const before = new Blob([input]).size;
         const after = new Blob([minified]).size;
@@ -69,7 +69,7 @@ export default function JsonTool({ mode }: { mode: "format" | "minify" | "valida
       </div>
       {status && (
         <div role="status"
-          className={`rounded border px-3 py-2.5 text-sm ${status.ok ? "border-accent-100 bg-accent-50 text-accent-800" : "border-red-200 bg-red-50 text-red-800"}`}>
+          className={`rounded border px-3 py-2.5 text-sm ${status.ok ? "border-accent-100 bg-accent-50 text-accent-800" : "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-300"}`}>
           <p>{status.message}</p>
           {status.hint && <p className="mt-1 text-xs">{status.hint}</p>}
         </div>

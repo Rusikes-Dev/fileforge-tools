@@ -4,7 +4,7 @@ import { useState } from "react";
 import CopyButton from "../CopyButton";
 import ErrorMessage from "../ErrorMessage";
 import { csvToJson, jsonToCsv } from "@/lib/converters/csv";
-import { locateJsonError } from "@/lib/converters/json";
+import { locateJsonError, safeJsonParse, unwrapBigIntSentinels } from "@/lib/converters/json";
 import { downloadBlob } from "@/lib/utils";
 
 export default function CsvJsonTool({ direction }: { direction: "csv-to-json" | "json-to-csv" }) {
@@ -28,7 +28,7 @@ export default function CsvJsonTool({ direction }: { direction: "csv-to-json" | 
       } else {
         let parsed: unknown;
         try {
-          parsed = JSON.parse(input);
+          parsed = unwrapBigIntSentinels(safeJsonParse(input));
         } catch (err) {
           const e = locateJsonError(input, err);
           throw new Error(e.line ? `Invalid JSON at line ${e.line}: ${e.message}` : `Invalid JSON: ${e.message}`);
