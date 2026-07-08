@@ -61,7 +61,7 @@ export default function ToolSearch({
       {query.trim() && (
         <ul
           id="tool-search-results"
-          className="absolute z-30 mt-1 w-full overflow-hidden rounded border border-ink-100 bg-white shadow-md"
+          className="absolute z-30 mt-1 w-full overflow-hidden rounded border border-ink-100 bg-surface shadow-md"
         >
           {results.length === 0 && (
             <li className="px-4 py-3 text-sm text-ink-500">
