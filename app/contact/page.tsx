@@ -18,8 +18,8 @@ export default function ContactPage() {
         </p>
         <p>
           Email us at{" "}
-          <a href={`mailto:${site.contactEmail}`} className="font-medium text-accent-700 underline">
-            {site.contactEmail}
+          <a href="mailto:rushikeshlade7@gmail.com" className="font-medium text-accent-700 underline">
+            rushikeshlade7@gmail.com
           </a>
           . Please include the name of the tool, your browser, and — if reporting a bug — the steps
           that led to the problem. Don&apos;t attach confidential files; a description of the file type
