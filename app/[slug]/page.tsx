@@ -10,6 +10,7 @@ import ToolRenderer from "@/components/tools/ToolRenderer";
 import {
   breadcrumbJsonLd,
   faqJsonLd,
+  howToJsonLd,
   toolAppJsonLd,
   toolBreadcrumbs,
   toolMetadata,
@@ -35,7 +36,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const crumbs = toolBreadcrumbs(tool);
   return (
     <>
-      <JsonLd data={[breadcrumbJsonLd(crumbs), toolAppJsonLd(tool), faqJsonLd(tool)]} />
+      <JsonLd data={[breadcrumbJsonLd(crumbs), toolAppJsonLd(tool), faqJsonLd(tool), howToJsonLd(tool)]} />
       <div className="container-site py-6 sm:py-8">
         <Breadcrumbs crumbs={crumbs} />
         <div className="mt-4 flex flex-wrap items-center gap-3">
