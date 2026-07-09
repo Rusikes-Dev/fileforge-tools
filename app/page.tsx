@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ToolSearch from "@/components/common/ToolSearch";
 import ToolCard from "@/components/common/ToolCard";
 import JsonLd from "@/components/common/JsonLd";
 import { categories } from "@/lib/tools/categories";
 import { buildSearchIndex, getPopularTools, getToolsByCategory, tools } from "@/lib/tools/registry";
-import { pageMetadata, websiteJsonLd } from "@/lib/seo";
+import { organizationJsonLd, pageMetadata, websiteJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { getSortedPosts } from "@/lib/blog/posts";
 
@@ -38,7 +39,7 @@ export default function HomePage() {
   const popular = getPopularTools();
   return (
     <>
-      <JsonLd data={websiteJsonLd()} />
+      <JsonLd data={[websiteJsonLd(), organizationJsonLd()]} />
       <section className="border-b border-ink-100 bg-ink-50">
         <div className="container-site py-14 sm:py-20">
           <h1 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
@@ -49,7 +50,9 @@ export default function HomePage() {
             entirely in your browser. No uploads, no sign-up, no watermarks.
           </p>
           <div className="mt-6 max-w-xl">
-            <ToolSearch index={buildSearchIndex()} large />
+            <Suspense fallback={<div className="input-base h-12" />}>
+              <ToolSearch index={buildSearchIndex()} large />
+            </Suspense>
           </div>
         </div>
       </section>
