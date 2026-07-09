@@ -36,6 +36,7 @@ export const posts: BlogPost[] = [
       },
     ],
     relatedTools: ["merge-pdf", "split-pdf", "pdf-page-counter", "jpg-to-pdf"],
+    relatedPosts: ["reduce-pdf-file-size-for-email", "how-to-generate-a-strong-password"],
   },
   {
     slug: "compress-png-without-losing-quality",
@@ -78,6 +79,7 @@ export const posts: BlogPost[] = [
       },
     ],
     relatedTools: ["compress-png", "png-to-webp", "image-compressor", "image-resizer"],
+    relatedPosts: ["jpg-vs-png-vs-webp", "reduce-pdf-file-size-for-email"],
   },
   {
     slug: "how-to-generate-a-strong-password",
@@ -119,6 +121,7 @@ export const posts: BlogPost[] = [
       },
     ],
     relatedTools: ["password-generator", "uuid-generator", "base64-encoder-decoder"],
+    relatedPosts: ["csv-to-json-beginners-guide", "how-to-merge-pdf-without-uploading"],
   },
   {
     slug: "csv-to-json-beginners-guide",
@@ -162,6 +165,7 @@ export const posts: BlogPost[] = [
       },
     ],
     relatedTools: ["csv-to-json", "json-to-csv", "json-formatter", "json-validator"],
+    relatedPosts: ["jpg-vs-png-vs-webp", "how-to-generate-a-strong-password"],
   },
   {
     slug: "reduce-pdf-file-size-for-email",
@@ -202,6 +206,7 @@ export const posts: BlogPost[] = [
       },
     ],
     relatedTools: ["split-pdf", "merge-pdf", "image-compressor", "jpg-to-pdf"],
+    relatedPosts: ["how-to-merge-pdf-without-uploading", "compress-png-without-losing-quality"],
   },
   {
     slug: "jpg-vs-png-vs-webp",
@@ -243,6 +248,7 @@ export const posts: BlogPost[] = [
       },
     ],
     relatedTools: ["jpg-to-webp", "png-to-webp", "image-compressor", "jpg-to-png"],
+    relatedPosts: ["compress-png-without-losing-quality", "csv-to-json-beginners-guide"],
   },
 ];
 
@@ -256,4 +262,10 @@ export function getAllPostSlugs(): string[] {
 
 export function getSortedPosts(): BlogPost[] {
   return [...posts].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+}
+
+export function getRelatedPosts(post: BlogPost): BlogPost[] {
+  return post.relatedPosts
+    .map((slug) => getPost(slug))
+    .filter((p): p is BlogPost => Boolean(p));
 }

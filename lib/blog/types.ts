@@ -18,4 +18,6 @@ export interface BlogPost {
   sections: BlogSection[];
   /** Slugs of tools to link to at the end of the post */
   relatedTools: string[];
+  /** Slugs of other blog posts to cross-link, for topical depth and internal linking */
+  relatedPosts: string[];
 }
