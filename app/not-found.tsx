@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import ToolSearch from "@/components/common/ToolSearch";
 import { buildSearchIndex } from "@/lib/tools/registry";
 
@@ -10,7 +11,9 @@ export default function NotFound() {
         The page you&apos;re looking for doesn&apos;t exist. Try searching for a tool instead:
       </p>
       <div className="mx-auto mt-6 max-w-md text-left">
-        <ToolSearch index={buildSearchIndex()} />
+        <Suspense fallback={<div className="input-base h-10" />}>
+          <ToolSearch index={buildSearchIndex()} />
+        </Suspense>
       </div>
       <Link href="/" className="btn-primary mt-8">
         Back to the homepage
