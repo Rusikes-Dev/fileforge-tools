@@ -89,6 +89,20 @@ export function faqJsonLd(tool: ToolDef): object {
   };
 }
 
+export function howToJsonLd(tool: ToolDef): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to use ${tool.shortName}`,
+    description: tool.description,
+    step: tool.steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      text: step,
+    })),
+  };
+}
+
 export function articleJsonLd(params: {
   title: string;
   description: string;
