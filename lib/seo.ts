@@ -130,5 +130,24 @@ export function websiteJsonLd(): object {
     name: site.name,
     url: site.url,
     description: site.description,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${absoluteUrl("/tools")}?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function organizationJsonLd(): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+    logo: absoluteUrl("/icon.png"),
+    description: site.description,
   };
 }
