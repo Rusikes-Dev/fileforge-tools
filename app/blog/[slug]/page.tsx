@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import JsonLd from "@/components/common/JsonLd";
 import RelatedTools from "@/components/common/RelatedTools";
+import RelatedPosts from "@/components/common/RelatedPosts";
 import AdSlot from "@/components/common/AdSlot";
 import { articleJsonLd, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
-import { getAllPostSlugs, getPost } from "@/lib/blog/posts";
+import { getAllPostSlugs, getPost, getRelatedPosts } from "@/lib/blog/posts";
 import { getTool } from "@/lib/tools/registry";
 import type { ToolDef } from "@/lib/tools/types";
 
@@ -79,7 +80,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </section>
         ))}
 
-        <div className="mt-12">
+        <div className="mt-12 space-y-12">
+          <RelatedPosts posts={getRelatedPosts(post)} />
           <RelatedTools tools={relatedTools} />
         </div>
       </article>
