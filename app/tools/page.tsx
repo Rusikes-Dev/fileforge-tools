@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ToolSearch from "@/components/common/ToolSearch";
 import ToolCard from "@/components/common/ToolCard";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
@@ -29,7 +30,9 @@ export default function ToolsPage() {
         your files are never uploaded.
       </p>
       <div id="search" className="mt-6 max-w-xl scroll-mt-20">
-        <ToolSearch index={buildSearchIndex()} large autoFocus={false} />
+        <Suspense fallback={<div className="input-base h-12" />}>
+          <ToolSearch index={buildSearchIndex()} large autoFocus={false} />
+        </Suspense>
       </div>
       {categories.map((cat) => (
         <section key={cat.id} aria-labelledby={`all-${cat.id}`} className="mt-10">
