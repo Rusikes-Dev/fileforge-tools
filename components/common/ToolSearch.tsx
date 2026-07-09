@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { SearchEntry } from "@/lib/tools/registry";
 
@@ -20,7 +21,8 @@ export default function ToolSearch({
   large?: boolean;
   autoFocus?: boolean;
 }) {
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
