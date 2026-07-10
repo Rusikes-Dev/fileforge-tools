@@ -63,6 +63,20 @@ export function breadcrumbJsonLd(crumbs: Crumb[]): object {
   };
 }
 
+/** For hub-style pages (category pages, /tools) that list a set of tool pages. */
+export function itemListJsonLd(items: ToolDef[]): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: absoluteUrl(`/${t.slug}`),
+      name: t.name,
+    })),
+  };
+}
+
 export function toolAppJsonLd(tool: ToolDef): object {
   return {
     "@context": "https://schema.org",
@@ -141,7 +155,7 @@ export function websiteJsonLd(): object {
   };
 }
 
-export function organizationJsonLd(): object {
+export function organizationJsonLd(opts?: { sameAs?: string[] }): object {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -149,5 +163,6 @@ export function organizationJsonLd(): object {
     url: site.url,
     logo: absoluteUrl("/icon.png"),
     description: site.description,
+    ...(opts?.sameAs?.length ? { sameAs: opts.sameAs } : {}),
   };
 }
