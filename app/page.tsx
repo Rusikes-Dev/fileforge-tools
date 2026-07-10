@@ -39,7 +39,20 @@ export default function HomePage() {
   const popular = getPopularTools();
   return (
     <>
-      <JsonLd data={[websiteJsonLd(), organizationJsonLd()]} />
+      <JsonLd
+        data={[
+          websiteJsonLd(),
+          organizationJsonLd({
+            sameAs: [
+              // Replace with your real profile URLs, remove any you don't have.
+              "https://www.producthunt.com/products/fileforge-tools",
+              "https://www.saashub.com/fileforge-tools",
+              "https://dev.to/YOUR_USERNAME",
+              "https://www.youtube.com/@YOUR_CHANNEL",
+            ],
+          }),
+        ]}
+      />
       <section className="border-b border-ink-100 bg-ink-50">
         <div className="container-site py-14 sm:py-20">
           <h1 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
