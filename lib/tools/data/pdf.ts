@@ -469,4 +469,63 @@ export const pdfTools: ToolDef[] = [
     indexable: true,
     popular: false,
   },
+  {
+    slug: "add-watermark-to-pdf",
+    name: "Add Watermark to PDF",
+    shortName: "Watermark PDF",
+    category: "pdf-tools",
+    title: "Add Watermark to PDF — Free Browser Watermark Tool",
+    description:
+      "Stamp a text watermark like CONFIDENTIAL or DRAFT onto every page of a PDF, right in your browser. Choose position, size and opacity — no upload.",
+    intro:
+      "Add a text watermark to every page of a PDF — diagonal across the page or along the top, center or bottom — with adjustable size and opacity. The file never leaves your browser.",
+    about: [
+      "A watermark marks a document's status or ownership directly on its pages, so the marking travels with the file wherever it's forwarded. This tool stamps your text — anything from CONFIDENTIAL or DRAFT to a company name — onto every page of the PDF at the position, size and transparency you choose. The classic diagonal placement runs the text at 45° across the middle of each page, while the top, center and bottom options keep it horizontal for a subtler label.",
+      "Because watermarks are usually added to exactly the kind of document you'd rather not upload anywhere — contracts, drafts, financial statements — the whole operation runs locally with an open-source PDF library. The watermark is drawn into the page content itself, so it appears in every standard PDF viewer and survives printing, unlike an annotation that some viewers can hide or strip.",
+    ],
+    useCases: [
+      "Marking a contract or report as DRAFT before circulating it for review",
+      "Stamping CONFIDENTIAL across pages of a document before sharing it externally",
+      "Adding a company name or copyright notice to a PDF you're distributing",
+    ],
+    tips: [
+      "For a classic 'stamp' look, use the diagonal position with opacity around 20-40% — visible at a glance without making the underlying text hard to read.",
+      "Preview the result before sending it on: if the watermark covers important content, lower the opacity or switch to the top or bottom position instead of the center.",
+    ],
+    steps: [
+      "Add the PDF you want to watermark.",
+      "Type the watermark text, e.g. CONFIDENTIAL or DRAFT.",
+      "Pick a position (diagonal, center, top or bottom) and adjust size and opacity.",
+      "Click Add watermark and download the stamped PDF.",
+    ],
+    inputFormats: ["PDF"],
+    outputFormats: ["PDF"],
+    aliases: ["watermark pdf", "pdf watermark", "stamp pdf", "confidential stamp", "draft stamp pdf"],
+    related: ["merge-pdf", "split-pdf", "rotate-pdf", "compress-pdf"],
+    faqs: [
+      {
+        q: "Is the watermark applied to every page?",
+        a: "Yes. The text is stamped in the same position on every page of the document, which is the standard behavior for status marks like DRAFT or CONFIDENTIAL.",
+      },
+      {
+        q: "Can the watermark be removed later?",
+        a: "The watermark is drawn into the page content rather than added as a removable annotation, so it can't simply be hidden or deleted in a PDF viewer. Keep an unwatermarked copy of the original if you need one.",
+      },
+      {
+        q: "Is my PDF uploaded to add the watermark?",
+        a: "No. The watermark is applied entirely inside your browser and the download comes straight from memory on your device — nothing is sent to a server.",
+      },
+      {
+        q: "What does the opacity setting do?",
+        a: "It controls how transparent the watermark text is. Lower values (20-40%) give a subtle background stamp that leaves the document readable; 100% draws solid text on top of the page.",
+      },
+      {
+        q: "Can I watermark a password-protected PDF?",
+        a: "No. An encrypted PDF can't be read without its password, so it can't be processed here. Remove the password in the application that created the file first, then add the watermark.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: false,
+  },
 ];
