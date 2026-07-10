@@ -3,7 +3,7 @@ import ToolCard from "@/components/common/ToolCard";
 import JsonLd from "@/components/common/JsonLd";
 import type { CategoryDef } from "@/lib/tools/types";
 import { getToolsByCategory } from "@/lib/tools/registry";
-import { breadcrumbJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo";
 
 export default function CategoryPage({ category }: { category: CategoryDef }) {
   const tools = getToolsByCategory(category.id);
@@ -13,7 +13,7 @@ export default function CategoryPage({ category }: { category: CategoryDef }) {
   ];
   return (
     <div className="container-site py-8">
-      <JsonLd data={breadcrumbJsonLd(crumbs)} />
+      <JsonLd data={[breadcrumbJsonLd(crumbs), itemListJsonLd(tools)]} />
       <Breadcrumbs crumbs={crumbs} />
       <h1 className="mt-4 text-3xl font-bold tracking-tight">{category.name}</h1>
       <p className="mt-2 max-w-2xl text-ink-700">{category.intro}</p>
