@@ -24,6 +24,7 @@ const PdfSplitTool = dynamic(() => import("./pdf/PdfSplitTool"), { ssr: false, l
 const PdfRotateTool = dynamic(() => import("./pdf/PdfRotateTool"), { ssr: false, loading });
 const PdfPageCounterTool = dynamic(() => import("./pdf/PdfPageCounterTool"), { ssr: false, loading });
 const PdfCompressTool = dynamic(() => import("./pdf/PdfCompressTool"), { ssr: false, loading });
+const PdfWatermarkTool = dynamic(() => import("./pdf/PdfWatermarkTool"), { ssr: false, loading });
 const TextCounterTool = dynamic(() => import("./text/TextCounterTool"), { ssr: false, loading });
 const CaseConverterTool = dynamic(() => import("./text/CaseConverterTool"), { ssr: false, loading });
 const LineCleanupTool = dynamic(() => import("./text/LineCleanupTool"), { ssr: false, loading });
@@ -88,6 +89,7 @@ const registry: Record<string, ComponentType> = {
   "rotate-pdf": PdfRotateTool,
   "pdf-page-counter": PdfPageCounterTool,
   "compress-pdf": PdfCompressTool,
+  "add-watermark-to-pdf": PdfWatermarkTool,
   // Text
   "word-counter": () => <TextCounterTool mode="words" />,
   "character-counter": () => <TextCounterTool mode="characters" />,
