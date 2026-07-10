@@ -90,6 +90,60 @@ export async function rotatePdf(file: File, angle: 90 | 180 | 270, pageIndices?:
   return doc.save();
 }
 
+export type WatermarkPosition = "diagonal" | "center" | "top" | "bottom";
+
+export interface WatermarkOptions {
+  text: string;
+  /** Font size in points */
+  fontSize: number;
+  /** 0–1 */
+  opacity: number;
+  position: WatermarkPosition;
+}
+
+export async function watermarkPdf(file: File, opts: WatermarkOptions): Promise<Uint8Array> {
+  const { StandardFonts, degrees, rgb } = await pdfLib();
+  const doc = await loadPdf(file);
+  const font = await doc.embedFont(StandardFonts.HelveticaBold);
+  const color = rgb(0.5, 0.5, 0.5);
+  const textWidth = font.widthOfTextAtSize(opts.text, opts.fontSize);
+  const textHeight = font.heightAtSize(opts.fontSize);
+
+  for (const page of doc.getPages()) {
+    const { width, height } = page.getSize();
+    if (opts.position === "diagonal") {
+      // Rotated around the text's start point; offset so it appears centered on the page.
+      const offset = (textWidth / 2) * Math.cos(Math.PI / 4);
+      page.drawText(opts.text, {
+        x: width / 2 - offset,
+        y: height / 2 - offset,
+        size: opts.fontSize,
+        font,
+        color,
+        opacity: opts.opacity,
+        rotate: degrees(45),
+      });
+    } else {
+      const x = (width - textWidth) / 2;
+      const y =
+        opts.position === "top"
+          ? height - textHeight - 36
+          : opts.position === "bottom"
+            ? 36
+            : (height - textHeight) / 2;
+      page.drawText(opts.text, {
+        x,
+        y,
+        size: opts.fontSize,
+        font,
+        color,
+        opacity: opts.opacity,
+      });
+    }
+  }
+  return doc.save();
+}
+
 export type PageSize = "auto" | "a4" | "letter";
 export type Orientation = "auto" | "portrait" | "landscape";
 
