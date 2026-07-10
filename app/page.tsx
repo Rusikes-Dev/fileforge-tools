@@ -46,9 +46,9 @@ export default function HomePage() {
             sameAs: [
               // Replace with your real profile URLs, remove any you don't have.
               "https://www.producthunt.com/products/fileforge-tools",
-              "https://www.saashub.com/fileforge-tools",
-              "https://dev.to/YOUR_USERNAME",
-              "https://www.youtube.com/@YOUR_CHANNEL",
+              "https://www.saashub.com/fileforgetools-in-alternatives",
+              "https://dev.to/rushikes-dev",
+              "https://www.youtube.com/@KidsCoder",
             ],
           }),
         ]}
