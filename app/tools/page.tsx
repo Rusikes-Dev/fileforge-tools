@@ -6,7 +6,7 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import JsonLd from "@/components/common/JsonLd";
 import { categories } from "@/lib/tools/categories";
 import { buildSearchIndex, getToolsByCategory, tools } from "@/lib/tools/registry";
-import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, itemListJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata(
   "/tools",
@@ -22,7 +22,7 @@ const crumbs = [
 export default function ToolsPage() {
   return (
     <div className="container-site py-8">
-      <JsonLd data={breadcrumbJsonLd(crumbs)} />
+      <JsonLd data={[breadcrumbJsonLd(crumbs), itemListJsonLd(tools)]} />
       <Breadcrumbs crumbs={crumbs} />
       <h1 className="mt-4 text-3xl font-bold tracking-tight">All tools</h1>
       <p className="mt-2 max-w-2xl text-ink-700">
