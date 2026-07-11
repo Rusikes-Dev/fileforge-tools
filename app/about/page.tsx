@@ -42,9 +42,6 @@ export default function AboutPage() {
         canvas APIs, PDF operations use the open-source pdf-lib library, and QR codes are generated
         with the qrcode library — all running locally in your browser.
       </p>
-      <a href="https://launchbuff.com" target="_blank" rel="noopener noreferrer" title="Featured on LaunchBuff">
-        <img src="https://launchbuff.com/badge-featured-dark.svg" alt="Featured on LaunchBuff" width="256" height="80" />
-      </a>
     </div>
   );
 }
