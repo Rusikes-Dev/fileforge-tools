@@ -25,6 +25,9 @@ const PdfRotateTool = dynamic(() => import("./pdf/PdfRotateTool"), { ssr: false,
 const PdfPageCounterTool = dynamic(() => import("./pdf/PdfPageCounterTool"), { ssr: false, loading });
 const PdfCompressTool = dynamic(() => import("./pdf/PdfCompressTool"), { ssr: false, loading });
 const PdfWatermarkTool = dynamic(() => import("./pdf/PdfWatermarkTool"), { ssr: false, loading });
+const PdfToImagesTool = dynamic(() => import("./pdf/PdfToImagesTool"), { ssr: false, loading });
+const PdfToWordTool = dynamic(() => import("./pdf/PdfToWordTool"), { ssr: false, loading });
+const PdfToPowerpointTool = dynamic(() => import("./pdf/PdfToPowerpointTool"), { ssr: false, loading });
 const TextCounterTool = dynamic(() => import("./text/TextCounterTool"), { ssr: false, loading });
 const CaseConverterTool = dynamic(() => import("./text/CaseConverterTool"), { ssr: false, loading });
 const LineCleanupTool = dynamic(() => import("./text/LineCleanupTool"), { ssr: false, loading });
@@ -90,6 +93,10 @@ const registry: Record<string, ComponentType> = {
   "pdf-page-counter": PdfPageCounterTool,
   "compress-pdf": PdfCompressTool,
   "add-watermark-to-pdf": PdfWatermarkTool,
+  "pdf-to-jpg": () => <PdfToImagesTool format="image/jpeg" />,
+  "pdf-to-word": () => <PdfToWordTool variant="word" />,
+  "pdf-to-google-docs": () => <PdfToWordTool variant="gdocs" />,
+  "pdf-to-powerpoint": PdfToPowerpointTool,
   // Text
   "word-counter": () => <TextCounterTool mode="words" />,
   "character-counter": () => <TextCounterTool mode="characters" />,
