@@ -763,4 +763,62 @@ export const pdfTools: ToolDef[] = [
     indexable: true,
     popular: true,
   },
+  {
+    slug: "word-to-pdf",
+    name: "Word to PDF Converter",
+    shortName: "Word to PDF",
+    category: "pdf-tools",
+    title: "Word to PDF Converter — DOCX to PDF in Your Browser",
+    description:
+      "Convert Word (.docx) documents to PDF directly in your browser. Batch convert, keep headings, bold and lists — free, no upload, no watermark.",
+    intro:
+      "Turn Word documents into shareable PDFs without uploading them anywhere. Headings, bold, italics and lists carry over — and you can convert several .docx files in one go.",
+    about: [
+      "The converter reads your .docx file's structure — paragraphs, heading levels, bold and italic runs, bullet and numbered lists — and lays the content out onto clean A4 PDF pages, all inside your browser. Because the document never leaves your device, it's a safe way to convert CVs, contracts, letters and reports that you wouldn't want passing through a stranger's server.",
+      "Being transparent about scope: this tool focuses on text documents. Embedded images, text boxes, columns and intricate page layouts aren't reproduced, and non-Latin scripts aren't supported yet — the PDF uses the standard Helvetica font family. For a typical letter, essay, CV or report, the output is a tidy, consistent PDF ready to send. For design-heavy documents, exporting from Word itself will stay closer to the original.",
+    ],
+    useCases: [
+      "Converting a CV or cover letter to PDF before emailing it, so formatting can't shift on the recipient's machine",
+      "Turning a contract or agreement draft into a fixed, non-editable file for sharing",
+      "Batch-converting a folder of Word reports or letters into PDFs for archiving",
+    ],
+    tips: [
+      "PDFs lock your document's appearance in place — convert right before sending, after all edits are final, so you never have to redo it.",
+      "If your document leans heavily on images or multi-column layout, compare the result against Word's own File → Save as PDF, which preserves visual design more faithfully.",
+    ],
+    steps: [
+      "Add one or more .docx files (up to 25 MB each).",
+      "Each document is converted automatically in your browser.",
+      "Download the finished PDFs.",
+    ],
+    inputFormats: ["DOCX"],
+    outputFormats: ["PDF"],
+    aliases: ["docx to pdf", "doc to pdf", "convert word document to pdf", "word file to pdf"],
+    related: ["pdf-to-word", "merge-pdf", "compress-pdf", "add-watermark-to-pdf", "pdf-to-jpg"],
+    faqs: [
+      {
+        q: "Will my formatting be preserved?",
+        a: "Headings, paragraph flow, bold, italics, and bulleted/numbered lists all carry over. Embedded images, text boxes, tables' visual styling, and multi-column layouts are simplified — the focus is clean, readable text output.",
+      },
+      {
+        q: "Does this work with old .doc files?",
+        a: "No — only the modern .docx format. If you have a legacy .doc file, open it in Word, LibreOffice or Google Docs and re-save it as .docx first.",
+      },
+      {
+        q: "Is my document uploaded to a server?",
+        a: "No. The .docx is parsed and the PDF is generated entirely inside your browser. Nothing is transmitted — sensitive contracts and CVs never leave your device.",
+      },
+      {
+        q: "Can I convert several documents at once?",
+        a: "Yes. Add multiple .docx files and each is converted to its own PDF, listed with a separate download button.",
+      },
+      {
+        q: "Why does my converted PDF look different from Word's own export?",
+        a: "Word renders your exact fonts, images and page geometry; this tool rebuilds the document's text structure in a standard font for privacy-preserving in-browser conversion. For text documents the result is clean and professional — for visually designed documents, Word's built-in export is the better match.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
 ];

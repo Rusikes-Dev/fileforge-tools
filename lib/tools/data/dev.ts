@@ -585,4 +585,61 @@ export const devTools: ToolDef[] = [
     indexable: true,
     popular: true,
   },
+  {
+    slug: "color-converter",
+    name: "Color Converter — HEX, RGB & HSL",
+    shortName: "Color Converter",
+    category: "developer-tools",
+    title: "Color Converter — HEX to RGB to HSL, Free & Instant",
+    description:
+      "Convert colors between HEX, RGB and HSL instantly. Live preview swatch, color picker, and one-click copy for CSS — free, right in your browser.",
+    intro:
+      "Convert any color between HEX, RGB and HSL formats instantly. Type a value in any field or use the visual picker — the other formats update live, with one-click copy for your CSS.",
+    about: [
+      "HEX, RGB and HSL are three ways of writing the same color. HEX (#0f766e) is the compact web classic; RGB (rgb(15, 118, 110)) maps directly to how screens mix red, green and blue light; and HSL (hsl(175, 77%, 26%)) describes hue, saturation and lightness — the most human-friendly of the three, because making a color lighter, darker or more muted means changing a single obvious number.",
+      "This converter keeps all three formats in sync as you type, accepts flexible input (with or without the # or rgb()/hsl() wrappers), and shows a live swatch so you always see exactly what you're copying. Everything runs instantly in your browser with nothing sent anywhere.",
+    ],
+    useCases: [
+      "Converting a designer's HEX value into the HSL your CSS codebase uses",
+      "Grabbing the RGB equivalent of a brand color for a canvas, chart, or email template",
+      "Nudging a color lighter or darker via HSL, then copying the HEX back to your stylesheet",
+    ],
+    tips: [
+      "Prefer HSL when creating color variations — hover states, borders, backgrounds — since shifting only the lightness value keeps the hue perfectly consistent.",
+      "Shorthand 3-digit HEX values like #0af work too; they expand automatically to the full 6-digit form.",
+    ],
+    steps: [
+      "Type or paste a color into the HEX, RGB or HSL field — or use the visual picker.",
+      "Watch the other two formats and the preview swatch update instantly.",
+      "Click a copy button to grab the format you need.",
+    ],
+    inputFormats: ["HEX", "RGB", "HSL"],
+    outputFormats: ["HEX", "RGB", "HSL"],
+    aliases: ["hex to rgb", "rgb to hex", "hex to hsl", "hsl to rgb", "css color converter"],
+    related: ["qr-code-generator", "password-generator", "uuid-generator", "base64-encoder-decoder"],
+    faqs: [
+      {
+        q: "What's the difference between HEX, RGB and HSL?",
+        a: "They're three notations for the same color. HEX and RGB both express red/green/blue channel values (in hexadecimal and decimal respectively), while HSL expresses hue (0–360°), saturation and lightness — which is why it's easiest to reason about when adjusting colors.",
+      },
+      {
+        q: "Which format should I use in CSS?",
+        a: "All three are fully supported everywhere. HEX is the most common convention; HSL is increasingly preferred in design systems because creating consistent lighter/darker variants only requires changing the lightness number.",
+      },
+      {
+        q: "Can I paste values without the wrappers?",
+        a: "Yes. \"15, 118, 110\" works as RGB, \"175, 77, 26\" as HSL, and HEX works with or without the leading # — including 3-digit shorthand.",
+      },
+      {
+        q: "Does the tool support transparency (alpha) values?",
+        a: "Not yet — it converts opaque colors between HEX, RGB and HSL. For rgba()/hsla(), convert the base color here and append your alpha value in CSS.",
+      },
+      {
+        q: "Are the conversions exact?",
+        a: "HEX ↔ RGB conversion is exact in both directions. HSL values are rounded to whole numbers for readability, which is the standard convention and visually identical in practice.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+  },
 ];

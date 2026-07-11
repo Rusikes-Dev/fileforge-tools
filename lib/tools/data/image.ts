@@ -761,4 +761,63 @@ export const imageTools: ToolDef[] = [
     processing: "browser",
     indexable: true,
   },
+  {
+    slug: "heic-to-jpg",
+    name: "HEIC to JPG Converter",
+    shortName: "HEIC to JPG",
+    category: "image-tools",
+    title: "HEIC to JPG Converter — iPhone Photos, No Upload",
+    description:
+      "Convert iPhone HEIC/HEIF photos to JPG in your browser. Batch convert up to 20 photos with a quality slider — no upload, free, no watermark.",
+    intro:
+      "Turn iPhone HEIC photos into universally compatible JPG files. Convert up to 20 photos at once, adjust the quality, and download — nothing is uploaded anywhere.",
+    about: [
+      "Since iOS 11, iPhones save photos in HEIC (High Efficiency Image Container) by default — a format that stores excellent quality at about half the file size of JPG, but that many websites, Windows apps, Android devices, and upload forms still refuse to accept. This tool decodes the HEIC image directly in your browser and re-encodes it as a standard JPG that works absolutely everywhere.",
+      "The conversion runs entirely on your device, which matters more for photos than almost any other file type: camera images carry EXIF data and often show faces, homes, documents, or children. Nothing here is transmitted to a server — the decoded photo goes straight from your browser's memory to your downloads folder.",
+    ],
+    useCases: [
+      "Uploading iPhone photos to a website, form, or portal that rejects HEIC files",
+      "Sending photos to someone on Windows or Android whose apps can't open HEIC",
+      "Converting a batch of vacation or product photos before posting or archiving them",
+    ],
+    tips: [
+      "Keep quality at 90% for photos you care about — the size savings from going lower are modest compared to the visible loss in detail.",
+      "To stop the problem at the source, you can set your iPhone to shoot JPG directly: Settings → Camera → Formats → Most Compatible.",
+    ],
+    steps: [
+      "Add your HEIC/HEIF photos (up to 20 at once).",
+      "Choose a JPG quality — 90% is a good default.",
+      "Each photo converts automatically in your browser.",
+      "Download the JPGs individually.",
+    ],
+    inputFormats: ["HEIC", "HEIF"],
+    outputFormats: ["JPG"],
+    aliases: ["heif to jpg", "iphone photo to jpg", "heic to jpeg", "convert heic"],
+    related: ["jpg-to-pdf", "compress-jpg", "image-resizer", "jpg-to-webp", "png-to-jpg"],
+    faqs: [
+      {
+        q: "Why are my iPhone photos HEIC in the first place?",
+        a: "Apple switched to HEIC in iOS 11 because it stores the same quality as JPG at roughly half the size, saving storage space. The trade-off is compatibility — plenty of software outside the Apple ecosystem still can't open it.",
+      },
+      {
+        q: "Will converting to JPG reduce photo quality?",
+        a: "JPG is a lossy format, so there's a small technical quality trade at re-encoding. At 90% quality the difference is invisible in normal viewing — the practical gain in compatibility far outweighs it.",
+      },
+      {
+        q: "Are my photos uploaded during conversion?",
+        a: "No. The HEIC file is decoded and re-encoded entirely inside your browser. Your photos never leave your device — you could go offline after the page loads and conversion would still work.",
+      },
+      {
+        q: "Why did one of my files fail to convert?",
+        a: "A few HEIC variants — notably some burst photos, portrait-depth captures, and files from certain non-Apple cameras — use encodings the in-browser decoder can't handle. Exporting the photo from the Photos app usually normalizes it.",
+      },
+      {
+        q: "Can I convert Live Photos or videos?",
+        a: "The still image of a Live Photo converts fine if you share it as a HEIC file. The motion part is a video (.mov) and isn't part of this conversion.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
 ];
