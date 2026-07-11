@@ -250,6 +250,140 @@ export const posts: BlogPost[] = [
     relatedTools: ["jpg-to-webp", "png-to-webp", "image-compressor", "jpg-to-png"],
     relatedPosts: ["compress-png-without-losing-quality", "csv-to-json-beginners-guide"],
   },
+  {
+    slug: "convert-pdf-to-word-without-losing-text",
+    title: "How to Convert a PDF to Word (and Why Formatting Sometimes Breaks)",
+    description:
+      "A practical guide to converting PDFs into editable Word documents — what converts cleanly, why layouts break, and how to handle scanned PDFs.",
+    excerpt:
+      "Converting a PDF to Word looks like it should be a one-click job — and for text documents it is. Here's what actually happens during conversion, and how to get the cleanest result.",
+    publishedAt: "2026-07-11",
+    intro: [
+      "Sooner or later everyone hits this problem: you have a PDF — a CV, a contract, a report — and you need to edit it. PDF viewers won't let you, and retyping the whole thing feels absurd. The obvious answer is converting it to a Word document, and for most documents that works beautifully. But anyone who has tried it has also seen the other outcome: a Word file full of broken columns, floating text boxes, and paragraphs chopped into single lines.",
+      "The difference between a clean conversion and a messy one isn't luck. It comes down to what kind of PDF you're starting with, and understanding that makes the whole process predictable.",
+    ],
+    sections: [
+      {
+        heading: "Why PDF and Word are fundamentally different",
+        paragraphs: [
+          "A Word document stores structure: this is a paragraph, this is a heading, this text flows after that text. A PDF stores none of that — it's essentially a set of drawing instructions: put this character at this exact position on the page. That's why PDFs look identical everywhere, and also why converting one back into a flowing, editable document requires the converter to guess where paragraphs begin and end.",
+          "For a normal text document — letters, essays, CVs, single-column reports — that guessing is easy and the result is clean, editable text. For a three-column magazine layout with pull quotes and sidebars, no converter can perfectly reverse-engineer the original structure, because the structure simply isn't stored in the file.",
+        ],
+      },
+      {
+        heading: "The three kinds of PDFs (and what to expect from each)",
+        paragraphs: [
+          "Text-based, simple layout: created by exporting from Word, Google Docs, or similar. These convert almost perfectly — you'll get your paragraphs back in order and can start editing immediately.",
+          "Text-based, complex layout: brochures, forms, multi-column designs. The text converts accurately, but the visual design won't survive — expect readable content in reading order rather than a visual clone. If the goal is reusing or rewriting the words, this is still exactly what you need.",
+          "Scanned PDFs: these are photographs of pages, containing no actual text at all. A quick test: try selecting text in your PDF viewer. If you can't, it's a scan, and it needs OCR (optical character recognition) software rather than a converter. A browser-based converter will simply find no text to extract.",
+        ],
+      },
+      {
+        heading: "Converting privately, without uploading",
+        paragraphs: [
+          "Most free 'PDF to Word' sites work by uploading your document to their server, converting it there, and giving you a download link. For a contract, a CV full of personal details, or anything financial, that's an unnecessary risk — you're trusting a stranger's server with the document and their promise to delete it.",
+          "Browser-based converters do the same job locally: the PDF is read, the text is extracted, and the .docx file is assembled entirely on your own device using JavaScript. Nothing crosses the network. The PDF to Word tool on this site works this way — add the file, download the .docx, open it in Word, Google Docs, or LibreOffice.",
+        ],
+      },
+      {
+        heading: "A quick post-conversion checklist",
+        paragraphs: [
+          "1. Skim the whole document once — it's much faster to spot a merged or split paragraph now than after you've started editing.\n2. Fix paragraph breaks first, before touching styling; flowing text correctly makes every later edit easier.\n3. Reapply heading styles in Word rather than manually enlarging text — you get a working document outline and consistent formatting.\n4. If tables came through as plain text, it's usually quicker to insert a fresh table and paste values in than to reconstruct alignment with spaces.",
+        ],
+      },
+    ],
+    relatedTools: ["pdf-to-word", "pdf-to-google-docs", "pdf-to-jpg", "merge-pdf"],
+    relatedPosts: ["how-to-merge-pdf-without-uploading", "present-a-pdf-like-a-slide-deck"],
+  },
+  {
+    slug: "pdf-to-jpg-when-and-how",
+    title: "PDF to JPG: When It's the Right Move and How to Do It Well",
+    description:
+      "When converting PDF pages to JPG images makes sense, which resolution and quality settings to pick, and how to keep text sharp.",
+    excerpt:
+      "Sometimes a PDF is the wrong container — you need the page as a plain image you can post, message, or embed. Here's when PDF-to-JPG is the right call and how to pick settings.",
+    publishedAt: "2026-07-11",
+    intro: [
+      "PDF is the default format for documents, but it's a terrible format for a lot of everyday sharing. You can't post a PDF page to Instagram, most website builders won't display one inline, and sending a one-page PDF through a chat app forces the other person to download and open it instead of just seeing it.",
+      "Converting PDF pages to JPG images solves all of that: an image previews instantly everywhere. The trick is knowing when it's the right conversion — and picking settings that keep text readable instead of fuzzy.",
+    ],
+    sections: [
+      {
+        heading: "When converting to JPG makes sense",
+        paragraphs: [
+          "Reach for PDF-to-JPG when the page needs to be seen rather than edited or printed: sharing a flyer or menu page in a chat or on social media, embedding a page preview on a website, dropping a page into a slide or document that only accepts images, or creating a thumbnail for a download link.",
+          "It's also a simple way to 'flatten' a page. An image can't have its text trivially selected, edited, or extracted the way a PDF can — useful when you want content viewable but not effortlessly reusable. (It's a deterrent, not security: anything visible can still be retyped or OCR'd.)",
+        ],
+      },
+      {
+        heading: "Resolution: the setting that matters most",
+        paragraphs: [
+          "Resolution decides how many pixels each page gets, and it matters more than quality for readability. Around 96 DPI is compact and fine for thumbnails and quick chat shares. Around 144 DPI is the sweet spot for screens — text is crisp at normal zoom and files stay reasonable. Around 216 DPI or more is worth it when the page has small print, dense tables, or will be zoomed into.",
+          "Going higher than you need just inflates file size: a 216 DPI page has more than double the pixels of a 144 DPI one. Convert once at standard resolution, check whether the smallest text is readable, and only step up if it isn't.",
+        ],
+      },
+      {
+        heading: "Quality: why 90% is usually invisible",
+        paragraphs: [
+          "JPG quality controls how aggressively the image is compressed. At 90%, compression artifacts are practically invisible on document pages while still cutting file size substantially. Dropping to 75% shrinks files further and remains fine for casual sharing; below that, the soft halos JPG creates around sharp letter edges start becoming noticeable.",
+          "One caveat: JPG was designed for photographs, not text. Pages that are pure black-on-white text show compression artifacts sooner than photo-heavy pages do. If a text-heavy page looks slightly fuzzy, raising quality (or resolution) fixes it — and for archival-grade sharpness, PNG-style lossless formats are the alternative, at the cost of larger files.",
+        ],
+      },
+      {
+        heading: "Doing it without uploading the document",
+        paragraphs: [
+          "As with most PDF tasks, the typical free converter site uploads your file to a server first. That's a pointless risk for anything private — bank statements, IDs, contracts — when modern browsers can render PDF pages to images entirely on your own device.",
+          "The PDF to JPG tool on this site works locally: add a PDF, choose resolution and quality, and every page is rendered in your browser. You can download single pages or grab all of them in one ZIP, and the document itself never leaves your computer.",
+        ],
+      },
+    ],
+    relatedTools: ["pdf-to-jpg", "jpg-to-pdf", "compress-jpg", "image-resizer"],
+    relatedPosts: ["jpg-vs-png-vs-webp", "convert-pdf-to-word-without-losing-text"],
+  },
+  {
+    slug: "present-a-pdf-like-a-slide-deck",
+    title: "How to Present a PDF Like a Slide Deck (PDF to PowerPoint)",
+    description:
+      "Stop scrolling PDFs in meetings. How to convert a PDF into a PowerPoint presentation, what converts well, and when to convert to Word instead.",
+    excerpt:
+      "Presenting a PDF by scrolling through a viewer looks improvised and breaks the flow of a meeting. Converting it to PowerPoint slides fixes that in one step — here's how.",
+    publishedAt: "2026-07-11",
+    intro: [
+      "It happens in meetings everywhere: someone shares their screen, opens a PDF, and starts scrolling. Half a page is visible at a time, the zoom level is wrong, and every transition is a fumble with the scrollbar. The content might be excellent, but the delivery feels improvised.",
+      "The fix is converting the PDF into an actual presentation file, where each page becomes one slide. You get real full-screen presenting, clean page-at-a-time transitions, a presenter view with notes, and the ability to reorder or drop pages — all in one conversion.",
+    ],
+    sections: [
+      {
+        heading: "How PDF-to-PowerPoint conversion actually works",
+        paragraphs: [
+          "The most reliable method renders each PDF page as a high-resolution image and places it on its own slide, with the slide dimensions matched to the page's aspect ratio. The result looks pixel-identical to the original document — every font, chart and layout detail preserved — because the slide literally is a picture of the page.",
+          "The trade-off is that the text on those slides isn't individually editable; each slide behaves like a full-bleed image. For presenting, that's rarely a limitation — you can still reorder slides, delete pages, insert new editable slides between the converted ones, and add text boxes or annotations on top.",
+        ],
+      },
+      {
+        heading: "When to convert to PowerPoint vs. Word",
+        paragraphs: [
+          "The two conversions solve different problems, and picking the right one saves frustration. Convert to PowerPoint when the goal is showing the document: presenting a report in a meeting, splicing PDF pages into an existing deck, or recovering a presentation that only survives as an exported PDF. The visual fidelity is the whole point.",
+          "Convert to Word when the goal is changing the words: editing a contract, updating a CV, reusing sections of a report. There you want flowing, editable text and don't care about pixel-perfect layout. If you need both — say, editing one page of a deck — convert to Word for the rewrite, export that page to PDF, and merge it back.",
+        ],
+      },
+      {
+        heading: "Tips for a smoother converted presentation",
+        paragraphs: [
+          "1. Trim before converting. If you'll only present 8 pages of a 40-page report, extract those pages first — the resulting .pptx is smaller and you skip slide-deleting afterwards.\n2. Check the aspect ratio. A4/Letter documents produce portrait-ish slides; that's faithful to the document, but if it looks odd on a widescreen projector, consider exporting the source to a landscape PDF first.\n3. Use presenter notes. Since the slides themselves are fixed images, the notes pane is the natural place for your talking points.\n4. Keep file size in mind. Each page becomes a high-resolution image, so very long PDFs produce hefty presentations — another reason to convert only the pages you'll show.",
+        ],
+      },
+      {
+        heading: "Keeping confidential decks off third-party servers",
+        paragraphs: [
+          "Presentations and the PDFs they come from are often exactly the documents you don't want on someone else's server: pitch decks, financials, unreleased plans. Conveniently, this conversion doesn't need a server at all — a browser can render PDF pages and assemble a .pptx file locally.",
+          "The PDF to PowerPoint tool on this site does the whole conversion on your device: add the PDF, download the .pptx, open it in PowerPoint, Google Slides, or Keynote. Nothing is uploaded at any point.",
+        ],
+      },
+    ],
+    relatedTools: ["pdf-to-powerpoint", "extract-pdf-pages", "pdf-to-jpg", "pdf-to-word"],
+    relatedPosts: ["convert-pdf-to-word-without-losing-text", "reduce-pdf-file-size-for-email"],
+  },
 ];
 
 export function getPost(slug: string): BlogPost | undefined {
