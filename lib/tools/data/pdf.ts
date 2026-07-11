@@ -528,4 +528,239 @@ export const pdfTools: ToolDef[] = [
     indexable: true,
     popular: false,
   },
+  {
+    slug: "pdf-to-jpg",
+    name: "PDF to JPG Converter",
+    shortName: "PDF to JPG",
+    category: "pdf-tools",
+    title: "PDF to JPG Converter — Turn PDF Pages into Images",
+    description:
+      "Convert every page of a PDF into a JPG image in your browser. Choose resolution and quality, download pages one by one or all as a ZIP. No upload.",
+    intro:
+      "Turn each page of a PDF into a high-quality JPG image. Pick the resolution and quality, then download individual pages or grab everything as one ZIP — entirely in your browser.",
+    about: [
+      "Each PDF page is rendered exactly as it appears on screen — text, images, vector graphics and all — and saved as a JPG at the resolution you choose. The standard setting (roughly 144 DPI) is ideal for sharing on screens and messaging apps, while the high-detail setting produces sharper images suitable for zooming or light print use. Rendering happens locally with an open-source PDF engine, so contracts, statements and other private documents never leave your device.",
+      "Converting PDF pages to images is the quickest way to share a page somewhere that doesn't accept PDFs — a WhatsApp message, an Instagram post, a website banner, or an email where you want the page visible inline rather than as an attachment. It also permanently 'flattens' the page, which is handy when you want the content to be viewable but not easily edited or copied as text.",
+    ],
+    useCases: [
+      "Sharing one page of a brochure or report as an image on WhatsApp or social media",
+      "Inserting a PDF page into a Word document, slide, or website that only accepts images",
+      "Creating a preview thumbnail of a PDF for a listing, portfolio, or download page",
+    ],
+    tips: [
+      "Choose the high-detail resolution when the page contains small text you'll want to zoom into; standard resolution keeps file sizes friendlier for messaging apps.",
+      "For pages that are mostly sharp text or line art, consider that JPG can soften edges slightly — 90% quality keeps this virtually invisible.",
+    ],
+    steps: [
+      "Add a PDF file (up to 50 MB).",
+      "Pick a resolution, and a JPG quality level.",
+      "Click Convert to JPG — every page is rendered in your browser.",
+      "Download pages individually or all at once as a ZIP.",
+    ],
+    inputFormats: ["PDF"],
+    outputFormats: ["JPG"],
+    aliases: ["pdf to image", "pdf to jpeg", "pdf pages to pictures", "convert pdf to photo"],
+    related: ["pdf-to-powerpoint", "jpg-to-pdf", "split-pdf", "compress-jpg", "image-resizer"],
+    faqs: [
+      {
+        q: "Does every page become a separate JPG?",
+        a: "Yes. A 10-page PDF produces 10 JPG images, numbered in page order. You can download any single page, or use the ZIP button to get all of them in one file.",
+      },
+      {
+        q: "What resolution should I choose?",
+        a: "Standard (about 144 DPI) is right for screens, chat apps and web use. Choose high detail (about 216 DPI) when the page has small text or will be enlarged. The compact option keeps files smallest for quick sharing.",
+      },
+      {
+        q: "Is my PDF uploaded to a server?",
+        a: "No. Pages are rendered by a PDF engine running inside your browser, and the images are created in your device's memory. Nothing is transmitted anywhere.",
+      },
+      {
+        q: "Will the images look exactly like the PDF?",
+        a: "Yes — each page is rendered the same way a PDF viewer displays it, including fonts, images and graphics. The result is a pixel snapshot of the page.",
+      },
+      {
+        q: "Can I convert a password-protected PDF?",
+        a: "No. Encrypted PDFs can't be read without their password. Remove the protection in the application that created the file, then convert it here.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
+  {
+    slug: "pdf-to-word",
+    name: "PDF to Word Converter",
+    shortName: "PDF to Word",
+    category: "pdf-tools",
+    title: "PDF to Word Converter — Editable DOCX in Your Browser",
+    description:
+      "Convert a text-based PDF into an editable Word (.docx) document directly in your browser. Private, free, no upload, no watermark, no account.",
+    intro:
+      "Extract the text of a PDF into an editable Word (.docx) file you can open in Microsoft Word, Google Docs, or LibreOffice — without uploading the document anywhere.",
+    about: [
+      "The converter reads the text layer of your PDF page by page, reconstructs it into paragraphs, and packages the result as a standard .docx file with a page break where each PDF page ended. Because everything runs locally in your browser, it's a safe way to convert contracts, CVs, and other documents you wouldn't want sitting on a stranger's server.",
+      "One honest limitation to know: PDF is a fixed-layout format, so complex visual layouts — multi-column magazines, forms, heavy tables — won't be recreated pixel-perfectly. What you get is clean, editable text in reading order, which is exactly what you need when the goal is to reuse, quote, or rewrite the content. Scanned PDFs (photos of pages) contain no selectable text at all and need OCR software instead; this tool will tell you if that's the case.",
+    ],
+    useCases: [
+      "Editing an old CV, letter, or contract that only exists as a PDF",
+      "Reusing paragraphs from a report or proposal in a new document without retyping",
+      "Turning a downloaded PDF article into a working draft you can annotate and rewrite",
+    ],
+    tips: [
+      "Check whether text in the PDF is selectable in your PDF viewer first — if you can't select it, the PDF is a scan and needs OCR, not conversion.",
+      "After converting, skim the Word file for paragraph breaks in unusual places; fixing a few line breaks is still far faster than retyping the document.",
+    ],
+    steps: [
+      "Add a text-based PDF (up to 50 MB).",
+      "Click Convert to Word — text is extracted page by page in your browser.",
+      "Download the .docx file.",
+      "Open it in Word, Google Docs, or LibreOffice and start editing.",
+    ],
+    inputFormats: ["PDF"],
+    outputFormats: ["DOCX"],
+    aliases: ["pdf to docx", "pdf to doc", "pdf to editable document", "convert pdf to word free"],
+    related: ["pdf-to-google-docs", "pdf-to-jpg", "merge-pdf", "split-pdf", "word-counter"],
+    faqs: [
+      {
+        q: "Will the Word file look identical to the PDF?",
+        a: "Simple documents convert very cleanly. Complex layouts — columns, forms, dense tables — come through as readable, editable text rather than an exact visual clone, because PDF stores position data rather than document structure.",
+      },
+      {
+        q: "Why did I get a message that no text was found?",
+        a: "Your PDF is almost certainly a scan — images of pages rather than real text. Converting a scan to Word requires OCR (optical character recognition), which this browser tool doesn't perform.",
+      },
+      {
+        q: "Is my document uploaded anywhere?",
+        a: "No. The PDF is read and the Word file is built entirely inside your browser. You could disconnect from the internet after the page loads and conversion would still work.",
+      },
+      {
+        q: "Which programs can open the converted file?",
+        a: "The output is a standard .docx file that opens in Microsoft Word, Google Docs, LibreOffice, Apple Pages, and virtually every modern word processor.",
+      },
+      {
+        q: "Does the conversion add a watermark or require an account?",
+        a: "No watermark, no sign-up, no page limit tricks. Add a PDF, download the .docx — that's the whole flow.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
+  {
+    slug: "pdf-to-google-docs",
+    name: "PDF to Google Docs Converter",
+    shortName: "PDF to Google Docs",
+    category: "pdf-tools",
+    title: "PDF to Google Docs — Make a PDF Editable in Docs",
+    description:
+      "Turn a PDF into a file you can edit in Google Docs. Convert to DOCX privately in your browser, then open it in Docs — free, no upload, no account.",
+    intro:
+      "Get a PDF's content into Google Docs as an editable document. The tool converts your PDF to a .docx file locally, which Google Docs opens natively — with a quick guide for the final import step.",
+    about: [
+      "Google Docs can't edit a PDF directly, but it opens Word (.docx) files perfectly. So the reliable route is: convert the PDF to .docx first, then upload that file to Google Drive and open it — Docs treats it as a fully editable document. This tool handles the conversion step entirely in your browser, extracting the PDF's text page by page into a clean Word file, so the document itself never touches a third-party server before it reaches your own Google account.",
+      "This two-step route usually gives cleaner results than uploading a PDF straight to Drive and letting Docs attempt the conversion, especially for text-heavy documents — Docs' built-in PDF import often scrambles spacing and drops formatting. As with any PDF-to-text conversion, scanned PDFs (photos of pages) won't work without OCR, and heavily designed layouts come through as editable text rather than a visual replica.",
+    ],
+    useCases: [
+      "Collaborating on a PDF contract or proposal with comments and suggestions in Google Docs",
+      "Editing a PDF on a Chromebook or any computer without Microsoft Word installed",
+      "Moving a PDF report into Docs so a team can rewrite sections together in real time",
+    ],
+    tips: [
+      "After uploading the .docx to Google Drive, use File → Save as Google Docs inside the document if you want it stored as a native Docs file rather than a Word file.",
+      "If the PDF is a scan, open it in Google Drive directly and choose Open with Google Docs — Drive will attempt OCR on scanned pages, which this browser tool intentionally doesn't do.",
+    ],
+    steps: [
+      "Add a text-based PDF (up to 50 MB).",
+      "Click Convert to Word to create a .docx file in your browser.",
+      "Download the .docx and upload it to Google Drive.",
+      "Double-click it in Drive — it opens in Google Docs, ready to edit.",
+    ],
+    inputFormats: ["PDF"],
+    outputFormats: ["DOCX"],
+    aliases: ["pdf to docs", "open pdf in google docs", "edit pdf in google docs", "pdf to gdoc"],
+    related: ["pdf-to-word", "pdf-to-jpg", "merge-pdf", "extract-pdf-pages", "word-counter"],
+    faqs: [
+      {
+        q: "Why convert to .docx instead of uploading the PDF straight to Google Drive?",
+        a: "Docs' built-in PDF import is hit-or-miss — it frequently mangles spacing, drops images and breaks paragraphs. Converting to a clean .docx first, then opening that in Docs, is more predictable for text documents.",
+      },
+      {
+        q: "Do I need a Google account for the conversion?",
+        a: "No — the conversion itself happens in your browser with no account at all. You only need your Google account for the final step of opening the file in Docs.",
+      },
+      {
+        q: "Is my PDF sent to Google or anyone else during conversion?",
+        a: "No. The .docx is generated locally on your device. The only thing that ever reaches Google is the converted file you choose to upload to your own Drive.",
+      },
+      {
+        q: "Will formatting like columns and tables survive?",
+        a: "Text and paragraph flow convert well; complex layouts arrive as plain editable text. If you need a page to look exactly as designed, keep the PDF and use Docs only for the writing.",
+      },
+      {
+        q: "What about scanned PDFs?",
+        a: "Scans contain no selectable text, so this tool can't convert them. Upload the scanned PDF directly to Google Drive and choose Open with Google Docs — Drive runs OCR and extracts what it can.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+  },
+  {
+    slug: "pdf-to-powerpoint",
+    name: "PDF to PowerPoint Converter",
+    shortName: "PDF to PowerPoint",
+    category: "pdf-tools",
+    title: "PDF to PowerPoint Converter — PDF Pages to PPTX Slides",
+    description:
+      "Convert a PDF into a PowerPoint (.pptx) presentation in your browser — each page becomes one slide, exactly as it looks. No upload, free, no watermark.",
+    intro:
+      "Turn a PDF into a ready-to-present PowerPoint file. Every page becomes one slide showing the page exactly as designed — fonts, charts, and layout preserved.",
+    about: [
+      "Each PDF page is rendered at high resolution and placed as a full-slide image in a .pptx file, with the slide dimensions matched to your document's aspect ratio so nothing is stretched or cropped. Because the pages become images, the slides look pixel-identical to the original PDF — a chart-heavy report or a designed deck exported to PDF comes back into PowerPoint looking exactly as intended. The whole conversion runs in your browser; the file is never uploaded.",
+      "This approach is ideal when you need to present a PDF, reorder its pages as slides, or splice a few PDF pages into an existing deck. The trade-off is that slide content isn't individually editable text — each slide is a faithful picture of its page. If your goal is editing the words rather than presenting the pages, the PDF to Word tool is the better fit.",
+    ],
+    useCases: [
+      "Presenting a PDF report or proposal in PowerPoint without awkwardly scrolling a PDF viewer",
+      "Merging a few pages from a PDF into an existing slide deck",
+      "Converting a slide deck that was exported to PDF back into a .pptx you can present and rearrange",
+    ],
+    tips: [
+      "You can freely reorder, delete, or duplicate the resulting slides in PowerPoint, and add new editable slides between them — the imported pages behave like any other slide.",
+      "To present only part of a long PDF, extract the pages you need with the Extract PDF Pages tool first, then convert that smaller file.",
+    ],
+    steps: [
+      "Add a PDF file (up to 50 MB).",
+      "Click Convert to PowerPoint — each page is rendered as a slide in your browser.",
+      "Download the .pptx file.",
+      "Open it in PowerPoint, Google Slides, or Keynote and present.",
+    ],
+    inputFormats: ["PDF"],
+    outputFormats: ["PPTX"],
+    aliases: ["pdf to ppt", "pdf to pptx", "pdf to slides", "convert pdf to presentation"],
+    related: ["pdf-to-jpg", "pdf-to-word", "extract-pdf-pages", "split-pdf", "merge-pdf"],
+    faqs: [
+      {
+        q: "Can I edit the text on the slides?",
+        a: "No — each slide is a high-resolution image of its PDF page, which is what keeps the layout pixel-perfect. You can add new text boxes on top, or use the PDF to Word tool when editing the content is the goal.",
+      },
+      {
+        q: "Will the slides match my PDF's shape?",
+        a: "Yes. The presentation's slide size is set from your document's aspect ratio, so A4 pages, widescreen decks and everything in between come through without stretching or black bars.",
+      },
+      {
+        q: "Does the conversion work in Google Slides and Keynote too?",
+        a: "Yes. The output is a standard .pptx file, which PowerPoint, Google Slides, Keynote and LibreOffice Impress all open normally.",
+      },
+      {
+        q: "Is the PDF uploaded during conversion?",
+        a: "No. Pages are rendered and the .pptx is assembled entirely inside your browser — pitch decks and confidential reports never leave your device.",
+      },
+      {
+        q: "Why is the .pptx bigger than my original PDF?",
+        a: "Each page is stored as a high-resolution image so it stays sharp on a projector. A long PDF therefore produces a larger presentation file; converting fewer pages keeps the size down.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
 ];
