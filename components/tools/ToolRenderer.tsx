@@ -28,6 +28,9 @@ const PdfWatermarkTool = dynamic(() => import("./pdf/PdfWatermarkTool"), { ssr: 
 const PdfToImagesTool = dynamic(() => import("./pdf/PdfToImagesTool"), { ssr: false, loading });
 const PdfToWordTool = dynamic(() => import("./pdf/PdfToWordTool"), { ssr: false, loading });
 const PdfToPowerpointTool = dynamic(() => import("./pdf/PdfToPowerpointTool"), { ssr: false, loading });
+const WordToPdfTool = dynamic(() => import("./pdf/WordToPdfTool"), { ssr: false, loading });
+const HeicToJpgTool = dynamic(() => import("./image/HeicToJpgTool"), { ssr: false, loading });
+const ColorConverterTool = dynamic(() => import("./dev/ColorConverterTool"), { ssr: false, loading });
 const TextCounterTool = dynamic(() => import("./text/TextCounterTool"), { ssr: false, loading });
 const CaseConverterTool = dynamic(() => import("./text/CaseConverterTool"), { ssr: false, loading });
 const LineCleanupTool = dynamic(() => import("./text/LineCleanupTool"), { ssr: false, loading });
@@ -83,6 +86,7 @@ const registry: Record<string, ComponentType> = {
   "image-rotator": ImageRotatorTool,
   "image-to-base64": ImageToBase64Tool,
   "base64-to-image": Base64ToImageTool,
+  "heic-to-jpg": HeicToJpgTool,
   // PDF
   "jpg-to-pdf": () => <ImagesToPdfTool kind="jpg" />,
   "png-to-pdf": () => <ImagesToPdfTool kind="png" />,
@@ -97,6 +101,7 @@ const registry: Record<string, ComponentType> = {
   "pdf-to-word": () => <PdfToWordTool variant="word" />,
   "pdf-to-google-docs": () => <PdfToWordTool variant="gdocs" />,
   "pdf-to-powerpoint": PdfToPowerpointTool,
+  "word-to-pdf": WordToPdfTool,
   // Text
   "word-counter": () => <TextCounterTool mode="words" />,
   "character-counter": () => <TextCounterTool mode="characters" />,
@@ -117,6 +122,7 @@ const registry: Record<string, ComponentType> = {
   "uuid-generator": UuidTool,
   "password-generator": PasswordTool,
   "qr-code-generator": QrTool,
+  "color-converter": ColorConverterTool,
 };
 
 export const implementedSlugs = Object.keys(registry);
