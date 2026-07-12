@@ -820,4 +820,181 @@ export const imageTools: ToolDef[] = [
     indexable: true,
     popular: true,
   },
+  {
+    slug: "remove-background",
+    name: "Background Remover",
+    shortName: "Remove Background",
+    category: "image-tools",
+    title: "Background Remover — Free AI Tool, No Upload",
+    description:
+      "Remove the background from any photo using on-device AI. Get a transparent PNG or swap in a solid color — free, no sign-up, no watermark, nothing uploaded.",
+    intro:
+      "Cut out the background from any photo automatically. AI segmentation runs on your own device — download a transparent PNG, or drop in a plain background color for IDs, listings, or portraits.",
+    about: [
+      "This tool uses an on-device AI model to detect the subject of a photo and separate it from its background — the same kind of segmentation technology used in professional photo editors, running locally through your browser via WebAssembly instead of on a company's server. Your photo is never uploaded: the model downloads once (a generic, photo-agnostic AI model, cached by your browser afterward) and every image you process after that runs entirely on your own device.",
+      "Cutting out backgrounds used to mean a trip through Photoshop's pen tool or paying for a studio session. Common uses span product photography for online stores, portraits for LinkedIn or resumes, preparing an ID or passport-style photo with a compliant plain background, and simple graphic design work like posters or profile pictures.",
+    ],
+    useCases: [
+      "Creating a clean, white-background photo for a passport, visa, or ID application",
+      "Cutting out a product photo for an online store listing",
+      "Making a transparent-background headshot for a resume, LinkedIn, or app profile",
+    ],
+    tips: [
+      "Photos with good lighting and a subject that stands out clearly from the background give the cleanest cutout — busy or low-contrast backgrounds are the most likely to need touch-ups.",
+      "If you need a specific solid background (white for a passport photo, for instance), use the color buttons after removal rather than downloading the transparent version and adding color elsewhere.",
+    ],
+    steps: [
+      "Upload a photo.",
+      "Wait for the on-device AI model to process it (a few seconds after the one-time model download).",
+      "Keep it transparent, or click a background color to fill it in.",
+      "Download the result as a PNG.",
+    ],
+    inputFormats: ["JPG", "PNG", "WEBP"],
+    outputFormats: ["PNG"],
+    aliases: ["remove image background", "background eraser", "transparent background maker", "cut out background ai"],
+    related: ["passport-photo-maker", "image-to-text", "image-resizer", "image-cropper", "png-to-jpg"],
+    faqs: [
+      {
+        q: "Is my photo uploaded anywhere?",
+        a: "No. Segmentation runs locally in your browser using WebAssembly. The one exception is a one-time download of the generic AI model itself (not your photo) from a CDN the first time you use the tool — after that, it's cached and every photo you process stays entirely on your device.",
+      },
+      {
+        q: "Why did the cutout miss some fine details like hair?",
+        a: "Fine, wispy edges — loose hair strands, fur, semi-transparent fabric — are the hardest case for any background removal tool, AI-powered or not. Higher-resolution, well-lit source photos with good contrast against the background produce noticeably cleaner edges.",
+      },
+      {
+        q: "Can I use this for a passport or ID photo?",
+        a: "Yes — that's one of its most common uses. Remove the background, apply the plain color your document requires (usually white), then check the exact dimensions using the Passport Photo Maker tool.",
+      },
+      {
+        q: "What file format is the result?",
+        a: "PNG, since it supports transparency. If you choose a solid background color instead, the PNG will simply show that color rather than transparency.",
+      },
+      {
+        q: "Does it work on any type of photo?",
+        a: "It works best on photos with one clear main subject — a person, product, or animal. Very busy scenes with no obvious single subject are harder for any segmentation model to separate cleanly.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
+  {
+    slug: "image-to-text",
+    name: "Image to Text Converter (OCR)",
+    shortName: "Image to Text",
+    category: "image-tools",
+    title: "Image to Text — Free OCR, Extract Text from Photos",
+    description:
+      "Extract text from any photo or screenshot using on-device OCR. Supports multiple languages — free, no upload, no sign-up, copy the result instantly.",
+    intro:
+      "Pull the text out of a photo, screenshot, or scanned page — no retyping needed. Recognition runs locally in your browser, with support for several languages.",
+    about: [
+      "This tool uses Optical Character Recognition (OCR) to detect and transcribe text found in an image, running entirely inside your browser via WebAssembly. The photo you upload is never sent anywhere — only a small, generic language-recognition model is fetched once from a CDN and cached for reuse, exactly the same one-time download every OCR tool needs, whether it runs on a server or, as here, locally on your device.",
+      "Image-based text shows up everywhere: a photo of a whiteboard or handout, a screenshot with text you can't select, a scanned page, a photo of a book excerpt or sign. Rather than retyping it by hand, this tool reads it back to you as plain, editable, copyable text in seconds.",
+    ],
+    useCases: [
+      "Pulling text out of a screenshot that doesn't allow text selection",
+      "Digitizing notes from a photographed whiteboard, textbook page, or handout",
+      "Extracting text from a scanned document page for editing or search",
+    ],
+    tips: [
+      "Select the correct language before uploading — recognition accuracy drops significantly if the model is looking for the wrong alphabet or character set.",
+      "A sharp, well-lit, straight-on photo gives dramatically better results than a blurry or heavily angled one — if accuracy looks off, try retaking the photo rather than assuming the tool is wrong.",
+    ],
+    steps: [
+      "Choose the language the text in your image is written in.",
+      "Upload the image.",
+      "Recognition runs automatically in your browser.",
+      "Copy the extracted text, or edit it directly.",
+    ],
+    inputFormats: ["JPG", "PNG", "WEBP"],
+    outputFormats: ["Plain text"],
+    aliases: ["ocr online", "extract text from image", "photo to text", "picture to text converter", "jpg to text"],
+    related: ["pdf-to-word", "word-counter", "case-converter", "remove-background"],
+    faqs: [
+      {
+        q: "Which languages are supported?",
+        a: "English, Hindi, Spanish, French, German, Arabic, and Simplified Chinese are available from the language menu. Pick the one matching your image's text before uploading for the best accuracy.",
+      },
+      {
+        q: "Is my image uploaded to a server?",
+        a: "No. Recognition runs locally using WebAssembly. The only network request is a one-time download of the (image-agnostic) language model itself, cached afterward — your actual photo never leaves your device.",
+      },
+      {
+        q: "Why is the extracted text slightly wrong in places?",
+        a: "OCR accuracy depends heavily on image quality — low resolution, blur, glare, tilted angles, or unusual fonts can all introduce errors. Retaking the photo straight-on with good lighting usually improves results more than anything else.",
+      },
+      {
+        q: "Can this read handwriting?",
+        a: "It's built for printed and typed text. Handwriting recognition is a fundamentally different problem and results will be unreliable on handwritten notes.",
+      },
+      {
+        q: "Does it work on scanned PDF pages?",
+        a: "Yes — export or screenshot the page as an image first, then run it through this tool. It's a good complement to the PDF to Word tool, which needs real selectable text and can't process scanned pages itself.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
+  {
+    slug: "passport-photo-maker",
+    name: "Passport Photo Maker",
+    shortName: "Passport Photo Maker",
+    category: "image-tools",
+    title: "Passport Photo Maker — Free, Correct Size, No Upload",
+    description:
+      "Create a passport or visa photo in the exact size you need — US, UK, Schengen, India and more. Crop, set background, print a ready sheet. Free & private.",
+    intro:
+      "Turn any photo into a correctly sized passport or visa photo. Pick your country's format, position your face in the frame, set the background, and download a print-ready sheet — all in your browser.",
+    about: [
+      "Passport and visa photos are rejected constantly for avoidable reasons: wrong pixel dimensions, wrong background color, or a head that's slightly too big or small in the frame. This tool builds in the common size presets — US, India (passport and separately OCI/visa), UK, Schengen, and Canada — plus a custom-size option for any document not listed, so you can crop precisely to what's required rather than guessing.",
+      "Once you've cropped your photo, you can optionally use on-device AI to swap in a plain white, grey, or cream background if your original photo wasn't taken against one, and generate a ready-to-print sheet with multiple copies tiled onto a 4×6 inch or A4 page — exactly what most local print shops or pharmacies need to print physical copies. Your photo is processed entirely in your browser and is never uploaded.",
+    ],
+    useCases: [
+      "Preparing a passport renewal or new application photo without a studio visit",
+      "Getting the exact 2×2 inch square format for a US visa or the 35×45 mm format for a UK or Schengen application",
+      "Printing a sheet of several passport-photo copies at home or at a local print shop",
+    ],
+    tips: [
+      "Specifications change and vary even within one country by document type (see the India presets, for instance) — always confirm the current requirement on the official portal before you submit or print.",
+      "If your photo has a patterned wall or shadow behind you, use the AI background swap rather than trying to find a plain corner to reshoot in.",
+    ],
+    steps: [
+      "Choose your document's country/format, or enter a custom size in millimeters.",
+      "Upload your photo and drag the frame to position your face correctly.",
+      "Optionally replace the background with a solid color using on-device AI.",
+      "Generate the photo, then download it alone or as a printable sheet of copies.",
+    ],
+    inputFormats: ["JPG", "PNG"],
+    outputFormats: ["JPG", "PNG (print sheet)"],
+    aliases: ["passport size photo maker", "passport photo online", "visa photo maker", "id photo size", "passport photo cropper"],
+    related: ["remove-background", "image-cropper", "image-resizer", "jpg-to-pdf"],
+    faqs: [
+      {
+        q: "Are these sizes guaranteed to be accepted?",
+        a: "The presets reflect commonly published 2026 specifications, but passport and visa authorities update requirements periodically and enforce them precisely. Always double-check the exact current spec on the official government portal for your document before submitting — this tool aims to get you very close with zero guesswork, not to replace that check.",
+      },
+      {
+        q: "Why are there two different India options?",
+        a: "India uses more than one photo format depending on the document: the Passport Seva portal for a standard Indian passport uses a 35×45 mm rectangle, while OCI cards and several visa categories use a 2×2 inch square instead. Using the wrong one is a common rejection reason, so they're listed separately.",
+      },
+      {
+        q: "Can I use this for a Canadian passport?",
+        a: "You can use it to preview the 50×70 mm sizing, but Canada requires passport photos to be taken and certified by a commercial photographer — a DIY photo, however well-cropped, isn't accepted for the passport itself.",
+      },
+      {
+        q: "Is my photo uploaded anywhere?",
+        a: "No. Cropping happens with your browser's Canvas API, and the optional AI background removal also runs locally via WebAssembly. Only a one-time, generic AI model download touches the network — never your photo.",
+      },
+      {
+        q: "What does the print sheet do?",
+        a: "It tiles several copies of your finished photo onto one 4×6 inch or A4 page at 300 DPI with thin cut-lines, matching what most photo print shops and pharmacies expect for printing physical passport photos.",
+      },
+    ],
+    processing: "browser",
+    indexable: true,
+    popular: true,
+  },
 ];
