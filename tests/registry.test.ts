@@ -7,8 +7,8 @@ describe("tool registry integrity", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("has 50 tools, all browser-processed and indexable", () => {
-    expect(tools).toHaveLength(50);
+  it("has 47 tools, all browser-processed and indexable", () => {
+    expect(tools).toHaveLength(47);
     tools.forEach((t) => {
       expect(t.processing).toBe("browser");
       expect(t.indexable).toBe(true);
