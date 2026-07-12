@@ -31,6 +31,9 @@ const PdfToPowerpointTool = dynamic(() => import("./pdf/PdfToPowerpointTool"), {
 const WordToPdfTool = dynamic(() => import("./pdf/WordToPdfTool"), { ssr: false, loading });
 const HeicToJpgTool = dynamic(() => import("./image/HeicToJpgTool"), { ssr: false, loading });
 const ColorConverterTool = dynamic(() => import("./dev/ColorConverterTool"), { ssr: false, loading });
+const BackgroundRemoverTool = dynamic(() => import("./image/BackgroundRemoverTool"), { ssr: false, loading });
+const ImageToTextTool = dynamic(() => import("./image/ImageToTextTool"), { ssr: false, loading });
+const PassportPhotoTool = dynamic(() => import("./image/PassportPhotoTool"), { ssr: false, loading });
 const TextCounterTool = dynamic(() => import("./text/TextCounterTool"), { ssr: false, loading });
 const CaseConverterTool = dynamic(() => import("./text/CaseConverterTool"), { ssr: false, loading });
 const LineCleanupTool = dynamic(() => import("./text/LineCleanupTool"), { ssr: false, loading });
@@ -87,6 +90,9 @@ const registry: Record<string, ComponentType> = {
   "image-to-base64": ImageToBase64Tool,
   "base64-to-image": Base64ToImageTool,
   "heic-to-jpg": HeicToJpgTool,
+  "remove-background": BackgroundRemoverTool,
+  "image-to-text": ImageToTextTool,
+  "passport-photo-maker": PassportPhotoTool,
   // PDF
   "jpg-to-pdf": () => <ImagesToPdfTool kind="jpg" />,
   "png-to-pdf": () => <ImagesToPdfTool kind="png" />,
