@@ -22,18 +22,6 @@ const nextConfig = {
           resource.request = resource.request.replace(/^node:/, "");
         })
       );
-      // onnxruntime-web (pulled in by @imgly/background-removal) ships a
-      // broken "type" field in its package.json, which makes webpack guess
-      // the wrong module format for some of its .js/.mjs bundles. Forcing
-      // content-based detection avoids "import.meta"/"export" parse errors.
-      config.module.rules.push({
-        test: /onnxruntime-web/,
-        type: "javascript/auto",
-      });
-      config.module.rules.push({
-        test: /\.wasm$/,
-        type: "asset/resource",
-      });
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
