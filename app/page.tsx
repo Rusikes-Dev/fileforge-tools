@@ -59,8 +59,8 @@ export default function HomePage() {
             Free Online File Converter &amp; Document Tools
           </h1>
           <p className="mt-3 max-w-2xl text-lg text-ink-700">
-            Convert images, edit PDFs, clean up text and format data — {tools.length} free tools that run
-            entirely in your browser. No uploads, no sign-up, no watermarks.
+            Free online file converter and document tools — convert images, edit PDFs, and clean up text with{" "}
+            {tools.length} tools that run entirely in your browser. No uploads, no sign-up, no watermarks.
           </p>
           <div className="mt-6 max-w-xl">
             <Suspense fallback={<div className="input-base h-12" />}>
