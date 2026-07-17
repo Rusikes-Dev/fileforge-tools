@@ -384,6 +384,232 @@ export const posts: BlogPost[] = [
     relatedTools: ["pdf-to-powerpoint", "extract-pdf-pages", "pdf-to-jpg", "pdf-to-word"],
     relatedPosts: ["convert-pdf-to-word-without-losing-text", "reduce-pdf-file-size-for-email"],
   },
+  {
+    slug: "heic-to-jpg-open-iphone-photos-anywhere",
+    title: "HEIC to JPG: How to Open iPhone Photos on Any Device",
+    description:
+      "iPhone photos in HEIC format won't open on many Windows PCs, older devices and upload forms. Here's why Apple uses HEIC, and how to convert to JPG privately in your browser.",
+    excerpt:
+      "You AirDrop or copy photos off an iPhone, and suddenly Windows can't open them. Here's what HEIC actually is, why Apple switched to it, and the fastest private way to get JPGs.",
+    publishedAt: "2026-07-18",
+    intro: [
+      "It's one of the most common file headaches of the last few years: you copy photos off an iPhone onto a Windows laptop, or try to attach them to a web form, and nothing works. The files end in .heic instead of .jpg, and half the software in the world refuses to open them.",
+      "The frustrating part is that nothing is wrong with the photos. HEIC is a genuinely better format in most technical respects — Apple didn't switch to it to annoy you. The problem is purely one of compatibility, and the fix is a simple conversion that you can do entirely on your own device, without uploading personal photos to a stranger's server.",
+    ],
+    sections: [
+      {
+        heading: "What HEIC actually is, and why Apple uses it",
+        paragraphs: [
+          "HEIC stands for High Efficiency Image Container. It stores photos using HEVC compression — the same technology behind modern 4K video — and typically produces files around half the size of an equivalent-quality JPG. On a phone that shoots dozens of 12- or 48-megapixel photos a day, halving storage use is a big deal, which is why Apple made HEIC the default camera format back in iOS 11.",
+          "HEIC also supports things JPG can't: 16-bit colour, image sequences (Live Photos), and better preservation of fine detail at small file sizes. As a capture format, it's excellent. The catch is that the wider software world — older Windows versions, many web upload forms, embroidery and print services, older Android devices, and plenty of desktop applications — either can't read it at all or needs extra codecs installed.",
+        ],
+      },
+      {
+        heading: "Why JPG is still the right format for sharing",
+        paragraphs: [
+          "JPG has one property no newer format can match: it opens everywhere. Every browser, every operating system going back decades, every photo kiosk, every government upload portal, every email client. When a file needs to leave the Apple ecosystem and be usable by an unknown recipient or system, JPG is the safe answer.",
+          "You do give up a little: converting HEIC to JPG re-encodes the image, and JPG is limited to 8-bit colour. In practice, for photos being shared, printed at normal sizes, or uploaded to a website, the difference is invisible. Keep the original HEIC files if you want a pristine archive, and convert copies to JPG for sharing.",
+        ],
+      },
+      {
+        heading: "Converting without uploading your photos",
+        paragraphs: [
+          "Most 'HEIC to JPG' websites work by uploading your photos to their server, converting them there, and sending JPGs back. For casual snapshots that may not bother you — but personal photos are exactly the kind of file most people would rather not hand to an anonymous server, however briefly.",
+          "A browser-based converter does the whole job locally. The HEIC to JPG tool on this site decodes the HEIC file with JavaScript running on your own device, re-encodes it as JPG at a quality level you choose, and hands the result straight back as a download. You can convert up to 20 photos in one go, and you could disconnect from the internet after the page loads and it would still work — nothing is transmitted anywhere.",
+          "Step by step: open the HEIC to JPG tool, drag your .heic files in, pick a quality (85–90% is visually identical to the original for almost all photos), click convert, and download the JPGs individually or as a batch.",
+        ],
+      },
+      {
+        heading: "Can you stop the iPhone shooting HEIC in the first place?",
+        paragraphs: [
+          "Yes — if you regularly send photos to non-Apple devices, go to Settings → Camera → Formats and choose 'Most Compatible'. The camera will then save JPGs directly, at the cost of roughly double the storage per photo. Alternatively, leave the camera on HEIC and let iOS convert automatically when sharing: 'Automatic' mode already sends JPGs in many sharing flows, though not when copying files off the phone over USB — which is exactly when most people hit the problem.",
+          "For the photos you already have, converting on demand is usually the more practical route than re-shooting or changing settings after the fact.",
+        ],
+      },
+    ],
+    relatedTools: ["heic-to-jpg", "image-compressor", "jpg-to-png", "jpg-to-pdf"],
+    relatedPosts: ["jpg-vs-png-vs-webp", "compress-png-without-losing-quality"],
+  },
+  {
+    slug: "resize-images-for-web-without-blur",
+    title: "How to Resize Images for the Web Without Making Them Blurry",
+    description:
+      "Resized images often come out soft, stretched or pixelated. Here's how image scaling actually works, which dimensions to target, and how to resize cleanly in your browser.",
+    excerpt:
+      "Blurry, stretched or pixelated images after resizing are almost always caused by three avoidable mistakes. Here's what they are and how to resize photos that stay sharp.",
+    publishedAt: "2026-07-22",
+    intro: [
+      "Resizing an image sounds like the simplest possible edit, yet it's remarkably easy to end up with a result that looks worse than the original: soft edges, jagged text, faces that are subtly stretched. Whether you're preparing a profile photo, a product image, a blog header or an email attachment, the same few principles decide whether the resized image looks crisp or mushy.",
+      "The good news is that none of this requires Photoshop. Understanding three ideas — downscaling versus upscaling, aspect ratio, and output format — is enough to get clean results from any decent resizing tool.",
+    ],
+    sections: [
+      {
+        heading: "Rule 1: downscale freely, upscale reluctantly",
+        paragraphs: [
+          "Making an image smaller throws information away, and browsers and image tools are very good at doing that gracefully — a 4000-pixel photo scaled down to 1200 pixels will look sharp, often sharper than the original viewed at full size. Making an image bigger is the opposite: the pixels you need simply don't exist, so the software has to invent them by interpolation, and the result is inherently soft.",
+          "Practical consequence: always start from the largest original you have and scale down to the target size. If you only have a small image and need it bigger, expect some softness — modest enlargements of 120–150% are usually acceptable, but doubling the size of a small image will look blurry no matter which tool you use.",
+        ],
+      },
+      {
+        heading: "Rule 2: never break the aspect ratio",
+        paragraphs: [
+          "The stretched-face look happens when width and height are changed by different factors — for example forcing a 4:3 photo into a square box by typing 500×500. Human eyes are extremely sensitive to this on faces and text, and even a few percent of distortion reads as 'something is off'.",
+          "The fix is to lock the aspect ratio while resizing, so changing the width adjusts the height automatically. If you genuinely need a different shape — a square avatar from a rectangular photo, say — the correct operation is crop first, then resize: cut the image to the target shape, and only then scale it to the target pixels. The Image Cropper and Image Resizer on this site are designed to be used together in exactly that order.",
+        ],
+      },
+      {
+        heading: "Rule 3: pick sensible target dimensions",
+        paragraphs: [
+          "Bigger is not better on the web — an oversized image just downloads slowly and gets scaled down by the browser anyway. Some dependable targets: full-width blog or article images rarely need more than 1600 pixels wide; content images inside a column are typically fine at 800–1200 pixels; avatars and thumbnails at 400 pixels; and open-graph / social preview images at 1200×630.",
+          "Displays with high pixel density ('Retina') are the one reason to go larger: if an image will be displayed at 600 CSS pixels wide, exporting it at 1200 real pixels keeps it crisp on those screens. Doubling the display size is a good ceiling; beyond that the extra pixels are wasted bytes.",
+        ],
+      },
+      {
+        heading: "After resizing: compress before you publish",
+        paragraphs: [
+          "Resizing sets the pixel dimensions; compression sets the file size. A resized photo saved carelessly can still be several megabytes. Run the result through an image compressor and choose a quality around 80% for photos — the visual difference is essentially undetectable, and the file frequently shrinks by 60–80%. For graphics with sharp edges and flat colours, PNG or WebP will look cleaner than JPG at any setting.",
+          "Both steps run locally in your browser with the tools on this site: resize (or crop, then resize), compress, download. Your images never touch a server, which also means there's no upload wait for large batches of photos.",
+        ],
+      },
+    ],
+    relatedTools: ["image-resizer", "image-cropper", "image-compressor", "png-to-webp"],
+    relatedPosts: ["compress-png-without-losing-quality", "jpg-vs-png-vs-webp"],
+  },
+  {
+    slug: "qr-codes-how-they-work-and-how-to-make-one",
+    title: "QR Codes Explained: How They Work and How to Make One for Free",
+    description:
+      "What's actually inside a QR code, why some scan better than others, and how to generate a permanent, watermark-free QR code for a link, Wi-Fi login or contact card.",
+    excerpt:
+      "QR codes look like random noise but follow a precise, clever design. Here's how they encode data, why some fail to scan, and how to make your own that works forever.",
+    publishedAt: "2026-07-26",
+    intro: [
+      "QR codes went from a logistics-industry curiosity to something you scan at restaurant tables, on posters, on invoices and on product packaging. They look like random static, but every module in that grid has a job — and understanding a little of how they work explains why some codes scan instantly from across a room while others fail at point-blank range.",
+      "It also explains why you should be careful with 'free' QR generators that route your code through their own tracking domain — and how to make a code that is genuinely yours, forever, with no expiry and no watermark.",
+    ],
+    sections: [
+      {
+        heading: "What's actually inside a QR code",
+        paragraphs: [
+          "A QR code stores plain data — most commonly a URL, but it can be any text: a Wi-Fi network name and password, a phone number, a calendar event or a contact card. The data is converted to bits and laid out in the grid alongside three unmistakable landmarks: the large squares in three corners. Those finder patterns are what let your camera locate and orient the code from any angle, which is why a QR code scans fine upside down.",
+          "The rest of the grid mixes your data with error-correction codes. QR uses Reed–Solomon error correction, which means a substantial part of the code can be dirty, damaged or covered — up to 30% at the highest correction level — and it will still scan. That redundancy is what makes it possible to put a logo in the middle of a QR code without breaking it.",
+        ],
+      },
+      {
+        heading: "Why some QR codes won't scan",
+        paragraphs: [
+          "Most scanning failures come down to a handful of causes. Too little contrast: the code needs to be clearly darker than its background — dark-on-light scans most reliably. Too small for the distance: a rough rule is that the code should be at least one tenth of the scanning distance across, so a poster meant to be scanned from a metre away needs a code at least 10 cm wide. Missing quiet zone: QR codes need a clear margin around them; cramming decoration right up to the edge confuses the finder patterns.",
+          "Data length matters too. The more characters you encode, the denser the grid becomes and the harder it is to scan from a distance or on cheap print. If your URL is long, encoding a shorter link keeps the code coarse and scannable.",
+        ],
+      },
+      {
+        heading: "Static codes, dynamic codes, and the expiry trap",
+        paragraphs: [
+          "A static QR code encodes your data directly — the URL itself lives inside the pattern. It works forever, needs no service behind it, and nobody can see who scanned it. A dynamic code instead encodes a short link on the generator company's domain, which then redirects to your real destination. That enables scan statistics and editing the destination later — but it also means your code silently depends on that company. If they shut down, change their pricing, or put your code behind a paywall, every printed copy stops working. Many 'free' QR services rely on exactly this: the code is free until it isn't.",
+          "For links you'll print — menus, posters, business cards, product packaging — a static code pointing directly at your own URL is the durable choice.",
+        ],
+      },
+      {
+        heading: "Making one in your browser",
+        paragraphs: [
+          "The QR Code Generator on this site creates static codes entirely on your device: type or paste the text or URL, and the code is generated locally by JavaScript — the content is never sent to a server, which matters if you're encoding something like a Wi-Fi password.",
+          "Download as PNG for direct use in documents and messages, or as SVG if the code will be printed: SVG is a vector format, so a print shop can scale it to a poster or a banner with perfectly sharp edges. There's no watermark, no account and no expiry — the code is a self-contained image that belongs to you.",
+        ],
+      },
+    ],
+    relatedTools: ["qr-code-generator", "url-encoder-decoder", "password-generator", "image-resizer"],
+    relatedPosts: ["how-to-generate-a-strong-password", "resize-images-for-web-without-blur"],
+  },
+  {
+    slug: "clean-up-messy-lists-remove-duplicates-sort-lines",
+    title: "How to Clean Up a Messy List: Remove Duplicates, Sort and Trim in Seconds",
+    description:
+      "Deduplicate email lists, sort keywords, and strip stray whitespace without Excel formulas. Practical, private ways to clean any text list right in your browser.",
+    excerpt:
+      "Every messy list — emails, keywords, URLs, log lines — needs the same three cleanups: dedupe, sort, and trim. Here's how to do all three in seconds without a spreadsheet.",
+    publishedAt: "2026-07-30",
+    intro: [
+      "Sooner or later, everyone ends up staring at a messy list. A pile of email addresses assembled from three sources, full of repeats. Keyword research pasted from four tools. A list of URLs, some with trailing spaces that break when pasted elsewhere. Log lines where you only care about the unique entries.",
+      "The traditional answer is to paste everything into Excel and fight with Remove Duplicates dialogs and TRIM formulas. But for plain text lists, a spreadsheet is overkill — the whole cleanup is three simple operations that a browser can do instantly, without your data (which is often exactly the kind of thing you don't want to upload — customer emails, internal URLs) ever leaving your machine.",
+    ],
+    sections: [
+      {
+        heading: "Step 1: remove duplicate lines",
+        paragraphs: [
+          "Duplicates creep in whenever lists are merged from multiple sources, and they cause real problems downstream: the same person emailed twice, the same keyword counted twice, the same URL crawled twice. A duplicate remover keeps the first occurrence of each line and deletes the rest, preserving your original order.",
+          "One subtlety worth knowing: 'John@Example.com' and 'john@example.com' are different strings even though they're the same email address. If your list is case-insensitive by nature — emails, domains, most keywords — lower-case everything first with a case converter, then deduplicate. Otherwise identical entries that differ only in capitalisation will survive the cleanup.",
+        ],
+      },
+      {
+        heading: "Step 2: sort the list",
+        paragraphs: [
+          "Sorting isn't just cosmetic. An alphabetised list makes near-duplicates jump out — 'analytics tool' next to 'analytics tools' — and makes it trivial to scan for anything unexpected. For anything containing numbers, use natural sort rather than plain alphabetical: plain sorting puts 'item10' before 'item2' because it compares character by character, while natural sort understands that 10 comes after 2. That distinction matters constantly for filenames, version numbers and invoice IDs.",
+          "Sorting by line length is a less obvious option with real uses: finding the outliers in a list of titles or meta descriptions, or spotting the one malformed entry that's three times longer than everything else.",
+        ],
+      },
+      {
+        heading: "Step 3: fix the whitespace",
+        paragraphs: [
+          "Invisible characters are the most maddening kind of mess. A trailing space after an email address will make some systems reject it; a double space inside a name looks fine until it breaks an exact-match lookup; empty lines inflate line counts and confuse imports. Because you can't see the problem, you can waste real time hunting a bug that is literally invisible.",
+          "A whitespace cleaner fixes all of it in one pass: collapse repeated spaces to one, trim spaces from the starts and ends of lines, and delete empty lines — each option individually selectable, since sometimes blank lines are meaningful separators you want to keep.",
+        ],
+      },
+      {
+        heading: "A worked example: merging two email lists",
+        paragraphs: [
+          "Say you have attendee lists from two events and want one clean mailing list. Paste both lists into one text box, one address per line. Convert everything to lowercase. Run the whitespace cleanup to trim stray spaces and drop empty lines. Remove duplicate lines. Finally, sort alphabetically so the list is easy to eyeball for junk entries — that stray 'n/a' or 'test@test.com' someone typed at registration.",
+          "Total time: under a minute, and the addresses were never uploaded anywhere — every one of those steps runs locally in your browser with the text tools on this site. For a final sanity check, a word/line counter tells you exactly how many unique addresses you ended up with.",
+        ],
+      },
+    ],
+    relatedTools: ["remove-duplicate-lines", "sort-lines", "remove-extra-spaces", "case-converter"],
+    relatedPosts: ["csv-to-json-beginners-guide", "how-to-generate-a-strong-password"],
+  },
+  {
+    slug: "base64-images-explained-when-to-embed",
+    title: "Base64 Images Explained: What They Are and When to Embed Them",
+    description:
+      "What Base64 encoding actually does to an image, why the file gets bigger, and the specific cases where embedding an image as a data URI beats linking to a file.",
+    excerpt:
+      "Base64 lets you paste an entire image into HTML, CSS or JSON as plain text. Here's how the encoding works, the 33% size cost, and when embedding is the right call.",
+    publishedAt: "2026-08-03",
+    intro: [
+      "Open the source of certain web pages or emails and you'll find images that aren't files at all — just an enormous string of letters and numbers beginning with data:image/png;base64. That's a Base64-encoded image: the entire picture, translated into plain text and embedded directly where it's used.",
+      "Base64 is one of those techniques that is exactly right in a few situations and exactly wrong in most others. Knowing the difference saves you from both camps of mistakes: emailing someone a broken image link because the file didn't come along, and bloating a website with megabytes of inlined image data.",
+    ],
+    sections: [
+      {
+        heading: "What Base64 encoding actually does",
+        paragraphs: [
+          "An image file is binary data — bytes that can take any value, many of which have no printable representation. Base64 re-expresses that binary data using only 64 safe, printable characters: A–Z, a–z, 0–9, plus and slash. Every 3 bytes of the original become 4 characters of text. Nothing about the image changes — it's a lossless re-encoding of the same data, the way writing a number in a different base doesn't change the number.",
+          "The 3-to-4 ratio is the famous catch: a Base64 string is always about 33% larger than the original file. A 90 KB photo becomes roughly 120 KB of text. That overhead is the price you pay for being able to put binary data anywhere plain text is allowed.",
+        ],
+      },
+      {
+        heading: "Where embedding an image makes sense",
+        paragraphs: [
+          "Base64 shines when an image must travel inside a text document as one self-contained unit. Small icons and logos inside a single-file HTML document — an email signature, an invoice template, a report that gets saved and forwarded — will never show as broken-image icons, because there's no separate file to lose. JSON APIs sometimes carry small images this way because JSON has no native binary type. CSS can inline tiny decorative images to avoid extra network requests. And in development, pasting a data URI is often the fastest way to test something without setting up file hosting.",
+          "The common thread: the image is small (a few KB to a few tens of KB), and self-containment matters more than raw efficiency.",
+        ],
+      },
+      {
+        heading: "Where it's the wrong tool",
+        paragraphs: [
+          "For normal web pages with normal images, linked files beat Base64 almost every time. Browsers cache image files, so a logo downloads once and is reused across every page — a Base64 logo embedded in each page's HTML is re-downloaded every single time, 33% larger. Large photos as Base64 also bloat the HTML itself, delaying the moment the page can render at all.",
+          "A reasonable rule of thumb: under ~5 KB, embedding is often a win; over ~50 KB, it almost never is; in between, prefer linking unless you specifically need a self-contained file.",
+        ],
+      },
+      {
+        heading: "Converting in both directions, privately",
+        paragraphs: [
+          "This site has both directions covered, running entirely in your browser. The Image to Base64 tool takes an image file and produces the encoded string, ready to paste as a data URI into HTML, CSS or JSON. The Base64 to Image tool does the reverse — paste a Base64 string (with or without the data: prefix) and get the actual image back as a viewable, downloadable file, which is handy when you're debugging an API response or extracting an image someone embedded in a document.",
+          "Because the conversion happens locally, it's safe even for images you wouldn't want on a third-party server — and there's no upload step, so even large images convert instantly. Pair it with the image compressor first if you're embedding: shrinking the image before encoding it directly shrinks the resulting string.",
+        ],
+      },
+    ],
+    relatedTools: ["image-to-base64", "base64-to-image", "base64-encoder-decoder", "image-compressor"],
+    relatedPosts: ["jpg-vs-png-vs-webp", "compress-png-without-losing-quality"],
+  },
 ];
 
 export function getPost(slug: string): BlogPost | undefined {
