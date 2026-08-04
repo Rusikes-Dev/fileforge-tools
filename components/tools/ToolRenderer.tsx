@@ -3,10 +3,27 @@
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 
+/**
+ * Skeleton shown while a tool's chunk downloads.
+ *
+ * Mirrors the rough shape of an upload-style tool rather than showing a
+ * spinner, so the layout does not jump when the real control arrives and the
+ * wait reads as progress instead of a stall.
+ */
 function loading() {
   return (
-    <div className="flex min-h-40 items-center justify-center rounded border border-dashed border-ink-300 text-sm text-ink-500" role="status">
-      Loading tool…
+    <div
+      role="status"
+      aria-label="Loading tool"
+      className="rounded-2xl border-2 border-dashed border-ink-300 bg-ink-50 px-6 py-10 sm:py-14"
+    >
+      <div className="mx-auto flex max-w-md flex-col items-center gap-3">
+        <div className="skeleton h-12 w-12 rounded-xl" />
+        <div className="skeleton h-4 w-40" />
+        <div className="skeleton h-3 w-64" />
+        <div className="skeleton mt-2 h-10 w-32 rounded-lg" />
+      </div>
+      <span className="sr-only">Loading tool…</span>
     </div>
   );
 }
@@ -131,9 +148,16 @@ export default function ToolRenderer({ slug }: { slug: string }) {
   const Tool = registry[slug];
   if (!Tool) {
     return (
-      <p className="rounded border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800" role="alert">
-        This tool is not available yet.
-      </p>
+      <div
+        role="alert"
+        className="rounded-xl border border-warning-200 bg-warning-50 px-4 py-3.5 text-sm text-warning-700"
+      >
+        <p className="font-medium">This tool isn&apos;t available yet.</p>
+        <p className="mt-1">
+          The page exists but its interface hasn&apos;t shipped. Please try another tool from the
+          list below.
+        </p>
+      </div>
     );
   }
   return <Tool />;

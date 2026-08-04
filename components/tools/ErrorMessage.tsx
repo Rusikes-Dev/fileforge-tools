@@ -1,8 +1,14 @@
+import { AlertIcon } from "@/components/common/Icon";
+
 export default function ErrorMessage({ message }: { message: string | null }) {
   if (!message) return null;
   return (
-    <p role="alert" className="mt-4 rounded border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
-      {message}
-    </p>
+    <div
+      role="alert"
+      className="animate-fade-in mt-4 flex items-start gap-2.5 rounded-xl border border-danger-200 bg-danger-50 px-3.5 py-3 text-sm text-danger-700"
+    >
+      <AlertIcon className="mt-0.5 h-4 w-4 shrink-0" />
+      <p className="leading-relaxed">{message}</p>
+    </div>
   );
 }
