@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.5,
     })),
-    ...["/about", "/privacy", "/terms", "/contact"].map((p) => ({
+    ...["/about", "/contact", "/privacy", "/terms", "/disclaimer", "/cookies"].map((p) => ({
       url: absoluteUrl(p),
       lastModified: now,
       changeFrequency: "yearly" as const,

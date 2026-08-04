@@ -2,78 +2,425 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+   DESIGN TOKENS
+   Colours are stored as raw "R G B" triplets so Tailwind can apply opacity
+   modifiers (e.g. `bg-surface/95`). Every visual decision on the site should
+   trace back to a token in this block.
+   ========================================================================== */
+
 :root {
   color-scheme: light;
 
-  /* Page/card/input background (see tailwind.config.ts `surface` token) */
+  /* --- Surfaces ---------------------------------------------------------- */
+  /* Page/card/input background. A dedicated token (separate from Tailwind's
+     literal `white`) so it can flip dark in dark mode without affecting
+     places that intentionally use literal white (e.g. button label text
+     on a solid accent-coloured background). */
   --color-surface: 255 255 255;
+  /* Slightly recessed surface for nested panels inside a card. */
+  --color-subtle: 250 250 251;
 
-  --color-ink-900: 23 26 28;
-  --color-ink-700: 58 65 69;
-  --color-ink-500: 95 106 112;
-  --color-ink-300: 198 205 209;
-  --color-ink-100: 232 235 237;
-  --color-ink-50: 246 247 248;
+  /* --- Text / borders ---------------------------------------------------- */
+  /* A cool-neutral ramp. 900 = primary text, 50 = faintest panel fill. */
+  --color-ink-900: 16 19 23;
+  --color-ink-700: 55 62 70;
+  --color-ink-500: 100 110 120;
+  --color-ink-300: 202 208 214;
+  --color-ink-100: 231 234 238;
+  --color-ink-50: 246 247 249;
 
-  --color-accent-50: 238 251 247;
-  --color-accent-100: 213 244 234;
-  --color-accent-600: 14 122 99;
-  --color-accent-700: 11 97 79;
-  --color-accent-800: 10 77 64;
+  /* --- Brand ------------------------------------------------------------- */
+  --color-accent-50: 236 251 246;
+  --color-accent-100: 209 243 231;
+  --color-accent-600: 13 124 100;
+  --color-accent-700: 10 100 81;
+  --color-accent-800: 9 79 65;
+
+  /* --- Semantic ---------------------------------------------------------- */
+  --color-danger-50: 254 242 242;
+  --color-danger-200: 254 202 202;
+  --color-danger-600: 220 38 38;
+  --color-danger-700: 185 28 28;
+
+  --color-warning-50: 255 251 235;
+  --color-warning-200: 253 230 138;
+  --color-warning-700: 180 83 9;
+
+  /* --- Elevation ---------------------------------------------------------
+     Layered shadows (tight contact shadow + soft ambient) read as far more
+     "physical" than a single blur, which is most of what separates a premium
+     UI from a default one. Tokenised so dark mode can swap to deeper values. */
+  --shadow-xs: 0 1px 2px 0 rgb(16 19 23 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(16 19 23 / 0.06), 0 1px 3px 0 rgb(16 19 23 / 0.08);
+  --shadow-md: 0 2px 4px -2px rgb(16 19 23 / 0.06), 0 4px 12px -2px rgb(16 19 23 / 0.10);
+  --shadow-lg: 0 4px 8px -4px rgb(16 19 23 / 0.08), 0 12px 28px -6px rgb(16 19 23 / 0.14);
+  --shadow-focus: 0 0 0 3px rgb(var(--color-accent-600) / 0.28);
 }
 
 .dark {
   color-scheme: dark;
 
-  --color-surface: 18 20 23;
+  --color-surface: 17 19 22;
+  --color-subtle: 23 26 30;
 
-  /* Text scale inverts in lightness so ink-900 (primary text) becomes
-     near-white and ink-50 (subtle panel background) stays close to the
-     page background, preserving the same relative contrast relationships
-     as light mode. */
-  --color-ink-900: 241 242 243;
-  --color-ink-700: 199 204 206;
-  --color-ink-500: 154 161 165;
-  --color-ink-300: 58 65 69;
-  --color-ink-100: 38 43 46;
-  --color-ink-50: 26 29 32;
+  /* The text scale inverts in lightness so ink-900 (primary text) becomes
+     near-white and ink-50 (subtle panel background) stays close to the page
+     background, preserving the same relative contrast relationships as light
+     mode. This is why components never need dark: variants for text. */
+  --color-ink-900: 243 244 246;
+  --color-ink-700: 201 206 212;
+  --color-ink-500: 150 158 167;
+  --color-ink-300: 62 69 77;
+  --color-ink-100: 38 43 49;
+  --color-ink-50: 26 30 34;
 
-  /* Brand teal shifted slightly brighter so it keeps enough contrast
-     against the dark page background. */
-  --color-accent-50: 13 33 29;
-  --color-accent-100: 18 56 48;
-  --color-accent-600: 34 161 134;
-  --color-accent-700: 28 138 114;
-  --color-accent-800: 21 109 90;
+  /* Brand teal shifted brighter so it keeps >=4.5:1 against the dark page. */
+  --color-accent-50: 12 34 29;
+  --color-accent-100: 17 58 49;
+  --color-accent-600: 45 176 146;
+  --color-accent-700: 34 150 124;
+  --color-accent-800: 25 118 98;
+
+  --color-danger-50: 45 18 18;
+  --color-danger-200: 92 32 32;
+  --color-danger-600: 248 113 113;
+  --color-danger-700: 252 165 165;
+
+  --color-warning-50: 43 32 10;
+  --color-warning-200: 87 63 20;
+  --color-warning-700: 251 191 36;
+
+  /* Shadows carry less information on dark backgrounds, so they go deeper
+     and lean on a hairline highlight instead. */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5), 0 1px 3px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 2px 4px -2px rgb(0 0 0 / 0.5), 0 4px 12px -2px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 4px 8px -4px rgb(0 0 0 / 0.5), 0 12px 28px -6px rgb(0 0 0 / 0.55);
 }
 
-body {
-  @apply bg-surface text-ink-900 antialiased;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+/* ============================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: rgb(var(--color-ink-100));
+  }
+
+  html {
+    /* Anchor links and in-page jumps clear the sticky header. */
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-surface text-ink-900 antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    /* Proportional-width figures read better in prose; tabular numbers are
+       opted into locally via .tabular-nums where alignment matters. */
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings get slightly tightened tracking — the single highest-leverage
+     typographic change for making a UI feel designed rather than default. */
+  h1, h2, h3, h4 {
+    @apply text-ink-900;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    letter-spacing: -0.028em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One consistent focus treatment for every interactive element, rather than
+     each component inventing its own. */
+  :focus-visible {
+    @apply outline-none;
+    box-shadow: var(--shadow-focus);
+    border-radius: 6px;
+  }
+
+  /* Native controls should follow the theme. */
+  input, textarea, select, button {
+    font: inherit;
+    color: inherit;
+  }
+
+  ::selection {
+    background-color: rgb(var(--color-accent-600) / 0.24);
+  }
+
+  /* Firefox scrollbar + WebKit scrollbar, themed. */
+  * {
+    scrollbar-color: rgb(var(--color-ink-300)) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-ink-300));
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--color-ink-500));
+    background-clip: content-box;
+  }
 }
+
+/* ============================================================================
+   COMPONENTS
+   ========================================================================== */
 
 @layer components {
   .container-site {
     @apply mx-auto w-full max-w-site px-4 sm:px-6;
   }
+
+  /* --- Buttons -----------------------------------------------------------
+     One shared skeleton (.btn) carries geometry, transitions and states; the
+     variants only carry colour. Every button on the site is therefore the same
+     height, radius and focus behaviour by construction. */
+  .btn {
+    @apply relative inline-flex select-none items-center justify-center gap-2
+           whitespace-nowrap rounded-lg px-4 text-sm font-medium
+           transition-[background-color,border-color,color,box-shadow,transform]
+           duration-150 ease-out
+           disabled:pointer-events-none disabled:opacity-55;
+    min-height: 2.5rem; /* 40px — consistent control height across the site */
+    padding-block: 0.5rem;
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(0.5px) scale(0.988);
+  }
+
+  .btn-sm {
+    @apply gap-1.5 rounded-md px-2.5 text-xs;
+    min-height: 2rem; /* 32px */
+    padding-block: 0.3125rem;
+  }
+  .btn-lg {
+    @apply gap-2.5 rounded-xl px-6 text-base;
+    min-height: 3rem; /* 48px */
+    padding-block: 0.6875rem;
+  }
+  /* Square icon-only button — keeps the control height but drops side padding. */
+  .btn-icon {
+    @apply px-0;
+    width: 2.5rem;
+  }
+  .btn-sm.btn-icon {
+    width: 2rem;
+  }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded bg-accent-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-700 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply btn bg-accent-700 font-semibold text-white shadow-xs
+           hover:bg-accent-800 hover:shadow-sm;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded border border-ink-300 bg-surface px-4 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-700 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply btn border border-ink-300 bg-surface text-ink-700 shadow-xs
+           hover:border-ink-500 hover:bg-ink-50 hover:text-ink-900;
   }
+  .btn-ghost {
+    @apply btn text-ink-700 hover:bg-ink-100 hover:text-ink-900;
+  }
+  .btn-destructive {
+    @apply btn border border-danger-200 bg-danger-50 text-danger-700
+           hover:border-danger-600 hover:bg-danger-600 hover:text-white;
+  }
+
+  /* --- Form controls ------------------------------------------------------ */
   .input-base {
-    @apply w-full rounded border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 placeholder:text-ink-500 focus:border-accent-600 focus:outline-none focus:ring-1 focus:ring-accent-600;
+    @apply w-full rounded-lg border border-ink-300 bg-surface px-3 py-2.5 text-sm
+           text-ink-900 shadow-xs transition-[border-color,box-shadow] duration-150
+           placeholder:text-ink-500
+           hover:border-ink-500
+           focus:border-accent-600 focus:outline-none
+           disabled:cursor-not-allowed disabled:bg-ink-50 disabled:text-ink-500;
   }
+  .input-base:focus {
+    box-shadow: var(--shadow-focus);
+  }
+
+  .select-base {
+    @apply input-base cursor-pointer appearance-none bg-no-repeat pr-9;
+    /* Inline chevron so native selects match the rest of the control set.
+       currentColor can't be used in a data URI, so ink-500 is baked in — it
+       reads correctly on both themes. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23646E78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.65rem center;
+    background-size: 1.05rem;
+  }
+
+  .label-base {
+    @apply mb-1.5 block text-sm font-medium text-ink-900;
+  }
+  .hint-text {
+    @apply mt-1.5 text-xs leading-relaxed text-ink-500;
+  }
+
+  /* Range inputs are styled per-engine; without this they ignore the theme. */
+  .range-base {
+    @apply h-1.5 w-full cursor-pointer appearance-none rounded-full bg-ink-100;
+  }
+  .range-base::-webkit-slider-thumb {
+    @apply h-4 w-4 appearance-none rounded-full border-2 border-surface bg-accent-700;
+    box-shadow: var(--shadow-sm);
+  }
+  .range-base::-moz-range-thumb {
+    @apply h-4 w-4 rounded-full border-2 border-surface bg-accent-700;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* --- Surfaces ----------------------------------------------------------- */
   .card {
-    @apply rounded border border-ink-100 bg-surface p-5;
+    @apply rounded-xl border border-ink-100 bg-surface p-5 shadow-xs;
+  }
+  /* Interactive card: lifts on hover, settles on press. */
+  .card-interactive {
+    @apply card transition-[border-color,box-shadow,transform] duration-200 ease-out
+           hover:-translate-y-0.5 hover:border-ink-300 hover:shadow-md
+           active:translate-y-0 active:shadow-sm;
+  }
+  .panel {
+    @apply rounded-xl border border-ink-100 bg-ink-50 p-5;
+  }
+
+  /* --- Badges ------------------------------------------------------------- */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1
+           text-xs font-medium leading-none;
+  }
+  .badge-accent {
+    @apply badge bg-accent-50 text-accent-800;
+  }
+  .badge-neutral {
+    @apply badge bg-ink-100 text-ink-700;
+  }
+
+  /* --- Prose -------------------------------------------------------------
+     Long-form editorial content (blog posts, legal pages). Kept deliberately
+     narrow-scoped so it can't leak into tool UI. */
+  .prose-site {
+    @apply text-[0.9375rem] leading-7 text-ink-700;
+  }
+  .prose-site h2 {
+    @apply mb-3 mt-10 text-xl font-semibold text-ink-900;
+  }
+  .prose-site h3 {
+    @apply mb-2 mt-8 text-base font-semibold text-ink-900;
+  }
+  .prose-site p {
+    @apply mb-4;
+  }
+  .prose-site ul {
+    @apply mb-4 list-disc space-y-2 pl-5;
+  }
+  .prose-site ol {
+    @apply mb-4 list-decimal space-y-2 pl-5;
+  }
+  .prose-site a {
+    @apply font-medium text-accent-700 underline underline-offset-2 hover:text-accent-800;
+  }
+  .prose-site code {
+    @apply rounded border border-ink-100 bg-ink-50 px-1.5 py-0.5 font-mono text-[0.85em];
+  }
+  .prose-site strong {
+    @apply font-semibold text-ink-900;
+  }
+
+  /* --- Skeletons ---------------------------------------------------------- */
+  .skeleton {
+    @apply rounded-md bg-ink-100;
+    animation: pulse-soft 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 }
 
+/* ============================================================================
+   UTILITIES & MOTION
+   ========================================================================== */
+
+@layer utilities {
+  /* Hides scrollbars on horizontally scrollable rails (mobile category nav)
+     without removing the ability to scroll. */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Draws an SVG checkmark on. Paired with pathLength="1" on the <path>. */
+@keyframes draw-check {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Motion is opt-in via these classes so nothing animates by accident. */
+.animate-fade-in { animation: fade-in 0.2s ease-out both; }
+.animate-fade-in-up { animation: fade-in-up 0.3s ease-out both; }
+.animate-scale-in { animation: scale-in 0.16s ease-out both; }
+.animate-slide-in-up { animation: slide-in-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-draw-check {
+  stroke-dasharray: 1;
+  animation: draw-check 0.35s ease-out 0.05s both;
+}
+
+/* Respect the OS-level reduced-motion preference everywhere, including the
+   named animations above. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:active:not(:disabled),
+  .card-interactive:hover {
+    transform: none !important;
   }
 }
