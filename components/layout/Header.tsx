@@ -1,42 +1,41 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { buildSearchIndex } from "@/lib/tools/registry";
 import MobileNav from "./MobileNav";
+import NavLinks, { type NavItem } from "./NavLinks";
+import CommandPalette from "./CommandPalette";
 import ThemeToggle from "../common/ThemeToggle";
 
-const nav = [
+const nav: NavItem[] = [
   { name: "All Tools", href: "/tools" },
-  { name: "Image Tools", href: "/image-tools" },
-  { name: "PDF Tools", href: "/pdf-tools" },
-  { name: "Text Tools", href: "/text-tools" },
-  { name: "Developer Tools", href: "/developer-tools" },
+  { name: "Image", href: "/image-tools" },
+  { name: "PDF", href: "/pdf-tools" },
+  { name: "Text", href: "/text-tools" },
+  { name: "Developer", href: "/developer-tools" },
   { name: "Blog", href: "/blog" },
 ];
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-100 bg-surface/95 backdrop-blur-sm">
-      <div className="container-site flex h-14 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold text-ink-900">
-          <span aria-hidden className="flex h-6 w-6 items-center justify-center rounded bg-accent-700 text-xs font-bold text-white">
+    <header className="sticky top-0 z-50 border-b border-ink-100 bg-surface/85 backdrop-blur-md">
+      <div className="container-site flex h-16 items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2.5 text-[15px] font-semibold tracking-tight text-ink-900"
+        >
+          <span
+            aria-hidden
+            className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-700 text-xs font-bold text-white shadow-xs"
+          >
             F
           </span>
           {site.shortName}
         </Link>
-        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded px-3 py-1.5 text-sm text-ink-700 hover:bg-ink-50 hover:text-ink-900"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex items-center gap-2">
-          <Link href="/tools#search" className="btn-secondary hidden sm:inline-flex" aria-label="Search tools">
-            Search
-          </Link>
+
+        <NavLinks items={nav} />
+
+        <div className="flex items-center gap-1.5">
+          <CommandPalette index={buildSearchIndex()} />
           <ThemeToggle />
           <MobileNav items={nav} />
         </div>
