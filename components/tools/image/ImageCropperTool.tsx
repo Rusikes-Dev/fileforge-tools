@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { useObjectUrl } from "@/lib/hooks/useObjectUrl";
 import UploadZone from "../UploadZone";
 import ErrorMessage from "../ErrorMessage";
 import ResultCard from "../ResultCard";
@@ -13,7 +14,7 @@ interface Rect { x: number; y: number; width: number; height: number }
 
 export default function ImageCropperTool() {
   const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const previewUrl = useObjectUrl(file);
   const [dims, setDims] = useState<{ width: number; height: number } | null>(null);
   const [rect, setRect] = useState<Rect>({ x: 0, y: 0, width: 0, height: 0 });
   const [busy, setBusy] = useState(false);
@@ -22,7 +23,6 @@ export default function ImageCropperTool() {
   const imgRef = useRef<HTMLImageElement>(null);
   const dragState = useRef<{ startX: number; startY: number; origin: Rect; mode: "move" | "resize" } | null>(null);
 
-  useEffect(() => () => { if (previewUrl) URL.revokeObjectURL(previewUrl); }, [previewUrl]);
 
   async function addFiles(incoming: File[]) {
     const f = incoming[0];
@@ -38,7 +38,6 @@ export default function ImageCropperTool() {
       const w = Math.round(d.width * 0.8);
       const h = Math.round(d.height * 0.8);
       setRect({ x: Math.round((d.width - w) / 2), y: Math.round((d.height - h) / 2), width: w, height: h });
-      setPreviewUrl((old) => { if (old) URL.revokeObjectURL(old); return URL.createObjectURL(f); });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not read this image.");
     }

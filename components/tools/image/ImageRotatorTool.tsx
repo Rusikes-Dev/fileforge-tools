@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useObjectUrl } from "@/lib/hooks/useObjectUrl";
 import UploadZone from "../UploadZone";
 import ErrorMessage from "../ErrorMessage";
 import ResultCard from "../ResultCard";
@@ -11,7 +12,9 @@ const ACCEPT = ["image/jpeg", "image/png", "image/webp"];
 
 export default function ImageRotatorTool() {
   const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  // Derived from `file`, so the URL is created and revoked in one place and
+  // cannot leak when the user swaps images or leaves the page.
+  const previewUrl = useObjectUrl(file);
   const [rotate, setRotate] = useState<0 | 90 | 180 | 270>(0);
   const [flipH, setFlipH] = useState(false);
   const [flipV, setFlipV] = useState(false);
@@ -19,11 +22,6 @@ export default function ImageRotatorTool() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ blob: Blob; name: string } | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-    };
-  }, [previewUrl]);
 
   function addFiles(incoming: File[]) {
     const f = incoming[0];
@@ -35,10 +33,6 @@ export default function ImageRotatorTool() {
     setFlipH(false);
     setFlipV(false);
     setFile(f);
-    setPreviewUrl((old) => {
-      if (old) URL.revokeObjectURL(old);
-      return URL.createObjectURL(f);
-    });
   }
 
   async function run() {
