@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useObjectUrlList } from "@/lib/hooks/useObjectUrl";
 import UploadZone from "../UploadZone";
 import ErrorMessage from "../ErrorMessage";
 import ResultCard from "../ResultCard";
@@ -29,17 +30,15 @@ export default function PdfToImagesTool({ format }: { format: "image/jpeg" | "im
   const [progress, setProgress] = useState<[number, number] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pages, setPages] = useState<RenderedPage[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
-
-  function clearPreviews(urls: string[]) {
-    urls.forEach((u) => URL.revokeObjectURL(u));
-  }
+  // Managed by a hook so the per-page preview URLs are revoked when the result
+  // is replaced *and* when the tool unmounts — the latter never happened
+  // before, leaking one URL per rendered page on every navigation away.
+  const { urls: previews, setBlobs: setPreviewBlobs, clear: clearPreviews } = useObjectUrlList();
 
   async function addFiles(incoming: File[]) {
     setError(null);
     setPages([]);
-    clearPreviews(previews);
-    setPreviews([]);
+    clearPreviews();
     const f = incoming[0];
     const { validatePdfFile, countPages } = await import("@/lib/converters/pdf");
     const problem = validatePdfFile(f);
@@ -67,7 +66,7 @@ export default function PdfToImagesTool({ format }: { format: "image/jpeg" | "im
         onProgress: (done, total) => setProgress([done, total]),
       });
       setPages(rendered);
-      setPreviews(rendered.map((p) => URL.createObjectURL(p.blob)));
+      setPreviewBlobs(rendered.map((p) => p.blob));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Conversion failed.");
     } finally {
@@ -94,8 +93,7 @@ export default function PdfToImagesTool({ format }: { format: "image/jpeg" | "im
     setFile(null);
     setPageCount(null);
     setPages([]);
-    clearPreviews(previews);
-    setPreviews([]);
+    clearPreviews();
   }
 
   const base = file ? safeBaseName(file.name) : "page";
