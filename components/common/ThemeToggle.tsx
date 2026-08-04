@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MoonIcon, SunIcon } from "./Icon";
 
 type Theme = "light" | "dark";
 
@@ -23,9 +24,9 @@ function applyTheme(theme: Theme) {
 }
 
 export default function ThemeToggle() {
-  // Start as null so we render nothing meaningful until we know the real
-  // theme on the client — avoids briefly showing the wrong icon before the
-  // inline anti-flash script's choice is reflected here.
+  // Starts null so nothing meaningful renders until the real theme is known on
+  // the client. Rendering an icon before then would briefly contradict the
+  // inline anti-flash script and cause a hydration mismatch.
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
@@ -34,36 +35,43 @@ export default function ThemeToggle() {
     setTheme(stored ?? system);
   }, []);
 
+  // Follow the OS if the user has never made an explicit choice here.
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    function onChange(e: MediaQueryListEvent) {
+      if (getStoredTheme()) return;
+      const next: Theme = e.matches ? "dark" : "light";
+      setTheme(next);
+      document.documentElement.classList.toggle("dark", next === "dark");
+    }
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
   function toggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
     setTheme(next);
     applyTheme(next);
   }
 
+  const dark = theme === "dark";
+  const label = dark ? "Switch to light theme" : "Switch to dark theme";
+
   return (
     <button
       type="button"
-      className="btn-secondary px-2.5"
+      className="btn-secondary btn-icon"
       onClick={toggle}
-      aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-      title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label={label}
+      title={label}
     >
-      {theme === "dark" ? (
-        <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="4" />
-          <path
-            strokeLinecap="round"
-            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-          />
-        </svg>
+      {/* Reserve the icon box before hydration so the header can't shift. */}
+      {theme === null ? (
+        <span className="h-4 w-4" aria-hidden />
+      ) : dark ? (
+        <SunIcon className="h-[18px] w-[18px]" />
       ) : (
-        <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"
-          />
-        </svg>
+        <MoonIcon className="h-[18px] w-[18px]" />
       )}
     </button>
   );
