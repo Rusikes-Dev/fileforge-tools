@@ -69,7 +69,7 @@ export default function JsonTool({ mode }: { mode: "format" | "minify" | "valida
       </div>
       {status && (
         <div role="status"
-          className={`rounded border px-3 py-2.5 text-sm ${status.ok ? "border-accent-100 bg-accent-50 text-accent-800" : "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-300"}`}>
+          className={`rounded-xl border px-3.5 py-3 text-sm ${status.ok ? "border-accent-100 bg-accent-50 text-accent-800" : "border-danger-200 bg-danger-50 text-danger-700"}`}>
           <p>{status.message}</p>
           {status.hint && <p className="mt-1 text-xs">{status.hint}</p>}
         </div>
