@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { GithubIcon, MailIcon, ShieldCheckIcon } from "../common/Icon";
+import BrandMark from "../common/BrandMark";
 import CookieSettingsButton from "../common/CookieSettingsButton";
 
 const columns = [
@@ -47,21 +48,18 @@ const columns = [
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-ink-100 bg-ink-50">
+    <footer className="relative mt-auto border-t border-ink-100 bg-ink-50">
+      {/* Aurora hairline across the top edge. */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 -top-px h-[2px] bg-gradient-to-r from-transparent via-[rgb(var(--aurora-2))] to-transparent opacity-70"
+      />
       <div className="container-site py-14">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(0,1fr))]">
           {/* Brand + promise */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-2.5 font-semibold text-ink-900">
-              <span
-                aria-hidden
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-700 text-xs font-bold text-white"
-              >
-                F
-              </span>
-              {site.shortName}
-            </Link>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-500">
+            <BrandMark className="w-fit" />
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
               Free file conversion and document utilities that run entirely in your browser. Your
               files stay on your device.
             </p>
@@ -100,7 +98,7 @@ export default function Footer() {
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="text-sm text-ink-500 transition-colors hover:text-ink-900"
+                      className="inline-block text-sm text-ink-500 transition-all duration-200 hover:translate-x-1 hover:text-ink-900"
                     >
                       {l.name}
                     </Link>

@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { site } from "@/lib/site";
+import BrandMark from "../common/BrandMark";
 import { buildSearchIndex } from "@/lib/tools/registry";
 import MobileNav from "./MobileNav";
 import NavLinks, { type NavItem } from "./NavLinks";
@@ -17,24 +16,13 @@ const nav: NavItem[] = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-ink-100 bg-surface/85 backdrop-blur-md">
-      <div className="container-site flex h-16 items-center justify-between gap-4">
-        <Link
-          href="/"
-          className="flex shrink-0 items-center gap-2.5 text-[15px] font-semibold tracking-tight text-ink-900"
-        >
-          <span
-            aria-hidden
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-700 text-xs font-bold text-white shadow-xs"
-          >
-            F
-          </span>
-          {site.shortName}
-        </Link>
+    <header className="header-shell sticky top-0 z-40">
+      <div className="container-site flex h-16 items-center justify-between gap-3">
+        <BrandMark />
 
         <NavLinks items={nav} />
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <CommandPalette index={buildSearchIndex()} />
           <ThemeToggle />
           <MobileNav items={nav} />
