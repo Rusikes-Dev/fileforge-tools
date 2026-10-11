@@ -27,10 +27,10 @@ export default function PageHero({
   return (
     <div
       data-cat={category}
-      className="relative isolate overflow-hidden border-b border-ink-100 bg-subtle"
+      className="relative isolate z-20 overflow-x-clip border-b border-ink-100 bg-subtle"
     >
       {/* Category-tinted glow, purely decorative. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <span
           className="absolute -right-24 -top-32 h-80 w-80 rounded-full opacity-60 blur-3xl"
           style={{ background: "radial-gradient(circle, rgb(var(--c1) / 0.35), transparent 65%)" }}
