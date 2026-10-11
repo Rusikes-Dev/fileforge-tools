@@ -29,7 +29,7 @@ export default function NotFound() {
           below — it is probably still here under a different name.
         </p>
 
-        <div className="mx-auto mt-8 max-w-md text-left">
+        <div className="relative z-20 mx-auto mt-8 max-w-md text-left">
           <Suspense fallback={<div className="skeleton h-[52px] w-full rounded-2xl" />}>
             <ToolSearch index={buildSearchIndex()} large floating />
           </Suspense>

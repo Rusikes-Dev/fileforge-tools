@@ -114,7 +114,11 @@ export default function HomePage() {
       />
 
       {/* ---------------------------------------------------------------- Hero */}
-      <section className="relative isolate overflow-hidden border-b border-ink-100">
+      {/* No vertical clipping and a z-index of its own: the search results are
+          taller than the space left in the hero and must paint over the marquee,
+          the popular chips and the stat tiles below it. The decorative layers
+          clip themselves. */}
+      <section className="relative isolate z-20 overflow-x-clip border-b border-ink-100">
         {/* Decorative layers — hidden from assistive tech and unable to
             intercept pointer events. */}
         <div aria-hidden className="aurora">
@@ -155,7 +159,7 @@ export default function HomePage() {
               locally on your device. No sign-up, no watermarks, no file ever leaving your browser.
             </p>
 
-            <div className="animate-fade-in-up mx-auto mt-9 max-w-xl text-left [animation-delay:240ms]">
+            <div className="animate-fade-in-up relative z-20 mx-auto mt-9 max-w-xl text-left [animation-delay:240ms]">
               <Suspense fallback={<div className="skeleton h-[60px] w-full rounded-2xl" />}>
                 <ToolSearch index={buildSearchIndex()} large floating />
               </Suspense>
