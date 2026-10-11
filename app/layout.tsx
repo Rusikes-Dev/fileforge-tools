@@ -7,6 +7,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Toaster from "@/components/common/Toaster";
 import ConsentBanner from "@/components/common/ConsentBanner";
+import SpotlightEnhancer from "@/components/common/SpotlightEnhancer";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -94,17 +95,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[80] focus:rounded-lg focus:border focus:border-ink-300 focus:bg-surface focus:px-4 focus:py-2 focus:font-medium focus:shadow-md"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[130] focus:rounded-xl focus:border focus:border-line focus:bg-surface focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:shadow-lg"
         >
           Skip to main content
         </a>
         <Header />
-        <main id="main" className="flex-1">
+        <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <Footer />
         <Toaster />
         <ConsentBanner />
+        <SpotlightEnhancer />
         <Analytics />
         <SpeedInsights />
         {/* The publisher ID is read from the environment so it is configurable

@@ -9,18 +9,29 @@ export default function NotFound() {
   const popular = getPopularTools().slice(0, 6);
 
   return (
-    <div className="container-site max-w-3xl py-16 sm:py-24">
+    <div className="container-site relative isolate max-w-3xl py-16 sm:py-24">
+      <div aria-hidden className="aurora">
+        <i />
+        <i />
+        <i />
+      </div>
       <div className="text-center">
-        <p className="badge-neutral mx-auto font-mono">404</p>
-        <h1 className="mt-5 text-display-sm">This page doesn&apos;t exist</h1>
+        {/* Huge, soft 404 — decorative, the real heading is the h1 below. */}
+        <p
+          aria-hidden
+          className="text-gradient animate-float select-none text-[7rem] font-black leading-none sm:text-[10rem]"
+        >
+          404
+        </p>
+        <h1 className="mt-2 text-display-sm">This page doesn&apos;t exist</h1>
         <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-ink-700">
           The link may be outdated, or the tool may have been renamed. Search for what you need
           below — it is probably still here under a different name.
         </p>
 
         <div className="mx-auto mt-8 max-w-md text-left">
-          <Suspense fallback={<div className="skeleton h-[52px] w-full rounded-lg" />}>
-            <ToolSearch index={buildSearchIndex()} large />
+          <Suspense fallback={<div className="skeleton h-[52px] w-full rounded-2xl" />}>
+            <ToolSearch index={buildSearchIndex()} large floating />
           </Suspense>
         </div>
       </div>
@@ -34,9 +45,12 @@ export default function NotFound() {
             <li key={t.slug}>
               <Link
                 href={`/${t.slug}`}
-                className="flex items-center gap-2.5 rounded-lg border border-ink-100 bg-surface px-3.5 py-3 text-sm font-medium text-ink-700 shadow-xs transition-colors hover:border-ink-300 hover:text-ink-900"
+                data-cat={t.category}
+                className="flex items-center gap-3 rounded-2xl border border-ink-100 bg-surface px-3 py-2.5 text-sm font-semibold text-ink-700 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-line hover:text-ink-900 hover:shadow-md"
               >
-                <CategoryIcon category={t.category} className="h-4 w-4 text-ink-500" />
+                <span aria-hidden className="tile !h-8 !w-8 !rounded-lg">
+                  <CategoryIcon category={t.category} className="h-4 w-4" />
+                </span>
                 {t.shortName}
               </Link>
             </li>
