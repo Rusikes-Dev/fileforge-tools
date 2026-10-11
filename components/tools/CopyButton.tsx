@@ -19,8 +19,8 @@ export default function CopyButton({
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Previously the reset timer was never cleared, so navigating away mid-flash
-  // set state on an unmounted component.
+  // Clear the reset timer on unmount so navigating away mid-flash can't set
+  // state on a dead component.
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -47,7 +47,8 @@ export default function CopyButton({
       className={className}
       onClick={handleCopy}
       disabled={disabled || !text}
-      aria-label={copied ? "Copied to clipboard" : label}
+      // The visible text changes with the state, so the accessible name does
+      // too — no separate aria-label that could drift from what's on screen.
     >
       {copied ? (
         <AnimatedCheckIcon className="h-4 w-4 text-accent-700" />
