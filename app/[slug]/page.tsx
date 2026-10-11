@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
+import PageHero from "@/components/common/PageHero";
 import FAQ from "@/components/common/FAQ";
 import JsonLd from "@/components/common/JsonLd";
 import PrivacyBadge from "@/components/common/PrivacyBadge";
@@ -49,33 +49,30 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const related = getRelatedTools(tool);
 
   return (
-    <>
+    // data-cat re-themes every tile, glow and hairline on the page to the
+    // category's colours.
+    <div data-cat={tool.category}>
       <JsonLd
         data={[breadcrumbJsonLd(crumbs), toolAppJsonLd(tool), faqJsonLd(tool), howToJsonLd(tool)]}
       />
       <RecordVisit slug={tool.slug} />
 
       {/* ------------------------------------------------------------- Header */}
-      <div className="border-b border-ink-100 bg-ink-50">
-        <div className="container-site py-6 sm:py-8">
-          <Breadcrumbs crumbs={crumbs} />
-          <div className="mt-5 max-w-3xl">
-            <h1 className="text-display-sm">{tool.name}</h1>
-            <p className="mt-3 text-base leading-relaxed text-ink-700 sm:text-lg">{tool.intro}</p>
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              <PrivacyBadge />
-              <span className="badge-neutral">Free · No sign-up</span>
-              {tool.outputFormats.length > 0 && (
-                <span className="badge-neutral">Outputs {tool.outputFormats.join(", ")}</span>
-              )}
-            </div>
-          </div>
+      <PageHero crumbs={crumbs} title={tool.name} intro={tool.intro} category={tool.category} compact>
+        <div className="animate-fade-in-up mt-5 flex flex-wrap items-center gap-2 [animation-delay:160ms]">
+          <PrivacyBadge />
+          <span className="badge-neutral">Free · No sign-up</span>
+          {tool.outputFormats.length > 0 && (
+            <span className="badge-neutral">Outputs {tool.outputFormats.join(", ")}</span>
+          )}
         </div>
-      </div>
+      </PageHero>
 
       {/* --------------------------------------------------------------- Tool */}
       <div className="container-site py-8 sm:py-10">
-        <ToolRenderer slug={tool.slug} />
+        <div className="stage">
+          <ToolRenderer slug={tool.slug} />
+        </div>
         <AdSlot slot="below-result" />
       </div>
 
@@ -84,7 +81,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         <div className="grid gap-12 lg:grid-cols-3 lg:gap-10">
           <div className="space-y-12 lg:col-span-2">
             <section aria-labelledby="how-heading">
-              <h2 id="how-heading" className="text-xl font-semibold">
+              <h2 id="how-heading" className="text-2xl font-bold">
                 How to use {tool.shortName}
               </h2>
               <ol className="mt-5 space-y-4">
@@ -92,7 +89,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
                   <li key={s} className="flex gap-4">
                     <span
                       aria-hidden
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-accent-100 bg-accent-50 text-xs font-semibold text-accent-800"
+                      className="tile !h-8 !w-8 !rounded-full text-sm font-bold"
                     >
                       {i + 1}
                     </span>
@@ -103,7 +100,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
             </section>
 
             <section aria-labelledby="about-heading">
-              <h2 id="about-heading" className="text-xl font-semibold">
+              <h2 id="about-heading" className="text-2xl font-bold">
                 About this tool
               </h2>
               <div className="mt-4 space-y-4">
@@ -117,13 +114,13 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
             {tool.useCases.length > 0 && (
               <section aria-labelledby="use-cases-heading">
-                <h2 id="use-cases-heading" className="text-xl font-semibold">
+                <h2 id="use-cases-heading" className="text-2xl font-bold">
                   Common ways people use this
                 </h2>
                 <ul className="mt-4 space-y-3">
                   {tool.useCases.map((u) => (
                     <li key={u} className="flex gap-3">
-                      <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
+                      <span aria-hidden className="tile mt-0.5 !h-5 !w-5 !rounded-full"><CheckIcon className="h-3 w-3" /></span>
                       <span className="text-sm leading-relaxed text-ink-700">{u}</span>
                     </li>
                   ))}
@@ -133,12 +130,12 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
             {tool.tips.length > 0 && (
               <section aria-labelledby="tips-heading">
-                <h2 id="tips-heading" className="text-xl font-semibold">
+                <h2 id="tips-heading" className="text-2xl font-bold">
                   Tips for better results
                 </h2>
                 <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                   {tool.tips.map((t) => (
-                    <li key={t} className="panel flex gap-3 p-4">
+                    <li key={t} className="panel flex gap-3 !p-4">
                       <SparkleIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
                       <span className="text-sm leading-relaxed text-ink-700">{t}</span>
                     </li>
@@ -246,6 +243,6 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
