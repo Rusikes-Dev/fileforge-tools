@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import ErrorMessage from "../ErrorMessage";
+import { DownloadIcon } from "@/components/common/Icon";
 import { downloadBlob, formatBytes } from "@/lib/utils";
 
 function detectMime(bytes: Uint8Array): { mime: string; ext: string } | null {
@@ -45,7 +46,7 @@ export default function Base64ToImageTool() {
 
   return (
     <div>
-      <label htmlFor="b64-input" className="mb-1 block text-sm font-medium">
+      <label htmlFor="b64-input" className="label-base">
         Base64 string or data URI
       </label>
       <textarea
@@ -57,19 +58,23 @@ export default function Base64ToImageTool() {
       />
       {parsed && "error" in parsed && <ErrorMessage message={parsed.error ?? null} />}
       {parsed && "blob" in parsed && (
-        <div className="mt-4 rounded border border-accent-100 bg-accent-50 p-4" role="status">
-          <p className="text-sm font-medium text-accent-800">
+        <div
+          className="animate-fade-in-up mt-5 rounded-3xl border border-accent-100 bg-accent-50 p-4 sm:p-5"
+          role="status"
+        >
+          <p className="text-sm font-semibold text-accent-800">
             Detected {parsed.ext.toUpperCase()} — {formatBytes(parsed.size)}
           </p>
-          <div className="mt-3 flex items-center justify-center rounded border border-ink-100 bg-surface p-4">
+          <div className="mt-3 flex items-center justify-center rounded-2xl border border-ink-100 bg-surface p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={parsed.dataUri} alt="Decoded preview" className="max-h-64 max-w-full" />
           </div>
           <button
             type="button"
-            className="btn-primary mt-3"
+            className="btn-primary mt-4"
             onClick={() => downloadBlob(parsed.blob, `decoded-image.${parsed.ext}`)}
           >
+            <DownloadIcon className="h-4 w-4" />
             Download image
           </button>
         </div>

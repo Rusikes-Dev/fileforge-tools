@@ -5,6 +5,12 @@ import UploadZone from "../UploadZone";
 import FileList from "../FileList";
 import ErrorMessage from "../ErrorMessage";
 import ResultCard from "../ResultCard";
+import BatchResults, { type BatchItem } from "../BatchResults";
+import ActionButton from "@/components/ui/ActionButton";
+import Field from "@/components/ui/Field";
+import Progress from "@/components/ui/Progress";
+import Range from "@/components/ui/Range";
+import Segmented from "@/components/ui/Segmented";
 import {
   IMAGE_COUNT_LIMIT,
   convertImage,
@@ -12,13 +18,8 @@ import {
   validateImageFile,
   type ImageMime,
 } from "@/lib/converters/image";
-import { downloadBlob, formatBytes, percentChange, safeBaseName } from "@/lib/utils";
-
-interface Result {
-  name: string;
-  originalSize: number;
-  blob: Blob;
-}
+import { addUniqueFiles, describeAddResult, uniqueName } from "@/lib/files";
+import { safeBaseName } from "@/lib/utils";
 
 export default function ImageConverter({
   acceptMimes,
@@ -43,55 +44,52 @@ export default function ImageConverter({
   const [background, setBackground] = useState("#ffffff");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [results, setResults] = useState<Result[]>([]);
-  const [progress, setProgress] = useState("");
+  const [results, setResults] = useState<BatchItem[]>([]);
+  const [done, setDone] = useState(0);
 
   const lossy = output !== "image/png";
 
-  function addFiles(incoming: File[]) {
-    setError(null);
-    setResults([]);
-    const next = [...files];
-    for (const file of incoming) {
-      const problem = validateImageFile(file, acceptMimes);
-      if (problem) {
-        setError(problem);
-        continue;
-      }
-      if (next.length >= IMAGE_COUNT_LIMIT) {
-        setError(`You can process up to ${IMAGE_COUNT_LIMIT} files at a time.`);
-        break;
-      }
-      next.push(file);
-    }
+  // Any edit to the file list makes finished results stale, so drop them.
+  function updateFiles(next: File[]) {
     setFiles(next);
+    setResults([]);
+  }
+
+  function addFiles(incoming: File[]) {
+    const result = addUniqueFiles(files, incoming, {
+      limit: IMAGE_COUNT_LIMIT,
+      validate: (f) => validateImageFile(f, acceptMimes),
+    });
+    setError(describeAddResult(result, IMAGE_COUNT_LIMIT));
+    updateFiles(result.files);
   }
 
   async function run() {
     setBusy(true);
     setError(null);
     setResults([]);
-    const out: Result[] = [];
+    setDone(0);
+    const out: BatchItem[] = [];
+    const used = new Map<string, number>();
     try {
       for (let i = 0; i < files.length; i++) {
-        setProgress(`Processing ${i + 1} of ${files.length}…`);
         const blob = await convertImage(files[i], {
           mime: output,
           quality: lossy ? quality / 100 : undefined,
           background: showBackground ? background : undefined,
         });
         out.push({
-          name: `${safeBaseName(files[i].name)}.${extensionFor(output)}`,
+          name: uniqueName(`${safeBaseName(files[i].name)}.${extensionFor(output)}`, used),
           originalSize: files[i].size,
           blob,
         });
+        setDone(i + 1);
       }
       setResults(out);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong while processing this image.");
     } finally {
       setBusy(false);
-      setProgress("");
     }
   }
 
@@ -109,74 +107,91 @@ export default function ImageConverter({
         label="Drag and drop images here"
         hint="Up to 30 files, 25 MB each"
         onFiles={addFiles}
+        disabled={busy}
       />
-      <FileList files={files} onRemove={(i) => setFiles(files.filter((_, idx) => idx !== i))} />
+      <FileList
+        files={files}
+        onRemove={(i) => updateFiles(files.filter((_, idx) => idx !== i))}
+        onClear={() => updateFiles([])}
+      />
+
       {files.length > 0 && results.length === 0 && (
-        <div className="mt-4 space-y-4">
-          <div className="flex flex-wrap items-end gap-4">
+        <div className="settings animate-fade-in-up mt-6 space-y-5">
+          <div className="grid gap-5 sm:grid-cols-2">
             {outputChoices.length > 1 && (
-              <label className="text-sm">
-                <span className="mb-1 block font-medium">Output format</span>
-                <select
-                  className="input-base w-auto"
+              <Field label="Output format">
+                <Segmented
+                  label="Output format"
                   value={output}
-                  onChange={(e) => setOutput(e.target.value as ImageMime)}
-                >
-                  {outputChoices.map((c) => (
-                    <option key={c} value={c}>
-                      {extensionFor(c).toUpperCase()}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  onChange={setOutput}
+                  disabled={busy}
+                  options={outputChoices.map((c) => ({
+                    value: c,
+                    label: extensionFor(c).toUpperCase(),
+                  }))}
+                />
+              </Field>
             )}
             {showQuality && lossy && (
-              <label className="text-sm">
-                <span className="mb-1 block font-medium">Quality: {quality}%</span>
-                <input
-                  type="range"
+              <Field label="Quality" htmlFor="img-quality" value={`${quality}%`} hint="Lower = smaller file">
+                <Range
+                  id="img-quality"
+                  value={quality}
                   min={30}
                   max={100}
-                  value={quality}
-                  onChange={(e) => setQuality(Number(e.target.value))}
-                  className="w-48 accent-accent-700"
+                  onChange={setQuality}
+                  disabled={busy}
+                  valueText={`${quality} percent`}
                 />
-              </label>
+              </Field>
             )}
             {showBackground && output === "image/jpeg" && (
-              <label className="text-sm">
-                <span className="mb-1 block font-medium">Background for transparency</span>
+              <Field
+                label="Background for transparency"
+                htmlFor="img-bg"
+                hint="JPG can't be transparent, so see-through areas get this colour."
+              >
                 <input
+                  id="img-bg"
                   type="color"
                   value={background}
+                  disabled={busy}
                   onChange={(e) => setBackground(e.target.value)}
-                  className="h-9 w-16 cursor-pointer rounded border border-ink-300"
+                  className="h-10 w-20"
                 />
-              </label>
+              </Field>
             )}
           </div>
-          <button type="button" className="btn-primary" disabled={busy} onClick={run}>
-            {busy ? progress || "Processing…" : actionLabel}
-          </button>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <ActionButton
+              className="btn-primary btn-lg"
+              busy={busy}
+              busyLabel={`Processing ${Math.min(done + 1, files.length)} of ${files.length}…`}
+              onClick={run}
+            >
+              {actionLabel}
+            </ActionButton>
+            {busy && (
+              <div className="min-w-[10rem] flex-1">
+                <Progress value={(done / files.length) * 100} label="Conversion progress" />
+              </div>
+            )}
+          </div>
         </div>
       )}
+
       <ErrorMessage message={error} />
+
       {results.length > 0 && (
-        <ResultCard onReset={reset} resetLabel="Convert more files">
-          <p className="font-medium text-accent-800">Done — {results.length} file{results.length > 1 ? "s" : ""} ready.</p>
-          <ul className="mt-2 space-y-2">
-            {results.map((r) => (
-              <li key={r.name} className="flex flex-wrap items-center gap-3 text-sm">
-                <span className="min-w-0 flex-1 truncate">{r.name}</span>
-                <span className="font-mono text-xs text-ink-500">
-                  {formatBytes(r.originalSize)} → {formatBytes(r.blob.size)} ({percentChange(r.originalSize, r.blob.size)})
-                </span>
-                <button type="button" className="btn-secondary px-3 py-1" onClick={() => downloadBlob(r.blob, r.name)}>
-                  Download
-                </button>
-              </li>
-            ))}
-          </ul>
+        <ResultCard
+          onReset={reset}
+          resetLabel="Start over with new files"
+          onAdjust={() => setResults([])}
+          adjustLabel="Change settings"
+          title="All done"
+        >
+          <BatchResults results={results} zipName="converted-images.zip" />
         </ResultCard>
       )}
     </div>
