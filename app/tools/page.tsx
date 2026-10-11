@@ -32,7 +32,7 @@ export default function ToolsPage() {
         title="All tools"
         intro={`Every tool on this site, organised by category. All ${tools.length} run in your browser — your files are never uploaded.`}
       >
-        <div id="search" className="mt-6 max-w-xl scroll-mt-24">
+        <div id="search" className="relative z-20 mt-6 max-w-xl scroll-mt-24">
           <Suspense fallback={<div className="skeleton h-[52px] w-full rounded-2xl" />}>
             <ToolSearch index={buildSearchIndex()} large floating />
           </Suspense>
