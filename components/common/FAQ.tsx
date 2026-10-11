@@ -1,5 +1,5 @@
 import type { ToolFaq } from "@/lib/tools/types";
-import { ChevronDownIcon } from "./Icon";
+import { PlusIcon } from "./Icon";
 
 /**
  * FAQ list built on native <details>/<summary>.
@@ -21,17 +21,26 @@ export default function FAQ({
 
   return (
     <section aria-labelledby={headingId}>
-      <h2 id={headingId} className="text-xl font-semibold">
+      <h2 id={headingId} className="text-2xl font-bold">
         {title}
       </h2>
-      <div className="mt-4 divide-y divide-ink-100 overflow-hidden rounded-xl border border-ink-100 bg-surface">
+      <div className="mt-5 space-y-3">
         {faqs.map((f, i) => (
-          <details key={f.q} className="group" open={i === 0}>
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3.5 font-medium text-ink-900 transition-colors hover:bg-ink-50 sm:px-5 [&::-webkit-details-marker]:hidden">
+          <details
+            key={f.q}
+            className="group overflow-hidden rounded-2xl border border-ink-100 bg-surface shadow-xs transition-all duration-300 open:border-accent-600/40 open:shadow-md"
+            open={i === 0}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 font-semibold text-ink-900 transition-colors hover:bg-ink-50 sm:px-5 [&::-webkit-details-marker]:hidden">
               <span>{f.q}</span>
-              <ChevronDownIcon className="h-4 w-4 shrink-0 text-ink-500 transition-transform duration-200 group-open:rotate-180" />
+              <span
+                aria-hidden
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-ink-100 text-ink-700 transition-all duration-300 ease-spring group-open:rotate-45 group-open:bg-accent-700 group-open:text-white dark:group-open:bg-accent-600 dark:group-open:text-ink-50"
+              >
+                <PlusIcon className="h-4 w-4" />
+              </span>
             </summary>
-            <div className="px-4 pb-4 pt-0 text-sm leading-relaxed text-ink-700 sm:px-5">
+            <div className="animate-fade-in-up px-4 pb-5 pt-0 text-sm leading-relaxed text-ink-700 sm:px-5">
               {f.a}
             </div>
           </details>

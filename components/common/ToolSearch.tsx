@@ -40,12 +40,16 @@ function score(entry: SearchEntry, terms: string[], raw: string): number | null 
 export default function ToolSearch({
   index,
   large = false,
+  floating = !large,
   autoFocus = false,
   placeholder = "Search tools — try “JPG to PDF” or “merge”",
   onNavigate,
 }: {
   index: SearchEntry[];
+  /** Bigger field. */
   large?: boolean;
+  /** Results float over the page (default) instead of flowing in the layout. */
+  floating?: boolean;
   autoFocus?: boolean;
   placeholder?: string;
   onNavigate?: () => void;
@@ -58,8 +62,13 @@ export default function ToolSearch({
 
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const listboxId = useId();
-  const optionId = (i: number) => `${listboxId}-opt-${i}`;
+  // Unique per instance. A hard-coded id="tool-search" appeared twice on /tools
+  // and the home page whenever the header palette was open, which is invalid
+  // HTML and ties the <label> to the wrong input.
+  const uid = useId();
+  const inputId = `${uid}-input`;
+  const listboxId = `${uid}-listbox`;
+  const optionId = (i: number) => `${uid}-opt-${i}`;
 
   const results = useMemo(() => {
     const raw = query.trim().toLowerCase();
@@ -149,19 +158,19 @@ export default function ToolSearch({
 
   return (
     <div ref={rootRef} className="relative w-full">
-      <label htmlFor="tool-search" className="sr-only">
+      <label htmlFor={inputId} className="sr-only">
         Search tools
       </label>
 
-      <div className="relative">
+      <div className="search-wrap">
         <SearchIcon
-          className={`pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-500 ${
-            large ? "h-[18px] w-[18px]" : "h-4 w-4"
+          className={`pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-500 ${
+            large ? "h-5 w-5" : "h-[18px] w-[18px]"
           }`}
         />
         <input
           ref={inputRef}
-          id="tool-search"
+          id={inputId}
           type="search"
           role="combobox"
           aria-expanded={expanded}
@@ -175,7 +184,9 @@ export default function ToolSearch({
           // dedicated search page and in the command palette, where focusing
           // the field is the entire purpose of the view.
           autoFocus={autoFocus}
-          className={`input-base pl-10 ${large ? "py-3.5 text-base" : ""}`}
+          className={`w-full rounded-[0.9rem] bg-transparent pl-12 pr-4 text-ink-900 placeholder:text-ink-500 ${
+            large ? "py-4 text-base" : "py-3 text-sm"
+          }`}
           placeholder={placeholder}
           value={query}
           onChange={(e) => {
@@ -192,10 +203,12 @@ export default function ToolSearch({
           id={listboxId}
           role="listbox"
           aria-label="Search results"
-          className="animate-scale-in absolute z-30 mt-2 w-full origin-top overflow-hidden rounded-xl border border-ink-100 bg-surface p-1 shadow-lg"
+          className={`animate-scale-in z-30 w-full origin-top overflow-y-auto rounded-2xl border border-ink-100 bg-surface p-1.5 shadow-lg ${
+            floating ? "absolute mt-2 max-h-[min(24rem,60vh)]" : "mt-3 max-h-[min(24rem,50vh)]"
+          }`}
         >
           {results.length === 0 && (
-            <li role="option" aria-selected={false} className="px-3 py-6 text-center">
+            <li role="option" aria-selected={false} className="px-3 py-8 text-center">
               <p className="text-sm font-medium text-ink-900">No tools match “{query.trim()}”</p>
               <p className="mt-1 text-xs text-ink-500">
                 Try a format like “png”, or an action like “merge”.
@@ -210,6 +223,7 @@ export default function ToolSearch({
                 role="option"
                 aria-selected={i === activeIndex}
                 href={`/${r.slug}`}
+                data-cat={r.category}
                 onClick={() => {
                   close();
                   onNavigate?.();
@@ -217,18 +231,11 @@ export default function ToolSearch({
                 // Pointer-driven highlight is kept in sync with the keyboard
                 // highlight so there is only ever one active row.
                 onMouseEnter={() => setActiveIndex(i)}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                  i === activeIndex ? "bg-ink-50" : ""
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                  i === activeIndex ? "bg-accent-50" : ""
                 }`}
               >
-                <span
-                  aria-hidden
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md border ${
-                    i === activeIndex
-                      ? "border-accent-100 bg-accent-50 text-accent-700"
-                      : "border-ink-100 bg-surface text-ink-500"
-                  }`}
-                >
+                <span aria-hidden className="tile !h-8 !w-8 !rounded-lg">
                   <CategoryIcon category={r.category} className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1 truncate font-medium text-ink-900">

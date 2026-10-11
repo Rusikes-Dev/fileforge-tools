@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
+import PageHero from "@/components/common/PageHero";
 import ToolCard from "@/components/common/ToolCard";
 import JsonLd from "@/components/common/JsonLd";
 import TrustBar from "@/components/common/TrustBar";
@@ -37,29 +37,16 @@ export default function CategoryPage({ category }: { category: CategoryDef }) {
     <>
       <JsonLd data={[breadcrumbJsonLd(crumbs), itemListJsonLd(tools)]} />
 
-      <div className="border-b border-ink-100 bg-ink-50">
-        <div className="container-site py-8 sm:py-10">
-          <Breadcrumbs crumbs={crumbs} />
-          <div className="mt-5 flex items-start gap-4">
-            <span
-              aria-hidden
-              className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-accent-100 bg-accent-50 text-accent-700 sm:flex"
-            >
-              <CategoryIcon category={category.id} className="h-6 w-6" />
-            </span>
-            <div className="max-w-3xl">
-              <h1 className="text-display-sm">{category.name}</h1>
-              <p className="mt-3 text-base leading-relaxed text-ink-700 sm:text-lg">
-                {category.intro}
-              </p>
-              <p className="badge-neutral mt-4">{tools.length} free tools</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHero crumbs={crumbs} title={category.name} intro={category.intro} category={category.id}>
+        <p className="badge-accent animate-fade-in-up mt-5 [animation-delay:160ms]">
+          {tools.length} free tools
+        </p>
+      </PageHero>
 
-      <div className="container-site py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="container-site py-12" data-cat={category.id}>
+        {/* The h2 keeps the outline h1 → h2 → h3 (the cards' titles are h3). */}
+        <h2 className="mb-6 text-2xl font-bold">All {category.name.toLowerCase()}</h2>
+        <div className="reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((t) => (
             <ToolCard key={t.slug} tool={t} />
           ))}
@@ -69,7 +56,7 @@ export default function CategoryPage({ category }: { category: CategoryDef }) {
           aria-labelledby={`about-${category.id}`}
           className="mt-16 max-w-3xl border-t border-ink-100 pt-12"
         >
-          <h2 id={`about-${category.id}`} className="text-xl font-semibold">
+          <h2 id={`about-${category.id}`} className="text-2xl font-bold">
             About {category.name.toLowerCase()}
           </h2>
           <div className="mt-4 space-y-4">
@@ -93,25 +80,25 @@ export default function CategoryPage({ category }: { category: CategoryDef }) {
         </div>
 
         <section aria-labelledby={`other-${category.id}`} className="mt-16 border-t border-ink-100 pt-12">
-          <h2 id={`other-${category.id}`} className="text-xl font-semibold">
+          <h2 id={`other-${category.id}`} className="text-2xl font-bold">
             Other categories
           </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {others.map((c) => (
-              <Link key={c.id} href={`/${c.id}`} className="card-interactive group flex flex-col">
-                <span
-                  aria-hidden
-                  className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-ink-100 bg-ink-50 text-ink-700 transition-colors group-hover:border-accent-100 group-hover:bg-accent-50 group-hover:text-accent-700"
-                >
-                  <CategoryIcon category={c.id} className="h-[18px] w-[18px]" />
+              <Link
+                key={c.id}
+                href={`/${c.id}`}
+                data-cat={c.id}
+                className="card-interactive group flex flex-col"
+              >
+                <span aria-hidden className="tile mb-4">
+                  <CategoryIcon category={c.id} className="h-5 w-5" />
                 </span>
-                <h3 className="font-semibold text-ink-900 transition-colors group-hover:text-accent-700">
-                  {c.name}
-                </h3>
+                <h3 className="text-base font-bold text-ink-900">{c.name}</h3>
                 <p className="mt-1.5 line-clamp-2 flex-1 text-sm text-ink-500">{c.intro}</p>
-                <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent-700">
+                <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-700">
                   {getToolsByCategory(c.id).length} tools
-                  <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5" />
                 </span>
               </Link>
             ))}

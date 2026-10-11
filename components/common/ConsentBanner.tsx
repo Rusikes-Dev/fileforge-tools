@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { CloseIcon, ShieldCheckIcon } from "./Icon";
+import { CookieIcon } from "./Icon";
 
 export const CONSENT_KEY = "ff:consent";
 /** Fired when the user asks to reopen the prompt (e.g. from the footer). */
@@ -101,16 +101,38 @@ export default function ConsentBanner() {
     setVisible(false);
   }, []);
 
-  // Escape declines rather than silently dismissing, so closing the prompt can
-  // never be interpreted as consent.
+  // Escape declines — but only when the person is actually interacting with the
+  // banner. It used to listen on the whole document, so pressing Esc to close
+  // the search palette (or any other overlay) silently stored "denied" and hid
+  // the banner for good.
   useEffect(() => {
     if (!visible) return;
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") decide("denied");
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      if (panelRef.current?.contains(document.activeElement)) decide("denied");
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [visible, decide]);
+
+  // Publish the banner's height so toasts can sit above it instead of under it.
+  useEffect(() => {
+    const root = document.documentElement;
+    const panel = panelRef.current;
+    if (!visible || !panel) {
+      root.style.removeProperty("--consent-h");
+      return;
+    }
+    const publish = () => root.style.setProperty("--consent-h", `${panel.offsetHeight}px`);
+    publish();
+    if (typeof ResizeObserver === "undefined") return () => root.style.removeProperty("--consent-h");
+    const ro = new ResizeObserver(publish);
+    ro.observe(panel);
+    return () => {
+      ro.disconnect();
+      root.style.removeProperty("--consent-h");
+    };
+  }, [visible]);
 
   if (!visible) return null;
 
@@ -121,19 +143,24 @@ export default function ConsentBanner() {
       aria-modal="false"
       aria-labelledby="consent-title"
       aria-describedby="consent-body"
-      className="animate-slide-in-up fixed inset-x-0 bottom-0 z-[65] border-t border-ink-100 bg-surface/95 shadow-lg backdrop-blur-md sm:inset-x-4 sm:bottom-4 sm:mx-auto sm:max-w-2xl sm:rounded-2xl sm:border"
+      className="animate-slide-in-up glass fixed inset-x-3 bottom-3 z-[80] mx-auto max-w-2xl overflow-hidden rounded-3xl border border-ink-100 shadow-lg sm:bottom-5"
     >
+      {/* Aurora hairline along the top edge. */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[rgb(var(--aurora-1))] via-[rgb(var(--aurora-2))] to-[rgb(var(--aurora-3))]"
+      />
       <div className="flex items-start gap-4 p-4 sm:p-5">
         <span
           aria-hidden
-          className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent-100 bg-accent-50 text-accent-700 sm:flex"
+          className="tile animate-wiggle hidden !h-11 !w-11 sm:flex"
         >
-          <ShieldCheckIcon className="h-[18px] w-[18px]" />
+          <CookieIcon className="h-5 w-5" />
         </span>
 
         <div className="min-w-0 flex-1">
-          <h2 id="consent-title" className="text-sm font-semibold text-ink-900">
-            Cookies for advertising
+          <h2 id="consent-title" className="text-base font-semibold text-ink-900">
+            A quick word about cookies
           </h2>
           <p id="consent-body" className="mt-1.5 text-sm leading-relaxed text-ink-700">
             The tools themselves never upload or track your files — that does not change either
@@ -154,15 +181,6 @@ export default function ConsentBanner() {
             </button>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => decide("denied")}
-          aria-label="Dismiss and reject non-essential cookies"
-          className="btn-ghost btn-sm btn-icon shrink-0"
-        >
-          <CloseIcon className="h-4 w-4" />
-        </button>
       </div>
     </div>
   );

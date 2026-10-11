@@ -8,7 +8,7 @@ export default function CookieSettingsButton() {
     <button
       type="button"
       onClick={reopenConsent}
-      className="text-left text-sm text-ink-500 transition-colors hover:text-ink-900"
+      className="inline-block text-left text-sm text-ink-500 transition-all duration-200 hover:translate-x-1 hover:text-ink-900"
     >
       Cookie settings
     </button>

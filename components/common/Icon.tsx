@@ -261,6 +261,69 @@ export const SparkleIcon = (p: IconProps) => (
   </Base>
 );
 
+export const CookieIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M21 12.5A9 9 0 1 1 11.5 3a4 4 0 0 0 4.5 4 4 4 0 0 0 5 5.5Z" />
+    <path d="M8.5 9.5h.01M12 14.5h.01M15.5 17h.01M8 15h.01" />
+  </Base>
+);
+
+export const RefreshIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M20 11a8 8 0 0 0-14.5-4.2L3 9.5" />
+    <path d="M3 4.5v5h5" />
+    <path d="M4 13a8 8 0 0 0 14.5 4.2l2.5-2.7" />
+    <path d="M21 19.5v-5h-5" />
+  </Base>
+);
+
+export const GripIcon = (p: IconProps) => (
+  <Base {...p} strokeWidth={2.5}>
+    <path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01" />
+  </Base>
+);
+
+export const ArchiveIcon = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3" y="4" width="18" height="5" rx="1.5" />
+    <path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9" />
+    <path d="M10 13h4" />
+  </Base>
+);
+
+export const TrashIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M4 7h16M10 11v6M14 11v6" />
+    <path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3" />
+  </Base>
+);
+
+export const PlusIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Base>
+);
+
+export const StarsIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z" />
+    <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z" />
+  </Base>
+);
+
+export const CommandIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M9 9V6.5A2.5 2.5 0 1 0 6.5 9H9Zm0 0h6m-6 0v6m6-6V6.5A2.5 2.5 0 1 1 17.5 9H15Zm0 0v6m0 0h2.5a2.5 2.5 0 1 1-2.5 2.5V15Zm0 0H9m0 0H6.5A2.5 2.5 0 1 0 9 17.5V15Z" />
+  </Base>
+);
+
+export const FileIcon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z" />
+    <path d="M14 2v5h5" />
+  </Base>
+);
+
 /* --- Category mapping ----------------------------------------------------- */
 
 const categoryIcons: Record<ToolCategoryId, (p: IconProps) => JSX.Element> = {

@@ -26,7 +26,7 @@ export default function RecentTools({ stubs }: { stubs: ToolStub[] }) {
   if (recent.length === 0) return null;
 
   return (
-    <section aria-labelledby="recent-heading" className="container-site pt-10">
+    <section aria-labelledby="recent-heading" className="container-site animate-fade-in-up pt-10">
       <div className="mb-4 flex items-center justify-between gap-4">
         <h2
           id="recent-heading"
@@ -44,9 +44,12 @@ export default function RecentTools({ stubs }: { stubs: ToolStub[] }) {
           <li key={t.slug}>
             <Link
               href={`/${t.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-ink-100 bg-surface px-3 py-1.5 text-sm font-medium text-ink-700 shadow-xs transition-colors hover:border-ink-300 hover:text-ink-900"
+              data-cat={t.category}
+              className="inline-flex items-center gap-2 rounded-full border border-ink-100 bg-surface py-1 pl-1 pr-3.5 text-sm font-semibold text-ink-700 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-line hover:text-ink-900 hover:shadow-md"
             >
-              <CategoryIcon category={t.category} className="h-3.5 w-3.5 text-ink-500" />
+              <span aria-hidden className="tile !h-6 !w-6 !rounded-full">
+                <CategoryIcon category={t.category} className="h-3.5 w-3.5" />
+              </span>
               {t.shortName}
             </Link>
           </li>

@@ -12,25 +12,23 @@ export default function ToolCard({
   return (
     <Link
       href={`/${tool.slug}`}
-      className="card-interactive group flex flex-col gap-3 focus-visible:shadow-focus"
+      data-cat={tool.category}
+      className="card-interactive group flex flex-col gap-4"
     >
       <div className="flex items-start justify-between gap-3">
+        <span aria-hidden className="tile">
+          <CategoryIcon category={tool.category} className="h-5 w-5" />
+        </span>
         <span
           aria-hidden
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-ink-100 bg-ink-50 text-ink-700 transition-colors duration-200 group-hover:border-accent-100 group-hover:bg-accent-50 group-hover:text-accent-700"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-ink-100 text-ink-500 transition-all duration-300 ease-spring group-hover:-rotate-45 group-hover:bg-accent-700 group-hover:text-white dark:group-hover:bg-accent-600 dark:group-hover:text-ink-50"
         >
-          <CategoryIcon category={tool.category} className="h-[18px] w-[18px]" />
+          <ArrowRightIcon className="h-4 w-4" />
         </span>
-        <ArrowRightIcon
-          aria-hidden
-          className="mt-1 h-4 w-4 shrink-0 -translate-x-1 text-ink-300 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:text-accent-700 group-hover:opacity-100"
-        />
       </div>
 
       <div className="min-w-0">
-        <h3 className="font-semibold leading-snug text-ink-900 transition-colors group-hover:text-accent-700">
-          {tool.shortName}
-        </h3>
+        <h3 className="text-base font-bold leading-snug text-ink-900">{tool.shortName}</h3>
         <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-ink-500">{tool.intro}</p>
       </div>
 
