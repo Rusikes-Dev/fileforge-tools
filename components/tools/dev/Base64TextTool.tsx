@@ -34,27 +34,48 @@ export default function Base64TextTool() {
   }
 
   return (
-    <div className="space-y-4">
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Input</span>
-        <textarea className="input-base h-36 font-mono text-xs" value={input}
-          onChange={(e) => { setInput(e.target.value); setOutput(null); }}
-          placeholder="Text to encode, or Base64 to decode…" />
-      </label>
-      <div className="flex gap-2">
-        <button type="button" className="btn-primary" disabled={!input} onClick={() => run("encode")}>
+    <div className="space-y-5">
+      <div>
+        <label htmlFor="b64t-input" className="label-base">
+          Input
+        </label>
+        <textarea
+          id="b64t-input"
+          className="input-base h-36 font-mono text-xs"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+            setOutput(null);
+            setError(null);
+          }}
+          placeholder="Text to encode, or Base64 to decode…"
+        />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <button type="button" className="btn-primary btn-lg" disabled={!input} onClick={() => run("encode")}>
           Encode
         </button>
-        <button type="button" className="btn-secondary" disabled={!input} onClick={() => run("decode")}>
+        <button type="button" className="btn-secondary btn-lg" disabled={!input} onClick={() => run("decode")}>
           Decode
         </button>
       </div>
+
       <ErrorMessage message={error} />
+
       {output !== null && (
-        <div role="status">
-          <textarea readOnly aria-label="Result" className="input-base h-36 bg-ink-50 font-mono text-xs" value={output} />
-          <div className="mt-2">
-            <CopyButton text={output} />
+        <div className="animate-fade-in-up">
+          <label htmlFor="b64t-output" className="label-base">
+            Result
+          </label>
+          <textarea
+            id="b64t-output"
+            readOnly
+            className="input-base h-36 !bg-accent-50 font-mono text-xs"
+            value={output}
+          />
+          <div className="mt-3">
+            <CopyButton text={output} className="btn-primary" />
           </div>
         </div>
       )}

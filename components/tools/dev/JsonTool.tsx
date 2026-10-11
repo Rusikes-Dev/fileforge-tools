@@ -2,14 +2,23 @@
 
 import { useState } from "react";
 import CopyButton from "../CopyButton";
+import { AlertIcon, CheckIcon } from "@/components/common/Icon";
+import Segmented from "@/components/ui/Segmented";
 import { locateJsonError, safeJsonParse, safeJsonStringify, summarizeJson } from "@/lib/converters/json";
 import { formatBytes } from "@/lib/utils";
 
 export default function JsonTool({ mode }: { mode: "format" | "minify" | "validate" }) {
   const [input, setInput] = useState("");
-  const [indent, setIndent] = useState(2);
+  const [indent, setIndent] = useState<"2" | "4">("2");
   const [output, setOutput] = useState<string | null>(null);
   const [status, setStatus] = useState<{ ok: boolean; message: string; hint?: string } | null>(null);
+
+  // Anything the result depends on goes through here, so a result is never left
+  // on screen after the input or an option has changed underneath it.
+  function invalidate() {
+    setStatus(null);
+    setOutput(null);
+  }
 
   function run() {
     setOutput(null);
@@ -25,7 +34,7 @@ export default function JsonTool({ mode }: { mode: "format" | "minify" | "valida
               : `a ${s.rootType} value`;
         setStatus({ ok: true, message: `Valid JSON — ${detail}, nesting depth ${s.depth}.` });
       } else if (mode === "format") {
-        setOutput(safeJsonStringify(parsed, indent));
+        setOutput(safeJsonStringify(parsed, Number(indent)));
         setStatus({ ok: true, message: "Formatted." });
       } else {
         const minified = safeJsonStringify(parsed);
@@ -46,39 +55,78 @@ export default function JsonTool({ mode }: { mode: "format" | "minify" | "valida
   }
 
   return (
-    <div className="space-y-4">
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">JSON input</span>
-        <textarea className="input-base h-52 font-mono text-xs" spellCheck={false} value={input}
-          onChange={(e) => { setInput(e.target.value); setStatus(null); setOutput(null); }}
-          placeholder='{"example": true}' />
-      </label>
-      <div className="flex flex-wrap items-center gap-3">
+    <div className="space-y-5">
+      <div>
+        <label htmlFor="json-input" className="label-base">
+          JSON input
+        </label>
+        <textarea
+          id="json-input"
+          className="input-base h-52 font-mono text-xs"
+          spellCheck={false}
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+            invalidate();
+          }}
+          placeholder='{"example": true}'
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
         {mode === "format" && (
-          <label className="text-sm">
-            <span className="mr-2 font-medium">Indentation</span>
-            <select className="input-base w-auto" value={indent} onChange={(e) => setIndent(Number(e.target.value))}>
-              <option value={2}>2 spaces</option>
-              <option value={4}>4 spaces</option>
-            </select>
-          </label>
+          <Segmented
+            label="Indentation"
+            value={indent}
+            onChange={(v) => {
+              setIndent(v);
+              invalidate();
+            }}
+            options={[
+              { value: "2", label: "2 spaces" },
+              { value: "4", label: "4 spaces" },
+            ]}
+          />
         )}
-        <button type="button" className="btn-primary" disabled={!input.trim()} onClick={run}>
+        <button type="button" className="btn-primary btn-lg" disabled={!input.trim()} onClick={run}>
           {mode === "format" ? "Format" : mode === "minify" ? "Minify" : "Validate"}
         </button>
       </div>
+
       {status && (
-        <div role="status"
-          className={`rounded-xl border px-3.5 py-3 text-sm ${status.ok ? "border-accent-100 bg-accent-50 text-accent-800" : "border-danger-200 bg-danger-50 text-danger-700"}`}>
-          <p>{status.message}</p>
-          {status.hint && <p className="mt-1 text-xs">{status.hint}</p>}
+        <div
+          role="status"
+          className={`animate-pop-in flex items-start gap-2.5 rounded-2xl border px-4 py-3 text-sm ${
+            status.ok
+              ? "border-accent-100 bg-accent-50 text-accent-800"
+              : "border-danger-200 border-l-4 border-l-danger-600 bg-danger-50 text-danger-700"
+          }`}
+        >
+          {status.ok ? (
+            <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
+          ) : (
+            <AlertIcon className="mt-0.5 h-4 w-4 shrink-0" />
+          )}
+          <div>
+            <p className="font-medium">{status.message}</p>
+            {status.hint && <p className="mt-1 text-xs">{status.hint}</p>}
+          </div>
         </div>
       )}
+
       {output !== null && (
-        <div>
-          <textarea readOnly aria-label="Result" className="input-base h-52 bg-ink-50 font-mono text-xs" value={output} />
-          <div className="mt-2">
-            <CopyButton text={output} />
+        <div className="animate-fade-in-up">
+          <label htmlFor="json-output" className="label-base">
+            Result
+          </label>
+          <textarea
+            id="json-output"
+            readOnly
+            className="input-base h-52 !bg-accent-50 font-mono text-xs"
+            value={output}
+          />
+          <div className="mt-3">
+            <CopyButton text={output} className="btn-primary" />
           </div>
         </div>
       )}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CopyButton from "../CopyButton";
 import ErrorMessage from "../ErrorMessage";
+import Segmented from "@/components/ui/Segmented";
 
 type Mode = "encodeComponent" | "encodeUri" | "decode";
 
@@ -25,30 +26,60 @@ export default function UrlCodecTool() {
   }
 
   return (
-    <div className="space-y-4">
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Input</span>
-        <textarea className="input-base h-32 font-mono text-xs" value={input}
-          onChange={(e) => { setInput(e.target.value); setOutput(null); }}
-          placeholder="Text or URL…" />
-      </label>
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Mode">
-        {([["encodeComponent", "Encode component"], ["encodeUri", "Encode full URL"], ["decode", "Decode"]] as const).map(([v, label]) => (
-          <button key={v} type="button" className={mode === v ? "btn-primary" : "btn-secondary"} aria-pressed={mode === v}
-            onClick={() => { setMode(v); setOutput(null); }}>
-            {label}
-          </button>
-        ))}
+    <div className="space-y-5">
+      <div>
+        <label htmlFor="url-input" className="label-base">
+          Input
+        </label>
+        <textarea
+          id="url-input"
+          className="input-base h-32 font-mono text-xs"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+            setOutput(null);
+            setError(null);
+          }}
+          placeholder="Text or URL…"
+        />
       </div>
-      <button type="button" className="btn-primary" disabled={!input} onClick={run}>
-        Convert
-      </button>
+
+      <Segmented
+        label="Mode"
+        value={mode}
+        onChange={(v) => {
+          setMode(v);
+          setOutput(null);
+          setError(null);
+        }}
+        options={[
+          { value: "encodeComponent", label: "Encode component" },
+          { value: "encodeUri", label: "Encode full URL" },
+          { value: "decode", label: "Decode" },
+        ]}
+      />
+
+      <div>
+        <button type="button" className="btn-primary btn-lg" disabled={!input} onClick={run}>
+          Convert
+        </button>
+      </div>
+
       <ErrorMessage message={error} />
+
       {output !== null && (
-        <div role="status">
-          <textarea readOnly aria-label="Result" className="input-base h-32 bg-ink-50 font-mono text-xs" value={output} />
-          <div className="mt-2">
-            <CopyButton text={output} />
+        <div className="animate-fade-in-up">
+          <label htmlFor="url-output" className="label-base">
+            Result
+          </label>
+          <textarea
+            id="url-output"
+            readOnly
+            className="input-base h-32 !bg-accent-50 font-mono text-xs"
+            value={output}
+          />
+          <div className="mt-3">
+            <CopyButton text={output} className="btn-primary" />
           </div>
         </div>
       )}
