@@ -2,42 +2,55 @@
 
 import { useState } from "react";
 import CopyButton from "../CopyButton";
+import Segmented from "@/components/ui/Segmented";
 import { convertCase, type CaseMode } from "@/lib/converters/text";
 
-const modes: Array<{ mode: CaseMode; label: string }> = [
-  { mode: "upper", label: "UPPERCASE" },
-  { mode: "lower", label: "lowercase" },
-  { mode: "title", label: "Title Case" },
-  { mode: "sentence", label: "Sentence case" },
+const modes: Array<{ value: CaseMode; label: string }> = [
+  { value: "upper", label: "UPPERCASE" },
+  { value: "lower", label: "lowercase" },
+  { value: "title", label: "Title Case" },
+  { value: "sentence", label: "Sentence case" },
 ];
 
 export default function CaseConverterTool() {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
+  const [mode, setMode] = useState<CaseMode>("title");
+
+  // Derived, not stored: the result is always the current text in the current
+  // case, so editing the input (or switching case) can never leave a stale
+  // result on screen.
+  const output = input ? convertCase(input, mode) : "";
 
   return (
-    <div className="space-y-4">
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium">Your text</span>
-        <textarea className="input-base h-36" value={input} onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste text with the wrong casing…" />
-      </label>
-      <div className="flex flex-wrap gap-2">
-        {modes.map(({ mode, label }) => (
-          <button key={mode} type="button" className="btn-secondary" disabled={!input}
-            onClick={() => setOutput(convertCase(input, mode))}>
-            {label}
-          </button>
-        ))}
+    <div className="space-y-5">
+      <div>
+        <label htmlFor="case-input" className="label-base">
+          Your text
+        </label>
+        <textarea
+          id="case-input"
+          className="input-base h-36"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Paste text with the wrong casing…"
+        />
       </div>
+
+      <Segmented label="Convert to" value={mode} onChange={setMode} options={modes} />
+
       {output && (
-        <div>
-          <label className="block text-sm">
-            <span className="mb-1 block font-medium">Result</span>
-            <textarea readOnly className="input-base h-36 bg-ink-50" value={output} />
+        <div className="animate-fade-in-up">
+          <label htmlFor="case-output" className="label-base">
+            Result
           </label>
-          <div className="mt-2">
-            <CopyButton text={output} />
+          <textarea
+            id="case-output"
+            readOnly
+            className="input-base h-36 !bg-accent-50"
+            value={output}
+          />
+          <div className="mt-3">
+            <CopyButton text={output} className="btn-primary" />
           </div>
         </div>
       )}
